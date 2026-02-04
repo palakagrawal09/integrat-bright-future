@@ -20,7 +20,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-navy-blue text-white">
+    <footer className="bg-teal-green text-white">
       {/* Orange accent line at top */}
       <div className="h-1 bg-precision-orange" />
       
