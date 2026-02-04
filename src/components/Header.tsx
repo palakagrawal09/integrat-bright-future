@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,17 +23,11 @@ const Header = () => {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center group-hover:scale-105 transition-transform">
-              <Zap className="w-6 h-6 text-accent-foreground" />
-            </div>
-            <div className="hidden sm:block">
-              <span className="text-primary-foreground font-display font-bold text-lg">
-                DIPL
-              </span>
-              <span className="text-primary-foreground/70 text-xs block -mt-1">
-                Digital Integrator
-              </span>
-            </div>
+            <img 
+              src={logo} 
+              alt="DIPL - Digital Integrator Pvt. Ltd." 
+              className="h-10 sm:h-12 w-auto group-hover:scale-105 transition-transform"
+            />
           </Link>
 
           {/* Desktop Navigation */}

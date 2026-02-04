@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Building2, Calendar, Users, IndianRupee, Shield, Award, FileText, MapPin } from "lucide-react";
+import { Building2, Calendar, Users, IndianRupee, Shield, MapPin } from "lucide-react";
+import teamPhoto from "@/assets/team-photo.png";
 
 const AboutPage = () => {
   const companyStats = [
@@ -175,6 +176,37 @@ const AboutPage = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Team Section */}
+        <section className="section-padding bg-background">
+          <div className="container-width">
+            <div className="text-center mb-12">
+              <span className="text-accent font-semibold text-sm uppercase tracking-wider">
+                Our Team
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-2">
+                The People Behind DIPL
+              </h2>
+              <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+                Our dedicated team of engineers and professionals brings decades of combined experience in defense electronics and industrial automation.
+              </p>
+            </div>
+            <div className="max-w-4xl mx-auto">
+              <div className="card-industrial overflow-hidden">
+                <img 
+                  src={teamPhoto} 
+                  alt="DIPL Team at Electronic Complex, Indore" 
+                  className="w-full h-auto"
+                />
+                <div className="p-6 text-center">
+                  <p className="text-muted-foreground text-sm">
+                    The DIPL team at our facility in Electronic Complex, Pardeshipura, Indore
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
