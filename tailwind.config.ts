@@ -61,10 +61,11 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        electric: "hsl(var(--electric))",
-        industrial: {
-          dark: "hsl(var(--industrial-dark))",
-          medium: "hsl(var(--industrial-medium))",
+        "precision-orange": "hsl(var(--precision-orange))",
+        "industrial-green": "hsl(var(--industrial-green))",
+        "military-blue": {
+          DEFAULT: "hsl(var(--military-blue))",
+          dark: "hsl(var(--military-blue-dark))",
         },
         steel: "hsl(var(--steel))",
         success: "hsl(var(--success))",
