@@ -1,21 +1,27 @@
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Zap } from "lucide-react";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   const navLinks = [
-    { href: "#about", label: "About" },
-    { href: "#services", label: "Services" },
-    { href: "#contact", label: "Contact" },
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
+    { href: "/products", label: "Products" },
+    { href: "/clients", label: "Clients" },
+    { href: "/contact", label: "Contact" },
   ];
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-sm border-b border-primary-foreground/10">
       <div className="container-width section-padding !py-0">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2 group">
+          <Link to="/" className="flex items-center gap-2 group">
             <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center group-hover:scale-105 transition-transform">
               <Zap className="w-6 h-6 text-accent-foreground" />
             </div>
@@ -27,25 +33,29 @@ const Header = () => {
                 Digital Integrator
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
-                href={link.href}
-                className="text-primary-foreground/80 hover:text-primary-foreground font-medium transition-colors"
+                to={link.href}
+                className={`font-medium transition-colors ${
+                  isActive(link.href)
+                    ? "text-accent"
+                    : "text-primary-foreground/80 hover:text-primary-foreground"
+                }`}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
-            <a
-              href="#contact"
+            <Link
+              to="/contact"
               className="btn-accent text-sm !py-2 !px-4"
             >
-              Get in Touch
-            </a>
+              Get Quote
+            </Link>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -62,24 +72,28 @@ const Header = () => {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-primary border-t border-primary-foreground/10">
-          <nav className="container-width section-padding !py-4 flex flex-col gap-4">
+          <nav className="container-width section-padding !py-4 flex flex-col gap-2">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
-                href={link.href}
-                className="text-primary-foreground/80 hover:text-primary-foreground font-medium py-2"
+                to={link.href}
+                className={`font-medium py-2 ${
+                  isActive(link.href)
+                    ? "text-accent"
+                    : "text-primary-foreground/80 hover:text-primary-foreground"
+                }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
-            <a
-              href="#contact"
+            <Link
+              to="/contact"
               className="btn-accent text-center mt-2"
               onClick={() => setIsMenuOpen(false)}
             >
-              Get in Touch
-            </a>
+              Get Quote
+            </Link>
           </nav>
         </div>
       )}

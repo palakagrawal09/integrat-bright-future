@@ -1,4 +1,5 @@
 import { Cpu, Zap, Settings, ShieldCheck, Wrench, Factory } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Services = () => {
   const services = [
@@ -73,9 +74,9 @@ const Services = () => {
 
         {/* CTA */}
         <div className="text-center mt-12">
-          <a href="#contact" className="btn-primary inline-flex items-center gap-2">
-            Discuss Your Requirements
-          </a>
+          <Link to="/products" className="btn-primary inline-flex items-center gap-2">
+            View All Products & Services
+          </Link>
         </div>
       </div>
     </section>

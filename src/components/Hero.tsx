@@ -1,13 +1,13 @@
 import { ArrowRight, CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const Hero = () => {
   const highlights = [
     "Established 1997",
-    "ISO Certified",
+    "Defense & Industrial",
     "Pan-India Presence",
   ];
-
   return (
     <section className="relative min-h-screen flex items-center pt-20">
       {/* Background Image with Overlay */}
@@ -61,13 +61,13 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-wrap gap-4 animate-slide-up" style={{ animationDelay: "0.3s" }}>
-            <a href="#services" className="btn-accent inline-flex items-center gap-2 group">
-              Explore Our Services
+            <Link to="/products" className="btn-accent inline-flex items-center gap-2 group">
+              Explore Our Products
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a href="#contact" className="btn-outline text-primary-foreground">
+            </Link>
+            <Link to="/contact" className="btn-outline text-primary-foreground">
               Contact Us
-            </a>
+            </Link>
           </div>
         </div>
       </div>
