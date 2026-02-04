@@ -8,107 +8,112 @@
 
 @layer base {
   :root {
-    /* Core Colors - Industrial Blue Theme */
-    --background: 210 20% 98%;
-    --foreground: 215 25% 15%;
+    /* Core Colors - Defense & Industrial Theme */
+    /* Background: Soft Neutral Light #F4F7F9 */
+    --background: 210 33% 97%;
+    /* Foreground: Dark Charcoal #1C1C1C for headings */
+    --foreground: 0 0% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 15%;
+    --card-foreground: 0 0% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 15%;
+    --popover-foreground: 0 0% 11%;
 
-    /* Primary - Deep Industrial Blue */
-    --primary: 215 80% 25%;
+    /* Primary - Deep Military Blue #0B2C4D */
+    --primary: 210 77% 17%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary - Slate Gray */
-    --secondary: 215 15% 92%;
-    --secondary-foreground: 215 25% 20%;
+    /* Secondary - Lighter military blue tint */
+    --secondary: 210 33% 92%;
+    --secondary-foreground: 210 77% 17%;
 
-    /* Muted */
-    --muted: 210 20% 96%;
-    --muted-foreground: 215 15% 45%;
+    /* Muted - Medium Gray #4A4A4A for paragraphs */
+    --muted: 210 20% 94%;
+    --muted-foreground: 0 0% 29%;
 
-    /* Accent - Electric Cyan */
-    --accent: 195 100% 45%;
+    /* Accent - Industrial Green #4F8F6A */
+    --accent: 148 29% 44%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 215 20% 88%;
-    --input: 215 20% 88%;
-    --ring: 195 100% 45%;
+    --border: 210 20% 88%;
+    --input: 210 20% 88%;
+    --ring: 148 29% 44%;
 
     --radius: 0.5rem;
 
     /* Custom Colors */
-    --electric: 195 100% 50%;
-    --electric-glow: 195 100% 60%;
-    --industrial-dark: 215 35% 12%;
-    --industrial-medium: 215 25% 22%;
-    --steel: 215 10% 65%;
-    --success: 160 70% 40%;
+    /* Precision Orange #F26A1B - for hover, highlights */
+    --precision-orange: 22 89% 53%;
+    /* Industrial Green #4F8F6A */
+    --industrial-green: 148 29% 44%;
+    /* Deep Military Blue #0B2C4D */
+    --military-blue: 210 77% 17%;
+    --military-blue-dark: 210 77% 12%;
+    --steel: 210 10% 65%;
+    --success: 148 29% 44%;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(215 80% 25%) 0%, hsl(215 35% 12%) 100%);
-    --gradient-accent: linear-gradient(90deg, hsl(195 100% 45%) 0%, hsl(195 100% 55%) 100%);
-    --gradient-overlay: linear-gradient(180deg, hsla(215 35% 12% / 0.85) 0%, hsla(215 35% 12% / 0.95) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(210 77% 17%) 0%, hsl(210 77% 12%) 100%);
+    --gradient-accent: linear-gradient(90deg, hsl(148 29% 44%) 0%, hsl(148 29% 50%) 100%);
+    --gradient-overlay: linear-gradient(180deg, hsla(210 77% 12% / 0.85) 0%, hsla(210 77% 12% / 0.95) 100%);
 
     /* Shadows */
-    --shadow-sm: 0 1px 2px hsla(215 35% 12% / 0.05);
-    --shadow-md: 0 4px 12px hsla(215 35% 12% / 0.1);
-    --shadow-lg: 0 8px 30px hsla(215 35% 12% / 0.15);
-    --shadow-glow: 0 0 40px hsla(195 100% 50% / 0.3);
+    --shadow-sm: 0 1px 2px hsla(210 77% 17% / 0.05);
+    --shadow-md: 0 4px 12px hsla(210 77% 17% / 0.1);
+    --shadow-lg: 0 8px 30px hsla(210 77% 17% / 0.15);
+    --shadow-glow: 0 0 40px hsla(148 29% 44% / 0.3);
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 210 33% 97%;
+    --sidebar-foreground: 0 0% 11%;
+    --sidebar-primary: 210 77% 17%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 148 29% 44%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 210 20% 88%;
+    --sidebar-ring: 148 29% 44%;
   }
 
   .dark {
-    --background: 215 35% 8%;
+    --background: 210 77% 8%;
     --foreground: 210 20% 95%;
 
-    --card: 215 30% 12%;
+    --card: 210 60% 12%;
     --card-foreground: 210 20% 95%;
 
-    --popover: 215 30% 12%;
+    --popover: 210 60% 12%;
     --popover-foreground: 210 20% 95%;
 
-    --primary: 195 100% 50%;
-    --primary-foreground: 215 35% 8%;
+    --primary: 148 29% 44%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 215 25% 18%;
+    --secondary: 210 40% 18%;
     --secondary-foreground: 210 20% 90%;
 
-    --muted: 215 25% 15%;
-    --muted-foreground: 215 15% 60%;
+    --muted: 210 40% 15%;
+    --muted-foreground: 210 15% 60%;
 
-    --accent: 195 100% 50%;
-    --accent-foreground: 215 35% 8%;
+    --accent: 22 89% 53%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 215 25% 20%;
-    --input: 215 25% 20%;
-    --ring: 195 100% 50%;
+    --border: 210 40% 20%;
+    --input: 210 40% 20%;
+    --ring: 148 29% 44%;
 
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-background: 210 77% 8%;
+    --sidebar-foreground: 210 20% 95%;
+    --sidebar-primary: 148 29% 44%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 22 89% 53%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 210 40% 20%;
+    --sidebar-ring: 148 29% 44%;
   }
 }
 
@@ -151,16 +156,39 @@
   }
 
   .btn-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3 rounded-md font-medium transition-all duration-200;
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded-md font-medium transition-all duration-200;
+  }
+
+  .btn-primary:hover {
+    background-color: hsl(var(--precision-orange));
   }
 
   .btn-accent {
-    @apply bg-accent text-accent-foreground hover:bg-accent/90 px-6 py-3 rounded-md font-medium transition-all duration-200 shadow-lg;
+    @apply bg-accent text-accent-foreground px-6 py-3 rounded-md font-medium transition-all duration-200 shadow-lg;
     box-shadow: var(--shadow-glow);
   }
 
+  .btn-accent:hover {
+    background-color: hsl(var(--precision-orange));
+  }
+
   .btn-outline {
-    @apply border-2 border-current bg-transparent hover:bg-white/10 px-6 py-3 rounded-md font-medium transition-all duration-200;
+    @apply border-2 border-current bg-transparent px-6 py-3 rounded-md font-medium transition-all duration-200;
+  }
+
+  .btn-outline:hover {
+    background-color: hsl(var(--precision-orange) / 0.1);
+    border-color: hsl(var(--precision-orange));
+    color: hsl(var(--precision-orange));
+  }
+
+  /* Precision orange hover for links and interactive elements */
+  .hover-orange:hover {
+    color: hsl(var(--precision-orange));
+  }
+
+  .divider-orange {
+    background-color: hsl(var(--precision-orange));
   }
 }
 
