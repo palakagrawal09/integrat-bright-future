@@ -18,7 +18,7 @@ const Header = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-navy-blue backdrop-blur-sm border-b border-white/10">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-teal-green backdrop-blur-sm border-b border-white/10">
       {/* Orange accent line at top */}
       <div className="h-0.5 bg-precision-orange" />
       
@@ -69,7 +69,7 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-navy-blue border-t border-white/10">
+        <div className="md:hidden bg-teal-green border-t border-white/10">
           <nav className="container-width section-padding !py-4 flex flex-col gap-2">
             {navLinks.map((link) => (
               <Link
