@@ -8,112 +8,116 @@
 
 @layer base {
   :root {
-    /* Core Colors - Defense & Industrial Theme */
-    /* Background: Soft Neutral Light #F4F7F9 */
-    --background: 210 33% 97%;
-    /* Foreground: Dark Charcoal #1C1C1C for headings */
-    --foreground: 0 0% 11%;
+    /* DRDO-Inspired Defense & Government Theme */
+    /* Background: Clean White/Light Neutral */
+    --background: 210 20% 98%;
+    /* Foreground: Dark Charcoal */
+    --foreground: 220 20% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 11%;
+    --card-foreground: 220 20% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 11%;
+    --popover-foreground: 220 20% 15%;
 
-    /* Primary - Deep Military Blue #0B2C4D */
-    --primary: 210 77% 17%;
+    /* Primary - Deep Teal-Green (Trust, Authority, Institutional) */
+    --primary: 175 45% 28%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary - Lighter military blue tint */
-    --secondary: 210 33% 92%;
-    --secondary-foreground: 210 77% 17%;
+    /* Secondary - Light teal tint */
+    --secondary: 175 25% 94%;
+    --secondary-foreground: 175 45% 25%;
 
-    /* Muted - Medium Gray #4A4A4A for paragraphs */
-    --muted: 210 20% 94%;
-    --muted-foreground: 0 0% 29%;
+    /* Muted */
+    --muted: 210 15% 95%;
+    --muted-foreground: 220 10% 40%;
 
-    /* Accent - Industrial Green #4F8F6A */
-    --accent: 148 29% 44%;
+    /* Accent - Engineering Orange (CTAs, Hover states) */
+    --accent: 24 85% 52%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 88%;
-    --input: 210 20% 88%;
-    --ring: 148 29% 44%;
+    --border: 210 15% 90%;
+    --input: 210 15% 90%;
+    --ring: 175 45% 28%;
 
-    --radius: 0.5rem;
+    --radius: 0.375rem;
 
     /* Custom Colors */
-    /* Precision Orange #F26A1B - for hover, highlights */
-    --precision-orange: 22 89% 53%;
-    /* Industrial Green #4F8F6A */
-    --industrial-green: 148 29% 44%;
-    /* Deep Military Blue #0B2C4D */
-    --military-blue: 210 77% 17%;
-    --military-blue-dark: 210 77% 12%;
+    /* Engineering Orange - for hover, highlights, CTAs */
+    --precision-orange: 24 85% 52%;
+    /* Deep Teal-Green */
+    --teal-green: 175 45% 28%;
+    --teal-green-dark: 175 50% 22%;
+    /* Dark Navy Blue - for navigation and headers */
+    --navy-blue: 220 55% 18%;
+    --navy-blue-dark: 220 60% 12%;
+    /* Industrial Green */
+    --industrial-green: 175 45% 28%;
     --steel: 210 10% 65%;
-    --success: 148 29% 44%;
+    --success: 160 50% 40%;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(210 77% 17%) 0%, hsl(210 77% 12%) 100%);
-    --gradient-accent: linear-gradient(90deg, hsl(148 29% 44%) 0%, hsl(148 29% 50%) 100%);
-    --gradient-overlay: linear-gradient(180deg, hsla(210 77% 12% / 0.85) 0%, hsla(210 77% 12% / 0.95) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(220 55% 18%) 0%, hsl(220 60% 12%) 100%);
+    --gradient-teal: linear-gradient(135deg, hsl(175 45% 28%) 0%, hsl(175 50% 22%) 100%);
+    --gradient-accent: linear-gradient(90deg, hsl(24 85% 52%) 0%, hsl(24 85% 58%) 100%);
+    --gradient-overlay: linear-gradient(180deg, hsla(220 55% 12% / 0.88) 0%, hsla(220 60% 10% / 0.95) 100%);
 
-    /* Shadows */
-    --shadow-sm: 0 1px 2px hsla(210 77% 17% / 0.05);
-    --shadow-md: 0 4px 12px hsla(210 77% 17% / 0.1);
-    --shadow-lg: 0 8px 30px hsla(210 77% 17% / 0.15);
-    --shadow-glow: 0 0 40px hsla(148 29% 44% / 0.3);
+    /* Minimal Shadows - Government Portal Style */
+    --shadow-sm: 0 1px 2px hsla(220 20% 15% / 0.04);
+    --shadow-md: 0 2px 8px hsla(220 20% 15% / 0.08);
+    --shadow-lg: 0 4px 16px hsla(220 20% 15% / 0.1);
+    --shadow-card: 0 1px 3px hsla(220 20% 15% / 0.06);
 
-    --sidebar-background: 210 33% 97%;
-    --sidebar-foreground: 0 0% 11%;
-    --sidebar-primary: 210 77% 17%;
+    --sidebar-background: 210 20% 98%;
+    --sidebar-foreground: 220 20% 15%;
+    --sidebar-primary: 175 45% 28%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 148 29% 44%;
+    --sidebar-accent: 24 85% 52%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 210 20% 88%;
-    --sidebar-ring: 148 29% 44%;
+    --sidebar-border: 210 15% 90%;
+    --sidebar-ring: 175 45% 28%;
   }
 
   .dark {
-    --background: 210 77% 8%;
+    --background: 220 55% 8%;
     --foreground: 210 20% 95%;
 
-    --card: 210 60% 12%;
+    --card: 220 50% 12%;
     --card-foreground: 210 20% 95%;
 
-    --popover: 210 60% 12%;
+    --popover: 220 50% 12%;
     --popover-foreground: 210 20% 95%;
 
-    --primary: 148 29% 44%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 175 40% 45%;
+    --primary-foreground: 220 55% 8%;
 
-    --secondary: 210 40% 18%;
+    --secondary: 220 40% 18%;
     --secondary-foreground: 210 20% 90%;
 
-    --muted: 210 40% 15%;
+    --muted: 220 40% 15%;
     --muted-foreground: 210 15% 60%;
 
-    --accent: 22 89% 53%;
+    --accent: 24 85% 55%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 40% 20%;
-    --input: 210 40% 20%;
-    --ring: 148 29% 44%;
+    --border: 220 40% 20%;
+    --input: 220 40% 20%;
+    --ring: 175 40% 45%;
 
-    --sidebar-background: 210 77% 8%;
+    --sidebar-background: 220 55% 8%;
     --sidebar-foreground: 210 20% 95%;
-    --sidebar-primary: 148 29% 44%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 22 89% 53%;
+    --sidebar-primary: 175 40% 45%;
+    --sidebar-primary-foreground: 220 55% 8%;
+    --sidebar-accent: 24 85% 55%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 210 40% 20%;
-    --sidebar-ring: 148 29% 44%;
+    --sidebar-border: 220 40% 20%;
+    --sidebar-ring: 175 40% 45%;
   }
 }
 
@@ -148,32 +152,55 @@
 
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: var(--gradient-accent);
+    background-image: var(--gradient-teal);
+  }
+
+  /* Government Portal Style Cards - Minimal shadows, structured */
+  .card-gov {
+    @apply bg-card border border-border rounded-sm transition-all duration-200;
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-gov:hover {
+    box-shadow: var(--shadow-md);
+    border-color: hsl(var(--teal-green) / 0.3);
   }
 
   .card-industrial {
-    @apply bg-card border border-border rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300;
+    @apply bg-card border border-border rounded-sm transition-shadow duration-300;
+    box-shadow: var(--shadow-card);
   }
 
+  .card-industrial:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Primary Button - Teal Green */
   .btn-primary {
-    @apply bg-primary text-primary-foreground px-6 py-3 rounded-md font-medium transition-all duration-200;
+    @apply px-6 py-3 rounded-sm font-medium transition-all duration-200;
+    background-color: hsl(var(--teal-green));
+    color: white;
   }
 
   .btn-primary:hover {
     background-color: hsl(var(--precision-orange));
   }
 
+  /* Accent Button - Engineering Orange */
   .btn-accent {
-    @apply bg-accent text-accent-foreground px-6 py-3 rounded-md font-medium transition-all duration-200 shadow-lg;
-    box-shadow: var(--shadow-glow);
+    @apply px-6 py-3 rounded-sm font-medium transition-all duration-200;
+    background-color: hsl(var(--precision-orange));
+    color: white;
   }
 
   .btn-accent:hover {
     background-color: hsl(var(--precision-orange));
+    filter: brightness(1.1);
   }
 
+  /* Outline Button */
   .btn-outline {
-    @apply border-2 border-current bg-transparent px-6 py-3 rounded-md font-medium transition-all duration-200;
+    @apply border-2 border-current bg-transparent px-6 py-3 rounded-sm font-medium transition-all duration-200;
   }
 
   .btn-outline:hover {
@@ -182,12 +209,33 @@
     color: hsl(var(--precision-orange));
   }
 
-  /* Precision orange hover for links and interactive elements */
+  /* Navy header style */
+  .bg-navy {
+    background-color: hsl(var(--navy-blue));
+  }
+
+  .bg-navy-dark {
+    background-color: hsl(var(--navy-blue-dark));
+  }
+
+  /* Teal section backgrounds */
+  .bg-teal {
+    background: var(--gradient-teal);
+  }
+
+  /* Engineering orange hover for links and interactive elements */
   .hover-orange:hover {
     color: hsl(var(--precision-orange));
   }
 
+  /* Orange divider/accent line */
   .divider-orange {
+    background-color: hsl(var(--precision-orange));
+  }
+
+  /* Government portal style section divider */
+  .section-divider {
+    @apply h-1 w-20;
     background-color: hsl(var(--precision-orange));
   }
 }

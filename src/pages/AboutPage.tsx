@@ -53,12 +53,16 @@ const AboutPage = () => {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-gradient-to-b from-primary/10 to-background">
+        <section className="pt-32 pb-16 bg-secondary/30">
           <div className="container-width px-4">
             <div className="text-center max-w-3xl mx-auto">
-              <span className="text-accent font-semibold text-sm uppercase tracking-wider">
-                About Us
-              </span>
+              <div className="inline-flex items-center gap-2 mb-4">
+                <span className="section-divider" />
+                <span className="text-teal-green font-semibold text-sm uppercase tracking-wider">
+                  About Us
+                </span>
+                <span className="section-divider" />
+              </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-foreground mt-2 mb-6">
                 27+ Years of Innovation
               </h1>
@@ -77,10 +81,10 @@ const AboutPage = () => {
               {companyStats.map((stat) => (
                 <div
                   key={stat.label}
-                  className="card-industrial p-6 text-center group hover:border-accent/50 transition-colors"
+                  className="card-gov p-6 text-center group"
                 >
-                  <div className="w-12 h-12 mx-auto mb-4 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                    <stat.icon className="w-6 h-6 text-accent" />
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-sm bg-teal-green/10 flex items-center justify-center group-hover:bg-precision-orange/10 transition-colors">
+                    <stat.icon className="w-6 h-6 text-teal-green group-hover:text-precision-orange transition-colors" />
                   </div>
                   <div className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-1">
                     {stat.value}
@@ -97,7 +101,8 @@ const AboutPage = () => {
           <div className="container-width">
             <div className="grid lg:grid-cols-2 gap-12 items-start">
               <div className="space-y-6">
-                <h2 className="text-3xl font-display font-bold text-foreground">
+                <h2 className="text-3xl font-display font-bold text-foreground flex items-center gap-3">
+                  <span className="w-8 h-0.5 bg-precision-orange" />
                   Company Overview
                 </h2>
                 <p className="text-muted-foreground leading-relaxed">
@@ -112,7 +117,7 @@ const AboutPage = () => {
                 </p>
                 <div className="grid grid-cols-2 gap-4 pt-4">
                   {companyInfo.map((info) => (
-                    <div key={info.label} className="space-y-1">
+                    <div key={info.label} className="space-y-1 bg-background p-3 rounded-sm border border-border">
                       <p className="text-xs text-muted-foreground uppercase tracking-wider">{info.label}</p>
                       <p className="text-sm font-medium text-foreground">{info.value}</p>
                     </div>
@@ -122,14 +127,14 @@ const AboutPage = () => {
               
               <div className="space-y-6">
                 <h3 className="text-xl font-display font-semibold text-foreground flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-accent" />
+                  <Shield className="w-5 h-5 text-teal-green" />
                   Our Expertise
                 </h3>
                 <ul className="space-y-3">
                   {expertise.map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <span className="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span className="text-xs font-semibold text-accent">{index + 1}</span>
+                      <span className="w-6 h-6 rounded-sm bg-teal-green/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-xs font-semibold text-teal-green">{index + 1}</span>
                       </span>
                       <span className="text-muted-foreground text-sm">{item}</span>
                     </li>
@@ -144,9 +149,13 @@ const AboutPage = () => {
         <section className="section-padding bg-background">
           <div className="container-width">
             <div className="text-center mb-12">
-              <span className="text-accent font-semibold text-sm uppercase tracking-wider">
-                Leadership
-              </span>
+              <div className="inline-flex items-center gap-2 mb-3">
+                <span className="section-divider" />
+                <span className="text-teal-green font-semibold text-sm uppercase tracking-wider">
+                  Leadership
+                </span>
+                <span className="section-divider" />
+              </div>
               <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-2">
                 Board of Directors
               </h2>
@@ -155,17 +164,17 @@ const AboutPage = () => {
               {directors.map((director) => (
                 <div
                   key={director.din}
-                  className="card-industrial p-6 text-center hover:border-accent/50 transition-colors"
+                  className="card-gov p-6 text-center"
                 >
-                  <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
-                    <span className="text-2xl font-display font-bold text-primary">
+                  <div className="w-20 h-20 mx-auto mb-4 rounded-sm bg-teal-green/10 flex items-center justify-center">
+                    <span className="text-2xl font-display font-bold text-teal-green">
                       {director.initials}
                     </span>
                   </div>
                   <h3 className="text-lg font-display font-semibold text-foreground">
                     {director.name}
                   </h3>
-                  <p className="text-accent font-medium text-sm mt-1">{director.designation}</p>
+                  <p className="text-precision-orange font-medium text-sm mt-1">{director.designation}</p>
                   <div className="mt-4 pt-4 border-t border-border space-y-1">
                     <p className="text-xs text-muted-foreground">
                       DIN: <span className="text-foreground">{director.din}</span>
@@ -181,12 +190,16 @@ const AboutPage = () => {
         </section>
 
         {/* Team Section */}
-        <section className="section-padding bg-background">
+        <section className="section-padding bg-secondary/30">
           <div className="container-width">
             <div className="text-center mb-12">
-              <span className="text-accent font-semibold text-sm uppercase tracking-wider">
-                Our Team
-              </span>
+              <div className="inline-flex items-center gap-2 mb-3">
+                <span className="section-divider" />
+                <span className="text-teal-green font-semibold text-sm uppercase tracking-wider">
+                  Our Team
+                </span>
+                <span className="section-divider" />
+              </div>
               <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-2">
                 The People Behind DIPL
               </h2>
@@ -195,13 +208,13 @@ const AboutPage = () => {
               </p>
             </div>
             <div className="max-w-4xl mx-auto">
-              <div className="card-industrial overflow-hidden">
+              <div className="card-gov overflow-hidden">
                 <img 
                   src={teamPhoto} 
                   alt="DIPL Team at Electronic Complex, Indore" 
                   className="w-full h-auto"
                 />
-                <div className="p-6 text-center">
+                <div className="p-6 text-center bg-background">
                   <p className="text-muted-foreground text-sm">
                     The DIPL team at our facility in Electronic Complex, Pardeshipura, Indore
                   </p>
@@ -212,16 +225,20 @@ const AboutPage = () => {
         </section>
 
         {/* Addresses */}
-        <section className="section-padding bg-secondary/30">
+        <section className="section-padding bg-background">
           <div className="container-width">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-display font-bold text-foreground">Our Locations</h2>
+              <h2 className="text-3xl font-display font-bold text-foreground flex items-center justify-center gap-3">
+                <span className="w-8 h-0.5 bg-precision-orange" />
+                Our Locations
+                <span className="w-8 h-0.5 bg-precision-orange" />
+              </h2>
             </div>
             <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
-              <div className="card-industrial p-6">
+              <div className="card-gov p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                    <Building2 className="w-5 h-5 text-accent" />
+                  <div className="w-10 h-10 rounded-sm bg-teal-green/10 flex items-center justify-center">
+                    <Building2 className="w-5 h-5 text-teal-green" />
                   </div>
                   <h3 className="font-semibold text-foreground">Registered Office</h3>
                 </div>
@@ -231,10 +248,10 @@ const AboutPage = () => {
                   Madhya Pradesh - 452001, India
                 </address>
               </div>
-              <div className="card-industrial p-6">
+              <div className="card-gov p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                    <MapPin className="w-5 h-5 text-accent" />
+                  <div className="w-10 h-10 rounded-sm bg-teal-green/10 flex items-center justify-center">
+                    <MapPin className="w-5 h-5 text-teal-green" />
                   </div>
                   <h3 className="font-semibold text-foreground">Corporate Office</h3>
                 </div>

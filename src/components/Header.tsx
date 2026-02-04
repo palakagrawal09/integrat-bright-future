@@ -18,7 +18,10 @@ const Header = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-sm border-b border-primary-foreground/10">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-navy-blue backdrop-blur-sm border-b border-white/10">
+      {/* Orange accent line at top */}
+      <div className="h-0.5 bg-precision-orange" />
+      
       <div className="container-width section-padding !py-0">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
@@ -38,8 +41,8 @@ const Header = () => {
                 to={link.href}
                 className={`font-medium transition-colors ${
                   isActive(link.href)
-                    ? "text-accent"
-                    : "text-primary-foreground/80 hover:text-primary-foreground"
+                    ? "text-precision-orange"
+                    : "text-white/80 hover:text-precision-orange"
                 }`}
               >
                 {link.label}
@@ -47,7 +50,7 @@ const Header = () => {
             ))}
             <Link
               to="/contact"
-              className="btn-accent text-sm !py-2 !px-4"
+              className="btn-accent text-sm !py-2 !px-4 rounded-sm"
             >
               Get Quote
             </Link>
@@ -55,7 +58,7 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-primary-foreground p-2"
+            className="md:hidden text-white p-2"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -66,7 +69,7 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-primary border-t border-primary-foreground/10">
+        <div className="md:hidden bg-navy-blue border-t border-white/10">
           <nav className="container-width section-padding !py-4 flex flex-col gap-2">
             {navLinks.map((link) => (
               <Link
@@ -74,8 +77,8 @@ const Header = () => {
                 to={link.href}
                 className={`font-medium py-2 ${
                   isActive(link.href)
-                    ? "text-accent"
-                    : "text-primary-foreground/80 hover:text-primary-foreground"
+                    ? "text-precision-orange"
+                    : "text-white/80 hover:text-precision-orange"
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -84,7 +87,7 @@ const Header = () => {
             ))}
             <Link
               to="/contact"
-              className="btn-accent text-center mt-2"
+              className="btn-accent text-center mt-2 rounded-sm"
               onClick={() => setIsMenuOpen(false)}
             >
               Get Quote

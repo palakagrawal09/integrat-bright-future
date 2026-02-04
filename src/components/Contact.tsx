@@ -31,15 +31,19 @@ const Contact = () => {
       <div className="container-width">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <span className="text-accent font-semibold text-sm uppercase tracking-wider">
-            Contact Us
-          </span>
+          <div className="inline-flex items-center gap-2 mb-3">
+            <span className="section-divider" />
+            <span className="text-teal-green font-semibold text-sm uppercase tracking-wider">
+              Contact Us
+            </span>
+            <span className="section-divider" />
+          </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mt-2 mb-4">
             Get in Touch
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Ready to discuss your electrical equipment needs? Reach out to our team 
-            for expert consultation and solutions.
+            Ready to discuss your defense or industrial automation requirements? 
+            Reach out to our engineering team for expert consultation.
           </p>
         </div>
 
@@ -49,16 +53,16 @@ const Contact = () => {
             {contactInfo.map((item) => (
               <div
                 key={item.title}
-                className="card-industrial p-6 hover:border-accent/50 transition-colors"
+                className="card-gov p-6"
               >
-                <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
-                  <item.icon className="w-5 h-5 text-accent" />
+                <div className="w-10 h-10 rounded-sm bg-teal-green/10 flex items-center justify-center mb-4">
+                  <item.icon className="w-5 h-5 text-teal-green" />
                 </div>
                 <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
                 {item.href ? (
                   <a
                     href={item.href}
-                    className="text-muted-foreground text-sm hover:text-accent transition-colors"
+                    className="text-muted-foreground text-sm hover:text-precision-orange transition-colors"
                   >
                     {item.content}
                   </a>
@@ -70,7 +74,7 @@ const Contact = () => {
           </div>
 
           {/* Map Embed */}
-          <div className="card-industrial overflow-hidden h-80 lg:h-auto">
+          <div className="card-gov overflow-hidden h-80 lg:h-auto">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.5376485799384!2d75.8559!3d22.7300!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fd0b0a0a0a0a%3A0x0!2sElectronic%20Complex%2C%20Pardeshipura%2C%20Indore%2C%20Madhya%20Pradesh%20452001!5e0!3m2!1sen!2sin!4v1234567890"
               width="100%"
@@ -86,19 +90,19 @@ const Contact = () => {
         </div>
 
         {/* CTA Banner */}
-        <div className="mt-16 rounded-2xl p-8 sm:p-12 text-center" style={{ background: "var(--gradient-hero)" }}>
-          <h3 className="text-2xl sm:text-3xl font-display font-bold text-primary-foreground mb-4">
-            Ready to Power Your Next Project?
+        <div className="mt-16 rounded-sm p-8 sm:p-12 text-center bg-navy-blue">
+          <h3 className="text-2xl sm:text-3xl font-display font-bold text-white mb-4">
+            Ready to Partner with Us?
           </h3>
-          <p className="text-primary-foreground/80 mb-6 max-w-xl mx-auto">
-            Let's discuss how our electrical solutions can meet your industrial needs.
+          <p className="text-white/80 mb-6 max-w-xl mx-auto">
+            Let's discuss how our defense-grade solutions can meet your mission-critical needs.
           </p>
           <a
             href="mailto:diplsales@diplindia.com"
-            className="btn-accent inline-flex items-center gap-2"
+            className="btn-accent inline-flex items-center gap-2 rounded-sm"
           >
             <Mail className="w-5 h-5" />
-            Email Us Today
+            Contact Our Team
           </a>
         </div>
       </div>

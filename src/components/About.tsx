@@ -29,14 +29,19 @@ const About = () => {
       <div className="container-width">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <span className="text-accent font-semibold text-sm uppercase tracking-wider">
-            About Us
-          </span>
+          <div className="inline-flex items-center gap-2 mb-3">
+            <span className="section-divider" />
+            <span className="text-teal-green font-semibold text-sm uppercase tracking-wider">
+              About Us
+            </span>
+            <span className="section-divider" />
+          </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mt-2 mb-4">
             A Legacy of Excellence
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            For over two decades, Digital Integrator has been at the forefront of electrical equipment manufacturing in India.
+            For over two decades, Digital Integrator has been a trusted partner in Defense Electronics 
+            and Industrial Automation across India.
           </p>
         </div>
 
@@ -47,10 +52,10 @@ const About = () => {
             {stats.map((stat, index) => (
               <div
                 key={stat.label}
-                className="card-industrial p-6 text-center group hover:border-accent/50 transition-colors"
+                className="card-gov p-6 text-center group"
               >
-                <div className="w-12 h-12 mx-auto mb-4 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                  <stat.icon className="w-6 h-6 text-accent" />
+                <div className="w-12 h-12 mx-auto mb-4 rounded-sm bg-teal-green/10 flex items-center justify-center group-hover:bg-precision-orange/10 transition-colors">
+                  <stat.icon className="w-6 h-6 text-teal-green group-hover:text-precision-orange transition-colors" />
                 </div>
                 <div className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-1">
                   {stat.value}
@@ -64,37 +69,40 @@ const About = () => {
           <div className="space-y-6">
             <div className="space-y-4">
               <h3 className="text-2xl font-display font-semibold text-foreground">
-                Manufacturing Excellence Since 1997
+                Trusted by Defense & Industry Since 1997
               </h3>
               <p className="text-muted-foreground leading-relaxed">
                 Digital Integrator Private Limited (CIN: U31909MP1997PTC012011) is a 
                 distinguished private company incorporated on December 19, 1997. 
                 Registered with the Registrar of Companies, Gwalior, we specialize in 
-                the manufacture of electrical equipment.
+                Defense Electronics, Training Simulators, and Industrial Automation.
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 With our state-of-the-art facility located in the Electronic Complex, 
                 Pardeshipura, Indore, we have built a reputation for quality, reliability, 
-                and innovation in the electrical equipment industry.
+                and precision engineering — serving the Indian Armed Forces and major industries.
               </p>
             </div>
 
             {/* Leadership */}
             <div className="pt-4 border-t border-border">
-              <h4 className="font-semibold text-foreground mb-3">Leadership</h4>
+              <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
+                <span className="w-6 h-0.5 bg-precision-orange" />
+                Leadership
+              </h4>
               <div className="flex flex-wrap gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <span className="text-primary font-semibold text-sm">SV</span>
+                <div className="flex items-center gap-3 bg-secondary/50 px-4 py-3 rounded-sm">
+                  <div className="w-10 h-10 rounded-sm bg-teal-green/20 flex items-center justify-center">
+                    <span className="text-teal-green font-semibold text-sm">SV</span>
                   </div>
                   <div>
                     <p className="font-medium text-foreground text-sm">Sunil Vasantrao Vyas</p>
                     <p className="text-muted-foreground text-xs">Director</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <span className="text-primary font-semibold text-sm">HV</span>
+                <div className="flex items-center gap-3 bg-secondary/50 px-4 py-3 rounded-sm">
+                  <div className="w-10 h-10 rounded-sm bg-teal-green/20 flex items-center justify-center">
+                    <span className="text-teal-green font-semibold text-sm">HV</span>
                   </div>
                   <div>
                     <p className="font-medium text-foreground text-sm">Hemant Verma</p>

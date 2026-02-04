@@ -63,9 +63,13 @@ export default {
         },
         "precision-orange": "hsl(var(--precision-orange))",
         "industrial-green": "hsl(var(--industrial-green))",
-        "military-blue": {
-          DEFAULT: "hsl(var(--military-blue))",
-          dark: "hsl(var(--military-blue-dark))",
+        "teal-green": {
+          DEFAULT: "hsl(var(--teal-green))",
+          dark: "hsl(var(--teal-green-dark))",
+        },
+        "navy-blue": {
+          DEFAULT: "hsl(var(--navy-blue))",
+          dark: "hsl(var(--navy-blue-dark))",
         },
         steel: "hsl(var(--steel))",
         success: "hsl(var(--success))",

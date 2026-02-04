@@ -83,12 +83,16 @@ const ClientsPage = () => {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-gradient-to-b from-primary/10 to-background">
+        <section className="pt-32 pb-16 bg-secondary/30">
           <div className="container-width px-4">
             <div className="text-center max-w-3xl mx-auto">
-              <span className="text-accent font-semibold text-sm uppercase tracking-wider">
-                Our Clients
-              </span>
+              <div className="inline-flex items-center gap-2 mb-4">
+                <span className="section-divider" />
+                <span className="text-teal-green font-semibold text-sm uppercase tracking-wider">
+                  Our Clients
+                </span>
+                <span className="section-divider" />
+              </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-foreground mt-2 mb-6">
                 Trusted by Industry Leaders
               </h1>
@@ -101,13 +105,13 @@ const ClientsPage = () => {
         </section>
 
         {/* Sectors Overview */}
-        <section className="py-12 bg-secondary/30">
+        <section className="py-12 bg-background">
           <div className="container-width">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {sectors.map((sector) => (
-                <div key={sector.name} className="card-industrial p-5 text-center">
-                  <div className="w-12 h-12 mx-auto mb-3 rounded-lg bg-accent/10 flex items-center justify-center">
-                    <sector.icon className="w-6 h-6 text-accent" />
+                <div key={sector.name} className="card-gov p-5 text-center group">
+                  <div className="w-12 h-12 mx-auto mb-3 rounded-sm bg-teal-green/10 flex items-center justify-center group-hover:bg-precision-orange/10 transition-colors">
+                    <sector.icon className="w-6 h-6 text-teal-green group-hover:text-precision-orange transition-colors" />
                   </div>
                   <h3 className="font-semibold text-foreground">{sector.name}</h3>
                   <p className="text-muted-foreground text-sm">{sector.count}+ clients</p>
@@ -118,11 +122,13 @@ const ClientsPage = () => {
         </section>
 
         {/* Clients Grid */}
-        <section className="section-padding bg-background">
+        <section className="section-padding bg-secondary/30">
           <div className="container-width">
             <div className="text-center mb-12">
-              <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground">
+              <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground flex items-center justify-center gap-3">
+                <span className="w-8 h-0.5 bg-precision-orange" />
                 Our Valued Clientele
+                <span className="w-8 h-0.5 bg-precision-orange" />
               </h2>
             </div>
 
@@ -130,24 +136,24 @@ const ClientsPage = () => {
               {clients.map((client) => (
                 <div
                   key={client.name}
-                  className={`card-industrial p-6 group transition-all duration-300 ${
+                  className={`card-gov p-6 group transition-all duration-300 ${
                     client.highlight 
-                      ? "border-primary/30 hover:border-primary/60 bg-primary/5" 
-                      : "hover:border-accent/50"
+                      ? "border-teal-green/30 bg-teal-green/5" 
+                      : ""
                   }`}
                 >
                   <div className="flex items-start justify-between mb-4">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
+                    <div className={`w-12 h-12 rounded-sm flex items-center justify-center transition-colors ${
                       client.highlight 
-                        ? "bg-primary/20 group-hover:bg-primary/30" 
-                        : "bg-accent/10 group-hover:bg-accent/20"
+                        ? "bg-teal-green/20 group-hover:bg-precision-orange/20" 
+                        : "bg-teal-green/10 group-hover:bg-precision-orange/10"
                     }`}>
-                      <client.icon className={`w-6 h-6 ${
-                        client.highlight ? "text-primary" : "text-accent"
+                      <client.icon className={`w-6 h-6 transition-colors ${
+                        client.highlight ? "text-teal-green group-hover:text-precision-orange" : "text-teal-green group-hover:text-precision-orange"
                       }`} />
                     </div>
                     {client.highlight && (
-                      <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded-full">
+                      <span className="text-xs bg-teal-green text-white px-2 py-1 rounded-sm">
                         Key Client
                       </span>
                     )}
@@ -168,13 +174,16 @@ const ClientsPage = () => {
         </section>
 
         {/* Why Choose Us */}
-        <section className="section-padding bg-secondary/30">
+        <section className="section-padding bg-background">
           <div className="container-width">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <span className="text-accent font-semibold text-sm uppercase tracking-wider">
-                  Why Choose Us
-                </span>
+                <div className="inline-flex items-center gap-2 mb-3">
+                  <span className="section-divider" />
+                  <span className="text-teal-green font-semibold text-sm uppercase tracking-wider">
+                    Why Choose Us
+                  </span>
+                </div>
                 <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-2 mb-6">
                   A Partner You Can Trust
                 </h2>
@@ -188,7 +197,7 @@ const ClientsPage = () => {
                     "Continuous innovation and technology upgrades",
                   ].map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                      <CheckCircle className="w-5 h-5 text-teal-green flex-shrink-0 mt-0.5" />
                       <span className="text-muted-foreground">{item}</span>
                     </li>
                   ))}
@@ -197,8 +206,8 @@ const ClientsPage = () => {
 
               <div className="space-y-6">
                 {testimonials.map((testimonial, index) => (
-                  <div key={index} className="card-industrial p-6">
-                    <Award className="w-8 h-8 text-accent mb-4" />
+                  <div key={index} className="card-gov p-6">
+                    <Award className="w-8 h-8 text-precision-orange mb-4" />
                     <p className="text-foreground italic mb-4">"{testimonial.text}"</p>
                     <p className="text-muted-foreground text-sm">— {testimonial.source}</p>
                   </div>
@@ -211,15 +220,15 @@ const ClientsPage = () => {
         {/* CTA */}
         <section className="section-padding">
           <div className="container-width">
-            <div className="rounded-2xl p-8 sm:p-12 text-center" style={{ background: "var(--gradient-hero)" }}>
-              <h3 className="text-2xl sm:text-3xl font-display font-bold text-primary-foreground mb-4">
+            <div className="rounded-sm p-8 sm:p-12 text-center bg-navy-blue">
+              <h3 className="text-2xl sm:text-3xl font-display font-bold text-white mb-4">
                 Join Our Growing Client Base
               </h3>
-              <p className="text-primary-foreground/80 mb-6 max-w-xl mx-auto">
+              <p className="text-white/80 mb-6 max-w-xl mx-auto">
                 Discover how our solutions can transform your operations. 
                 Let's discuss your requirements.
               </p>
-              <Link to="/contact" className="btn-accent inline-flex items-center gap-2">
+              <Link to="/contact" className="btn-accent inline-flex items-center gap-2 rounded-sm">
                 Get in Touch
               </Link>
             </div>
