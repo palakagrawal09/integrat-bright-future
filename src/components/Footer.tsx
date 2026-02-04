@@ -1,5 +1,6 @@
-import { Zap, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 import { Link } from "react-router-dom";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -24,18 +25,12 @@ const Footer = () => {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center">
-                <Zap className="w-6 h-6 text-accent-foreground" />
-              </div>
-              <div>
-                <span className="font-display font-bold text-lg">
-                  Digital Integrator
-                </span>
-                <span className="text-primary-foreground/70 text-xs block">
-                  Private Limited
-                </span>
-              </div>
+            <Link to="/" className="mb-4 inline-block">
+              <img 
+                src={logo} 
+                alt="DIPL - Digital Integrator Pvt. Ltd." 
+                className="h-12 w-auto brightness-0 invert"
+              />
             </Link>
             <p className="text-primary-foreground/70 text-sm mb-4">
               Complete solutions for Industrial Automation & Defense Electronics since 1997.
