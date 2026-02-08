@@ -18,9 +18,9 @@ const Header = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-teal-green backdrop-blur-sm border-b border-white/10">
-      {/* Orange accent line at top */}
-      <div className="h-0.5 bg-precision-orange" />
+    <header className="fixed top-0 left-0 right-0 z-50 bg-defence-green backdrop-blur-sm border-b border-white/10">
+      {/* Gold accent line at top */}
+      <div className="h-1 bg-brass-gold" />
       
       <div className="container-width section-padding !py-0">
         <div className="flex items-center justify-between h-16 lg:h-20">
@@ -29,20 +29,20 @@ const Header = () => {
             <img 
               src={logo} 
               alt="DIPL - Digital Integrator Pvt. Ltd." 
-              className="h-10 sm:h-12 w-auto group-hover:scale-105 transition-transform"
+              className="h-10 sm:h-12 w-auto group-hover:opacity-90 transition-opacity"
             />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 to={link.href}
-                className={`font-medium transition-colors ${
+                className={`font-medium transition-colors text-sm uppercase tracking-wide ${
                   isActive(link.href)
-                    ? "text-precision-orange"
-                    : "text-white/80 hover:text-precision-orange"
+                    ? "text-brass-gold"
+                    : "text-white/80 hover:text-brass-gold"
                 }`}
               >
                 {link.label}
@@ -50,7 +50,7 @@ const Header = () => {
             ))}
             <Link
               to="/contact"
-              className="btn-accent text-sm !py-2 !px-4 rounded-sm"
+              className="btn-accent text-sm !py-2.5 !px-5"
             >
               Get Quote
             </Link>
@@ -69,16 +69,16 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-teal-green border-t border-white/10">
+        <div className="md:hidden bg-defence-green border-t border-white/10">
           <nav className="container-width section-padding !py-4 flex flex-col gap-2">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 to={link.href}
-                className={`font-medium py-2 ${
+                className={`font-medium py-3 uppercase tracking-wide text-sm ${
                   isActive(link.href)
-                    ? "text-precision-orange"
-                    : "text-white/80 hover:text-precision-orange"
+                    ? "text-brass-gold"
+                    : "text-white/80 hover:text-brass-gold"
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -87,7 +87,7 @@ const Header = () => {
             ))}
             <Link
               to="/contact"
-              className="btn-accent text-center mt-2 rounded-sm"
+              className="btn-accent text-center mt-4"
               onClick={() => setIsMenuOpen(false)}
             >
               Get Quote

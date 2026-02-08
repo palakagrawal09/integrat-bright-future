@@ -90,24 +90,24 @@ const ProductsPage = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-secondary/30">
+        <section className="pt-32 pb-16 bg-sand-dark/50">
           <div className="container-width px-4">
             <div className="text-center max-w-3xl mx-auto">
-              <div className="inline-flex items-center gap-2 mb-4">
+              <div className="inline-flex items-center gap-3 mb-4">
                 <span className="section-divider" />
-                <span className="text-teal-green font-semibold text-sm uppercase tracking-wider">
+                <span className="text-brass-gold font-semibold text-sm uppercase tracking-widest">
                   Products & Services
                 </span>
                 <span className="section-divider" />
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-foreground mt-2 mb-6">
-                Defense & Industrial Solutions
+                Defence & Industrial Solutions
               </h1>
-              <p className="text-lg text-muted-foreground">
+              <p className="text-lg text-muted-foreground leading-relaxed">
                 From advanced fire control systems for the Indian Armed Forces to cutting-edge 
                 industrial automation - we deliver precision-engineered solutions.
               </p>
@@ -116,17 +116,17 @@ const ProductsPage = () => {
         </section>
 
         {/* Defense Products */}
-        <section className="section-padding bg-teal-green/5">
+        <section className="section-padding bg-defence-green/5">
           <div className="container-width">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-teal-green/10 border border-teal-green/20 rounded-sm px-4 py-2 mb-4">
-                <Shield className="w-4 h-4 text-teal-green" />
-                <span className="text-teal-green text-sm font-medium">Defense Electronics</span>
+              <div className="inline-flex items-center gap-2 bg-defence-green/10 border border-defence-green/20 px-4 py-2 mb-4">
+                <Shield className="w-4 h-4 text-defence-green" />
+                <span className="text-defence-green text-sm font-medium">Defence Electronics</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground">
-                Military & Defense Products
+                Military & Defence Products
               </h2>
-              <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
+              <p className="text-muted-foreground mt-3 max-w-2xl mx-auto leading-relaxed">
                 Trusted by the Indian Army for mission-critical fire control systems and training simulators.
               </p>
             </div>
@@ -135,13 +135,13 @@ const ProductsPage = () => {
               {defenseProducts.map((product) => (
                 <div
                   key={product.name}
-                  className="card-gov p-6 group transition-all duration-300"
+                  className="card-defence p-6 group transition-all duration-300"
                 >
                   <div className="flex items-start justify-between mb-4">
-                    <div className="w-12 h-12 rounded-sm bg-teal-green/10 flex items-center justify-center group-hover:bg-precision-orange/10 transition-colors">
-                      <product.icon className="w-6 h-6 text-teal-green group-hover:text-precision-orange transition-colors" />
+                    <div className="w-12 h-12 bg-defence-green/10 flex items-center justify-center group-hover:bg-brass-gold/15 transition-colors duration-300">
+                      <product.icon className="w-6 h-6 text-defence-green group-hover:text-brass-gold transition-colors duration-300" />
                     </div>
-                    <span className="text-xs bg-teal-green/10 text-teal-green px-2 py-1 rounded-sm">
+                    <span className="text-xs bg-defence-green/10 text-defence-green px-2 py-1">
                       {product.category}
                     </span>
                   </div>
@@ -161,14 +161,14 @@ const ProductsPage = () => {
         <section className="section-padding bg-background">
           <div className="container-width">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-precision-orange/10 border border-precision-orange/20 rounded-sm px-4 py-2 mb-4">
-                <Cpu className="w-4 h-4 text-precision-orange" />
-                <span className="text-precision-orange text-sm font-medium">Industrial Automation</span>
+              <div className="inline-flex items-center gap-2 bg-brass-gold/10 border border-brass-gold/20 px-4 py-2 mb-4">
+                <Cpu className="w-4 h-4 text-brass-gold" />
+                <span className="text-brass-gold text-sm font-medium">Industrial Automation</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground">
                 Industrial Automation & Controls
               </h2>
-              <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
+              <p className="text-muted-foreground mt-3 max-w-2xl mx-auto leading-relaxed">
                 Complete solutions for industrial automation serving research institutes and manufacturing plants.
               </p>
             </div>
@@ -177,10 +177,10 @@ const ProductsPage = () => {
               {industrialProducts.map((product) => (
                 <div
                   key={product.name}
-                  className="card-gov p-5 group hover:-translate-y-1 transition-all duration-300"
+                  className="card-defence p-5 group"
                 >
-                  <div className="w-11 h-11 rounded-sm bg-precision-orange/10 flex items-center justify-center mb-4 group-hover:bg-teal-green/10 transition-colors">
-                    <product.icon className="w-5 h-5 text-precision-orange group-hover:text-teal-green transition-colors" />
+                  <div className="w-11 h-11 bg-brass-gold/10 flex items-center justify-center mb-4 group-hover:bg-defence-green/10 transition-colors duration-300">
+                    <product.icon className="w-5 h-5 text-brass-gold group-hover:text-defence-green transition-colors duration-300" />
                   </div>
                   <h3 className="text-base font-display font-semibold text-foreground mb-2">
                     {product.name}
@@ -197,15 +197,15 @@ const ProductsPage = () => {
         {/* CTA Section */}
         <section className="section-padding">
           <div className="container-width">
-            <div className="rounded-sm p-8 sm:p-12 text-center bg-navy-blue">
+            <div className="p-8 sm:p-12 text-center bg-defence-green">
               <h3 className="text-2xl sm:text-3xl font-display font-bold text-white mb-4">
                 Need a Custom Solution?
               </h3>
-              <p className="text-white/80 mb-6 max-w-xl mx-auto">
+              <p className="text-white/80 mb-6 max-w-xl mx-auto leading-relaxed">
                 Our engineering team can design and manufacture bespoke automation and control systems 
                 tailored to your specific requirements.
               </p>
-              <Link to="/contact" className="btn-accent inline-flex items-center gap-2 rounded-sm">
+              <Link to="/contact" className="btn-accent inline-flex items-center gap-2">
                 Request a Quote
               </Link>
             </div>

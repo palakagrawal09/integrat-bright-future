@@ -38,16 +38,16 @@ const ContactPage = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-secondary/30">
+        <section className="pt-32 pb-16 bg-sand-dark/50">
           <div className="container-width px-4">
             <div className="text-center max-w-3xl mx-auto">
-              <div className="inline-flex items-center gap-2 mb-4">
+              <div className="inline-flex items-center gap-3 mb-4">
                 <span className="section-divider" />
-                <span className="text-teal-green font-semibold text-sm uppercase tracking-wider">
+                <span className="text-brass-gold font-semibold text-sm uppercase tracking-widest">
                   Contact Us
                 </span>
                 <span className="section-divider" />
@@ -55,8 +55,8 @@ const ContactPage = () => {
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-foreground mt-2 mb-6">
                 Get in Touch
               </h1>
-              <p className="text-lg text-muted-foreground">
-                Ready to discuss your automation or defense electronics requirements? 
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Ready to discuss your automation or defence electronics requirements? 
                 Our team is here to help you find the perfect solution.
               </p>
             </div>
@@ -70,16 +70,16 @@ const ContactPage = () => {
               {contactDetails.map((item) => (
                 <div
                   key={item.title}
-                  className="card-gov p-6 group"
+                  className="card-defence p-6 group"
                 >
-                  <div className="w-12 h-12 rounded-sm bg-teal-green/10 flex items-center justify-center mb-4 group-hover:bg-precision-orange/10 transition-colors">
-                    <item.icon className="w-6 h-6 text-teal-green group-hover:text-precision-orange transition-colors" />
+                  <div className="w-12 h-12 bg-defence-green/10 flex items-center justify-center mb-4 group-hover:bg-brass-gold/15 transition-colors duration-300">
+                    <item.icon className="w-6 h-6 text-defence-green group-hover:text-brass-gold transition-colors duration-300" />
                   </div>
                   <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
                   {item.href ? (
                     <a
                       href={item.href}
-                      className="text-teal-green hover:text-precision-orange transition-colors block"
+                      className="text-defence-green hover:text-brass-gold transition-colors block"
                     >
                       {item.content}
                     </a>
@@ -97,10 +97,10 @@ const ContactPage = () => {
             <div className="grid lg:grid-cols-2 gap-8">
               <div className="space-y-6">
                 {/* Registered Office */}
-                <div className="card-gov p-6">
+                <div className="card-defence p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-sm bg-teal-green/10 flex items-center justify-center">
-                      <Building2 className="w-5 h-5 text-teal-green" />
+                    <div className="w-10 h-10 bg-defence-green/10 flex items-center justify-center">
+                      <Building2 className="w-5 h-5 text-defence-green" />
                     </div>
                     <h3 className="font-semibold text-foreground">Registered Office</h3>
                   </div>
@@ -112,10 +112,10 @@ const ContactPage = () => {
                 </div>
 
                 {/* Corporate Office */}
-                <div className="card-gov p-6">
+                <div className="card-defence p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-sm bg-precision-orange/10 flex items-center justify-center">
-                      <MapPin className="w-5 h-5 text-precision-orange" />
+                    <div className="w-10 h-10 bg-brass-gold/15 flex items-center justify-center">
+                      <MapPin className="w-5 h-5 text-brass-gold" />
                     </div>
                     <h3 className="font-semibold text-foreground">Corporate Office</h3>
                   </div>
@@ -127,16 +127,16 @@ const ContactPage = () => {
                 </div>
 
                 {/* Company Info */}
-                <div className="card-gov p-6">
+                <div className="card-defence p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-sm bg-secondary flex items-center justify-center">
+                    <div className="w-10 h-10 bg-secondary flex items-center justify-center">
                       <FileText className="w-5 h-5 text-foreground" />
                     </div>
                     <h3 className="font-semibold text-foreground">Statutory Information</h3>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     {companyInfo.map((info) => (
-                      <div key={info.label} className="bg-secondary/50 p-2 rounded-sm">
+                      <div key={info.label} className="bg-sand-dark/50 p-2">
                         <p className="text-xs text-muted-foreground uppercase tracking-wider">{info.label}</p>
                         <p className="text-sm font-medium text-foreground mt-1">{info.value}</p>
                       </div>
@@ -146,7 +146,7 @@ const ContactPage = () => {
               </div>
 
               {/* Map */}
-              <div className="card-gov overflow-hidden h-full min-h-[400px]">
+              <div className="card-defence overflow-hidden h-full min-h-[400px]">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.5376485799384!2d75.8559!3d22.7300!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fd0b0a0a0a0a%3A0x0!2sElectronic%20Complex%2C%20Pardeshipura%2C%20Indore%2C%20Madhya%20Pradesh%20452001!5e0!3m2!1sen!2sin!4v1234567890"
                   width="100%"
@@ -164,18 +164,18 @@ const ContactPage = () => {
         </section>
 
         {/* CTA */}
-        <section className="section-padding bg-secondary/30">
+        <section className="section-padding bg-sand-dark/30">
           <div className="container-width">
-            <div className="rounded-sm p-8 sm:p-12 text-center bg-navy-blue">
+            <div className="p-8 sm:p-12 text-center bg-defence-green">
               <h3 className="text-2xl sm:text-3xl font-display font-bold text-white mb-4">
                 Ready to Start Your Project?
               </h3>
-              <p className="text-white/80 mb-6 max-w-xl mx-auto">
+              <p className="text-white/80 mb-6 max-w-xl mx-auto leading-relaxed">
                 Email us your requirements and our team will get back to you within 24 hours.
               </p>
               <a
                 href="mailto:diplsales@diplindia.com"
-                className="btn-accent inline-flex items-center gap-2 rounded-sm"
+                className="btn-accent inline-flex items-center gap-2"
               >
                 <Mail className="w-5 h-5" />
                 Send Us an Email
