@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Linkedin } from "lucide-react";
+import { Phone, Mail, MapPin, Linkedin, Shield, Award, FileCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 
@@ -12,59 +12,74 @@ const Footer = () => {
     { href: "/contact", label: "Contact" },
   ];
 
-  const products = [
+  const capabilities = [
     "Fire Control Systems",
     "Training Simulators",
     "Data Acquisition",
     "Industrial Automation",
   ];
 
+  const certifications = [
+    { icon: Shield, label: "ISO 9001:2015" },
+    { icon: Award, label: "Defence Grade" },
+    { icon: FileCheck, label: "GeM Registered" },
+  ];
+
   return (
-    <footer className="bg-teal-green text-white">
-      {/* Orange accent line at top */}
-      <div className="h-1 bg-precision-orange" />
+    <footer className="bg-defence-green-dark text-white">
+      {/* Gold accent line at top */}
+      <div className="h-1 bg-brass-gold" />
       
-      <div className="container-width section-padding !py-12">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="container-width section-padding !py-16">
+        {/* Certifications Strip */}
+        <div className="flex flex-wrap justify-center gap-8 mb-12 pb-12 border-b border-white/10">
+          {certifications.map((cert) => (
+            <div key={cert.label} className="flex items-center gap-2 text-white/70">
+              <cert.icon className="w-5 h-5 text-brass-gold" />
+              <span className="text-sm font-medium">{cert.label}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link to="/" className="mb-4 inline-block">
+            <Link to="/" className="mb-6 inline-block">
               <img 
                 src={logo} 
                 alt="DIPL - Digital Integrator Pvt. Ltd." 
-                className="h-12 w-auto brightness-0 invert"
+                className="h-12 w-auto brightness-0 invert opacity-90"
               />
             </Link>
-            <p className="text-white/70 text-sm mb-4">
-              Complete solutions for Industrial Automation & Defense Electronics since 1997.
+            <p className="text-white/60 text-sm leading-relaxed mb-6">
+              Complete solutions for Industrial Automation & Defence Electronics since 1997. 
+              Trusted partner of the Indian Armed Forces.
             </p>
             
-            {/* Social Links */}
-            <div className="flex items-center gap-3 mt-4">
-              <a 
-                href="https://www.linkedin.com/company/digital-integrator-pvt-ltd" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 bg-white/10 hover:bg-precision-orange px-3 py-2 rounded-sm transition-colors text-sm"
-              >
-                <Linkedin className="w-4 h-4" />
-                <span>LinkedIn</span>
-              </a>
-            </div>
+            {/* LinkedIn */}
+            <a 
+              href="https://www.linkedin.com/company/digital-integrator-pvt-ltd" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-white/10 hover:bg-brass-gold hover:text-foreground px-4 py-2.5 transition-all text-sm font-medium"
+            >
+              <Linkedin className="w-4 h-4" />
+              <span>Follow on LinkedIn</span>
+            </a>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold mb-4 flex items-center gap-2">
-              <span className="w-8 h-0.5 bg-precision-orange" />
+            <h4 className="font-semibold mb-5 flex items-center gap-3 text-white">
+              <span className="w-8 h-0.5 bg-brass-gold" />
               Quick Links
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     to={link.href}
-                    className="text-white/70 hover:text-precision-orange text-sm transition-colors"
+                    className="text-white/60 hover:text-brass-gold text-sm transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -73,17 +88,17 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Products */}
+          {/* Capabilities */}
           <div>
-            <h4 className="font-semibold mb-4 flex items-center gap-2">
-              <span className="w-8 h-0.5 bg-precision-orange" />
-              Products
+            <h4 className="font-semibold mb-5 flex items-center gap-3 text-white">
+              <span className="w-8 h-0.5 bg-brass-gold" />
+              Capabilities
             </h4>
-            <ul className="space-y-2">
-              {products.map((product) => (
-                <li key={product}>
-                  <span className="text-white/70 text-sm">
-                    {product}
+            <ul className="space-y-3">
+              {capabilities.map((item) => (
+                <li key={item}>
+                  <span className="text-white/60 text-sm">
+                    {item}
                   </span>
                 </li>
               ))}
@@ -92,30 +107,30 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 className="font-semibold mb-4 flex items-center gap-2">
-              <span className="w-8 h-0.5 bg-precision-orange" />
+            <h4 className="font-semibold mb-5 flex items-center gap-3 text-white">
+              <span className="w-8 h-0.5 bg-brass-gold" />
               Contact
             </h4>
-            <address className="not-italic space-y-3 text-sm text-white/70">
-              <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 mt-0.5 text-precision-orange flex-shrink-0" />
+            <address className="not-italic space-y-4 text-sm text-white/60">
+              <div className="flex items-start gap-3">
+                <MapPin className="w-4 h-4 mt-0.5 text-brass-gold flex-shrink-0" />
                 <div>
                   <p>46-A, Electronic Complex</p>
                   <p>Pardeshipura, Indore</p>
                   <p>Madhya Pradesh - 452001</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-precision-orange" />
-                <a href="tel:08044566679" className="hover:text-precision-orange transition-colors">
+              <div className="flex items-center gap-3">
+                <Phone className="w-4 h-4 text-brass-gold" />
+                <a href="tel:08044566679" className="hover:text-brass-gold transition-colors">
                   08044566679 (Ext: 9370)
                 </a>
               </div>
-              <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-precision-orange" />
+              <div className="flex items-center gap-3">
+                <Mail className="w-4 h-4 text-brass-gold" />
                 <a
                   href="mailto:diplsales@diplindia.com"
-                  className="hover:text-precision-orange transition-colors"
+                  className="hover:text-brass-gold transition-colors"
                 >
                   diplsales@diplindia.com
                 </a>
@@ -125,12 +140,13 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-white/50 text-sm">
+        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col lg:flex-row justify-between items-center gap-4">
+          <p className="text-white/40 text-sm">
             © {currentYear} Digital Integrator Pvt. Ltd. All rights reserved.
           </p>
-          <div className="flex flex-wrap gap-4 text-white/50 text-xs">
+          <div className="flex flex-wrap justify-center gap-6 text-white/40 text-xs">
             <span>CIN: U31909MP1997PTC012011</span>
+            <span className="hidden sm:inline">•</span>
             <span>GST: 23AAACD9928P1Z5</span>
           </div>
         </div>

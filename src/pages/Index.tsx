@@ -1,18 +1,20 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import Credibility from "@/components/Credibility";
 import About from "@/components/About";
-import Services from "@/components/Services";
+import Capabilities from "@/components/Capabilities";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Header />
       <main>
         <Hero />
+        <Credibility />
         <About />
-        <Services />
+        <Capabilities />
         <Contact />
       </main>
       <Footer />

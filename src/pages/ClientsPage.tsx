@@ -10,9 +10,9 @@ const ClientsPage = () => {
   const clients = [
     {
       name: "Indian Army",
-      description: "Trusted partner for defense electronics, fire control systems, and military training simulators.",
+      description: "Trusted partner for defence electronics, fire control systems, and military training simulators.",
       icon: Shield,
-      category: "Defense",
+      category: "Defence",
       highlight: true,
     },
     {
@@ -61,7 +61,7 @@ const ClientsPage = () => {
   ];
 
   const sectors = [
-    { name: "Defense", count: 2, icon: Shield },
+    { name: "Defence", count: 2, icon: Shield },
     { name: "Education", count: 3, icon: GraduationCap },
     { name: "Manufacturing", count: 2, icon: Factory },
     { name: "Research", count: 1, icon: FlaskConical },
@@ -70,7 +70,7 @@ const ClientsPage = () => {
   const testimonials = [
     {
       text: "DIPL has been instrumental in providing reliable fire control systems for our operations. Their commitment to quality and precision is exceptional.",
-      source: "Defense Sector Client",
+      source: "Defence Sector Client",
     },
     {
       text: "The data acquisition systems from Digital Integrator have significantly improved our research capabilities. Excellent technical support.",
@@ -79,16 +79,16 @@ const ClientsPage = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-secondary/30">
+        <section className="pt-32 pb-16 bg-sand-dark/50">
           <div className="container-width px-4">
             <div className="text-center max-w-3xl mx-auto">
-              <div className="inline-flex items-center gap-2 mb-4">
+              <div className="inline-flex items-center gap-3 mb-4">
                 <span className="section-divider" />
-                <span className="text-teal-green font-semibold text-sm uppercase tracking-wider">
+                <span className="text-brass-gold font-semibold text-sm uppercase tracking-widest">
                   Our Clients
                 </span>
                 <span className="section-divider" />
@@ -96,8 +96,8 @@ const ClientsPage = () => {
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-foreground mt-2 mb-6">
                 Trusted by Industry Leaders
               </h1>
-              <p className="text-lg text-muted-foreground">
-                For over 27 years, we've built lasting partnerships with defense organizations, 
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                For over 27 years, we've built lasting partnerships with defence organizations, 
                 government bodies, educational institutions, and manufacturing giants across India.
               </p>
             </div>
@@ -109,9 +109,9 @@ const ClientsPage = () => {
           <div className="container-width">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {sectors.map((sector) => (
-                <div key={sector.name} className="card-gov p-5 text-center group">
-                  <div className="w-12 h-12 mx-auto mb-3 rounded-sm bg-teal-green/10 flex items-center justify-center group-hover:bg-precision-orange/10 transition-colors">
-                    <sector.icon className="w-6 h-6 text-teal-green group-hover:text-precision-orange transition-colors" />
+                <div key={sector.name} className="card-defence p-5 text-center group">
+                  <div className="w-12 h-12 mx-auto mb-3 bg-defence-green/10 flex items-center justify-center group-hover:bg-brass-gold/15 transition-colors duration-300">
+                    <sector.icon className="w-6 h-6 text-defence-green group-hover:text-brass-gold transition-colors duration-300" />
                   </div>
                   <h3 className="font-semibold text-foreground">{sector.name}</h3>
                   <p className="text-muted-foreground text-sm">{sector.count}+ clients</p>
@@ -122,13 +122,13 @@ const ClientsPage = () => {
         </section>
 
         {/* Clients Grid */}
-        <section className="section-padding bg-secondary/30">
+        <section className="section-padding bg-sand-dark/30">
           <div className="container-width">
             <div className="text-center mb-12">
               <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground flex items-center justify-center gap-3">
-                <span className="w-8 h-0.5 bg-precision-orange" />
+                <span className="w-8 h-0.5 bg-brass-gold" />
                 Our Valued Clientele
-                <span className="w-8 h-0.5 bg-precision-orange" />
+                <span className="w-8 h-0.5 bg-brass-gold" />
               </h2>
             </div>
 
@@ -136,24 +136,22 @@ const ClientsPage = () => {
               {clients.map((client) => (
                 <div
                   key={client.name}
-                  className={`card-gov p-6 group transition-all duration-300 ${
+                  className={`card-defence p-6 group transition-all duration-300 ${
                     client.highlight 
-                      ? "border-teal-green/30 bg-teal-green/5" 
+                      ? "border-defence-green/30 bg-defence-green/5" 
                       : ""
                   }`}
                 >
                   <div className="flex items-start justify-between mb-4">
-                    <div className={`w-12 h-12 rounded-sm flex items-center justify-center transition-colors ${
+                    <div className={`w-12 h-12 flex items-center justify-center transition-colors duration-300 ${
                       client.highlight 
-                        ? "bg-teal-green/20 group-hover:bg-precision-orange/20" 
-                        : "bg-teal-green/10 group-hover:bg-precision-orange/10"
+                        ? "bg-defence-green/20 group-hover:bg-brass-gold/20" 
+                        : "bg-defence-green/10 group-hover:bg-brass-gold/15"
                     }`}>
-                      <client.icon className={`w-6 h-6 transition-colors ${
-                        client.highlight ? "text-teal-green group-hover:text-precision-orange" : "text-teal-green group-hover:text-precision-orange"
-                      }`} />
+                      <client.icon className="w-6 h-6 text-defence-green group-hover:text-brass-gold transition-colors duration-300" />
                     </div>
                     {client.highlight && (
-                      <span className="text-xs bg-teal-green text-white px-2 py-1 rounded-sm">
+                      <span className="text-xs bg-defence-green text-white px-2 py-1">
                         Key Client
                       </span>
                     )}
@@ -178,9 +176,9 @@ const ClientsPage = () => {
           <div className="container-width">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <div className="inline-flex items-center gap-2 mb-3">
+                <div className="inline-flex items-center gap-3 mb-4">
                   <span className="section-divider" />
-                  <span className="text-teal-green font-semibold text-sm uppercase tracking-wider">
+                  <span className="text-brass-gold font-semibold text-sm uppercase tracking-widest">
                     Why Choose Us
                   </span>
                 </div>
@@ -189,7 +187,7 @@ const ClientsPage = () => {
                 </h2>
                 <ul className="space-y-4">
                   {[
-                    "27+ years of proven expertise in defense and industrial electronics",
+                    "27+ years of proven expertise in defence and industrial electronics",
                     "ISO certified quality management systems",
                     "Dedicated R&D team for custom solutions",
                     "Pan-India service and support network",
@@ -197,7 +195,7 @@ const ClientsPage = () => {
                     "Continuous innovation and technology upgrades",
                   ].map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-teal-green flex-shrink-0 mt-0.5" />
+                      <CheckCircle className="w-5 h-5 text-defence-green flex-shrink-0 mt-0.5" />
                       <span className="text-muted-foreground">{item}</span>
                     </li>
                   ))}
@@ -206,9 +204,9 @@ const ClientsPage = () => {
 
               <div className="space-y-6">
                 {testimonials.map((testimonial, index) => (
-                  <div key={index} className="card-gov p-6">
-                    <Award className="w-8 h-8 text-precision-orange mb-4" />
-                    <p className="text-foreground italic mb-4">"{testimonial.text}"</p>
+                  <div key={index} className="card-defence p-6">
+                    <Award className="w-8 h-8 text-brass-gold mb-4" />
+                    <p className="text-foreground italic mb-4 leading-relaxed">"{testimonial.text}"</p>
                     <p className="text-muted-foreground text-sm">— {testimonial.source}</p>
                   </div>
                 ))}
@@ -220,15 +218,15 @@ const ClientsPage = () => {
         {/* CTA */}
         <section className="section-padding">
           <div className="container-width">
-            <div className="rounded-sm p-8 sm:p-12 text-center bg-navy-blue">
+            <div className="p-8 sm:p-12 text-center bg-defence-green">
               <h3 className="text-2xl sm:text-3xl font-display font-bold text-white mb-4">
                 Join Our Growing Client Base
               </h3>
-              <p className="text-white/80 mb-6 max-w-xl mx-auto">
+              <p className="text-white/80 mb-6 max-w-xl mx-auto leading-relaxed">
                 Discover how our solutions can transform your operations. 
                 Let's discuss your requirements.
               </p>
-              <Link to="/contact" className="btn-accent inline-flex items-center gap-2 rounded-sm">
+              <Link to="/contact" className="btn-accent inline-flex items-center gap-2">
                 Get in Touch
               </Link>
             </div>

@@ -49,16 +49,16 @@ const AboutPage = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-secondary/30">
+        <section className="pt-32 pb-16 bg-sand-dark/50">
           <div className="container-width px-4">
             <div className="text-center max-w-3xl mx-auto">
-              <div className="inline-flex items-center gap-2 mb-4">
+              <div className="inline-flex items-center gap-3 mb-4">
                 <span className="section-divider" />
-                <span className="text-teal-green font-semibold text-sm uppercase tracking-wider">
+                <span className="text-brass-gold font-semibold text-sm uppercase tracking-widest">
                   About Us
                 </span>
                 <span className="section-divider" />
@@ -66,7 +66,7 @@ const AboutPage = () => {
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-foreground mt-2 mb-6">
                 27+ Years of Innovation
               </h1>
-              <p className="text-lg text-muted-foreground">
+              <p className="text-lg text-muted-foreground leading-relaxed">
                 DIPL is providing complete solutions for Industrial Automation & Controls on various stages. 
                 Our products and services have been used by numerous Industries and Research Institutes across India.
               </p>
@@ -81,10 +81,10 @@ const AboutPage = () => {
               {companyStats.map((stat) => (
                 <div
                   key={stat.label}
-                  className="card-gov p-6 text-center group"
+                  className="card-defence p-6 text-center group"
                 >
-                  <div className="w-12 h-12 mx-auto mb-4 rounded-sm bg-teal-green/10 flex items-center justify-center group-hover:bg-precision-orange/10 transition-colors">
-                    <stat.icon className="w-6 h-6 text-teal-green group-hover:text-precision-orange transition-colors" />
+                  <div className="w-12 h-12 mx-auto mb-4 bg-defence-green/10 flex items-center justify-center group-hover:bg-brass-gold/15 transition-colors duration-300">
+                    <stat.icon className="w-6 h-6 text-defence-green group-hover:text-brass-gold transition-colors duration-300" />
                   </div>
                   <div className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-1">
                     {stat.value}
@@ -97,12 +97,12 @@ const AboutPage = () => {
         </section>
 
         {/* Company Description */}
-        <section className="section-padding bg-secondary/30">
+        <section className="section-padding bg-sand-dark/30">
           <div className="container-width">
             <div className="grid lg:grid-cols-2 gap-12 items-start">
               <div className="space-y-6">
                 <h2 className="text-3xl font-display font-bold text-foreground flex items-center gap-3">
-                  <span className="w-8 h-0.5 bg-precision-orange" />
+                  <span className="w-8 h-0.5 bg-brass-gold" />
                   Company Overview
                 </h2>
                 <p className="text-muted-foreground leading-relaxed">
@@ -112,12 +112,12 @@ const AboutPage = () => {
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
                   As per the NIC code 3190, the company is involved in the Manufacture of other 
-                  electrical equipment n.e.c., with a special focus on defense electronics and 
+                  electrical equipment n.e.c., with a special focus on defence electronics and 
                   industrial automation systems.
                 </p>
                 <div className="grid grid-cols-2 gap-4 pt-4">
                   {companyInfo.map((info) => (
-                    <div key={info.label} className="space-y-1 bg-background p-3 rounded-sm border border-border">
+                    <div key={info.label} className="space-y-1 bg-card p-3 border border-gunmetal/15">
                       <p className="text-xs text-muted-foreground uppercase tracking-wider">{info.label}</p>
                       <p className="text-sm font-medium text-foreground">{info.value}</p>
                     </div>
@@ -127,14 +127,14 @@ const AboutPage = () => {
               
               <div className="space-y-6">
                 <h3 className="text-xl font-display font-semibold text-foreground flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-teal-green" />
+                  <Shield className="w-5 h-5 text-defence-green" />
                   Our Expertise
                 </h3>
                 <ul className="space-y-3">
                   {expertise.map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <span className="w-6 h-6 rounded-sm bg-teal-green/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span className="text-xs font-semibold text-teal-green">{index + 1}</span>
+                      <span className="w-6 h-6 bg-defence-green/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-xs font-semibold text-defence-green">{index + 1}</span>
                       </span>
                       <span className="text-muted-foreground text-sm">{item}</span>
                     </li>
@@ -149,9 +149,9 @@ const AboutPage = () => {
         <section className="section-padding bg-background">
           <div className="container-width">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 mb-3">
+              <div className="inline-flex items-center gap-3 mb-4">
                 <span className="section-divider" />
-                <span className="text-teal-green font-semibold text-sm uppercase tracking-wider">
+                <span className="text-brass-gold font-semibold text-sm uppercase tracking-widest">
                   Leadership
                 </span>
                 <span className="section-divider" />
@@ -164,18 +164,18 @@ const AboutPage = () => {
               {directors.map((director) => (
                 <div
                   key={director.din}
-                  className="card-gov p-6 text-center"
+                  className="card-defence p-6 text-center"
                 >
-                  <div className="w-20 h-20 mx-auto mb-4 rounded-sm bg-teal-green/10 flex items-center justify-center">
-                    <span className="text-2xl font-display font-bold text-teal-green">
+                  <div className="w-20 h-20 mx-auto mb-4 bg-defence-green/10 flex items-center justify-center">
+                    <span className="text-2xl font-display font-bold text-defence-green">
                       {director.initials}
                     </span>
                   </div>
                   <h3 className="text-lg font-display font-semibold text-foreground">
                     {director.name}
                   </h3>
-                  <p className="text-precision-orange font-medium text-sm mt-1">{director.designation}</p>
-                  <div className="mt-4 pt-4 border-t border-border space-y-1">
+                  <p className="text-brass-gold font-medium text-sm mt-1">{director.designation}</p>
+                  <div className="mt-4 pt-4 border-t border-gunmetal/15 space-y-1">
                     <p className="text-xs text-muted-foreground">
                       DIN: <span className="text-foreground">{director.din}</span>
                     </p>
@@ -190,12 +190,12 @@ const AboutPage = () => {
         </section>
 
         {/* Team Section */}
-        <section className="section-padding bg-secondary/30">
+        <section className="section-padding bg-sand-dark/30">
           <div className="container-width">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 mb-3">
+              <div className="inline-flex items-center gap-3 mb-4">
                 <span className="section-divider" />
-                <span className="text-teal-green font-semibold text-sm uppercase tracking-wider">
+                <span className="text-brass-gold font-semibold text-sm uppercase tracking-widest">
                   Our Team
                 </span>
                 <span className="section-divider" />
@@ -203,18 +203,18 @@ const AboutPage = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-2">
                 The People Behind DIPL
               </h2>
-              <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-                Our dedicated team of engineers and professionals brings decades of combined experience in defense electronics and industrial automation.
+              <p className="text-muted-foreground mt-4 max-w-2xl mx-auto leading-relaxed">
+                Our dedicated team of engineers and professionals brings decades of combined experience in defence electronics and industrial automation.
               </p>
             </div>
             <div className="max-w-4xl mx-auto">
-              <div className="card-gov overflow-hidden">
+              <div className="card-defence overflow-hidden">
                 <img 
                   src={teamPhoto} 
                   alt="DIPL Team at Electronic Complex, Indore" 
                   className="w-full h-auto"
                 />
-                <div className="p-6 text-center bg-background">
+                <div className="p-6 text-center bg-card">
                   <p className="text-muted-foreground text-sm">
                     The DIPL team at our facility in Electronic Complex, Pardeshipura, Indore
                   </p>
@@ -229,16 +229,16 @@ const AboutPage = () => {
           <div className="container-width">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-display font-bold text-foreground flex items-center justify-center gap-3">
-                <span className="w-8 h-0.5 bg-precision-orange" />
+                <span className="w-8 h-0.5 bg-brass-gold" />
                 Our Locations
-                <span className="w-8 h-0.5 bg-precision-orange" />
+                <span className="w-8 h-0.5 bg-brass-gold" />
               </h2>
             </div>
             <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
-              <div className="card-gov p-6">
+              <div className="card-defence p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-sm bg-teal-green/10 flex items-center justify-center">
-                    <Building2 className="w-5 h-5 text-teal-green" />
+                  <div className="w-10 h-10 bg-defence-green/10 flex items-center justify-center">
+                    <Building2 className="w-5 h-5 text-defence-green" />
                   </div>
                   <h3 className="font-semibold text-foreground">Registered Office</h3>
                 </div>
@@ -248,10 +248,10 @@ const AboutPage = () => {
                   Madhya Pradesh - 452001, India
                 </address>
               </div>
-              <div className="card-gov p-6">
+              <div className="card-defence p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-sm bg-teal-green/10 flex items-center justify-center">
-                    <MapPin className="w-5 h-5 text-teal-green" />
+                  <div className="w-10 h-10 bg-brass-gold/15 flex items-center justify-center">
+                    <MapPin className="w-5 h-5 text-brass-gold" />
                   </div>
                   <h3 className="font-semibold text-foreground">Corporate Office</h3>
                 </div>

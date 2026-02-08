@@ -15,7 +15,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        display: ['IBM Plex Sans', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -61,14 +61,20 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        "precision-orange": "hsl(var(--precision-orange))",
-        "industrial-green": "hsl(var(--industrial-green))",
-        "teal-green": {
-          DEFAULT: "hsl(var(--teal-green))",
-          dark: "hsl(var(--teal-green-dark))",
+        // Defence Color Palette
+        "defence-green": {
+          DEFAULT: "hsl(var(--defence-green))",
+          dark: "hsl(var(--defence-green-dark))",
         },
-        steel: "hsl(var(--steel))",
-        success: "hsl(var(--success))",
+        "brass-gold": {
+          DEFAULT: "hsl(var(--brass-gold))",
+          light: "hsl(var(--brass-gold-light))",
+        },
+        "gunmetal": "hsl(var(--gunmetal))",
+        "sand": {
+          DEFAULT: "hsl(var(--sand))",
+          dark: "hsl(var(--sand-dark))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

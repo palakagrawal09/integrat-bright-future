@@ -1,0 +1,53 @@
+import { Shield, Users, Calendar, Award } from "lucide-react";
+
+const Credibility = () => {
+  const stats = [
+    {
+      icon: Shield,
+      value: "ISO 9001:2015",
+      label: "Certified Quality Management",
+    },
+    {
+      icon: Users,
+      value: "50+",
+      label: "Government & Defence Clients",
+    },
+    {
+      icon: Calendar,
+      value: "27+",
+      label: "Years of Excellence",
+    },
+    {
+      icon: Award,
+      value: "GeM",
+      label: "Registered Supplier",
+    },
+  ];
+
+  return (
+    <section className="trust-strip py-12">
+      <div className="container-width px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          {stats.map((stat) => (
+            <div
+              key={stat.label}
+              className="flex flex-col items-center text-center group"
+            >
+              <div className="w-12 h-12 bg-defence-green/10 flex items-center justify-center mb-4 group-hover:bg-brass-gold/15 transition-colors duration-300">
+                <stat.icon className="w-6 h-6 text-defence-green group-hover:text-brass-gold transition-colors duration-300" />
+              </div>
+              <span className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-1">
+                {stat.value}
+              </span>
+              <span className="text-sm text-muted-foreground leading-tight">
+                {stat.label}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Credibility;
