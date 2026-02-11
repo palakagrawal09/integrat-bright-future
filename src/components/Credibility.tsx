@@ -9,18 +9,18 @@ const Credibility = () => {
     },
     {
       icon: Users,
-      value: "50+",
-      label: "Government & Defence Clients",
+      value: "200+",
+      label: "Happy Clients",
     },
     {
       icon: Calendar,
-      value: "27+",
+      value: "30+",
       label: "Years of Excellence",
     },
     {
       icon: Award,
-      value: "GeM",
-      label: "Registered Supplier",
+      value: "CII MSME",
+      label: "Member & GeM Registered",
     },
   ];
 

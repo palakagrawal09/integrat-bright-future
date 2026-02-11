@@ -1,6 +1,6 @@
 import { Phone, Mail, MapPin, Linkedin, Shield, Award, FileCheck } from "lucide-react";
 import { Link } from "react-router-dom";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/dipl-logo.jpg";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();

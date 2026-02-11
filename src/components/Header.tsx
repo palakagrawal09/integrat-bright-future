@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/dipl-logo.jpg";
 
 interface NavItem {
   href?: string;
