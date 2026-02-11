@@ -4,30 +4,10 @@ import { MapPin, Mail, Phone, Building2, Clock, User, FileText } from "lucide-re
 
 const ContactPage = () => {
   const contactDetails = [
-    {
-      icon: Phone,
-      title: "Phone",
-      content: "08044566679",
-      subtext: "Ext: 9370",
-      href: "tel:08044566679",
-    },
-    {
-      icon: Mail,
-      title: "Email",
-      content: "diplsales@diplindia.com",
-      href: "mailto:diplsales@diplindia.com",
-    },
-    {
-      icon: User,
-      title: "Contact Person",
-      content: "Nilab",
-      subtext: "Assistant Accountant",
-    },
-    {
-      icon: Clock,
-      title: "Business Hours",
-      content: "Mon - Sat: 9:00 AM - 6:00 PM",
-    },
+    { icon: Phone, title: "Phone", content: "08044566679", subtext: "Ext: 9370", href: "tel:08044566679" },
+    { icon: Mail, title: "Email", content: "diplsales@diplindia.com", href: "mailto:diplsales@diplindia.com" },
+    { icon: User, title: "Contact Person", content: "Nilab", subtext: "Assistant Accountant" },
+    { icon: Clock, title: "Business Hours", content: "Mon - Sat: 9:00 AM - 6:00 PM" },
   ];
 
   const companyInfo = [
@@ -41,14 +21,14 @@ const ContactPage = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <main>
-        {/* Hero Section */}
+        {/* Hero */}
         <section className="pt-32 pb-16 bg-sand-dark/50">
           <div className="container-width px-4">
             <div className="text-center max-w-3xl mx-auto">
               <div className="inline-flex items-center gap-3 mb-4">
                 <span className="section-divider" />
                 <span className="text-brass-gold font-semibold text-sm uppercase tracking-widest">
-                  Contact Us
+                  Contact & Enquiries
                 </span>
                 <span className="section-divider" />
               </div>
@@ -63,32 +43,22 @@ const ContactPage = () => {
           </div>
         </section>
 
-        {/* Contact Info Grid */}
+        {/* Contact Info */}
         <section className="section-padding bg-background">
           <div className="container-width">
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
               {contactDetails.map((item) => (
-                <div
-                  key={item.title}
-                  className="card-defence p-6 group"
-                >
+                <div key={item.title} className="card-defence p-6 group">
                   <div className="w-12 h-12 bg-defence-green/10 flex items-center justify-center mb-4 group-hover:bg-brass-gold/15 transition-colors duration-300">
                     <item.icon className="w-6 h-6 text-defence-green group-hover:text-brass-gold transition-colors duration-300" />
                   </div>
                   <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
                   {item.href ? (
-                    <a
-                      href={item.href}
-                      className="text-defence-green hover:text-brass-gold transition-colors block"
-                    >
-                      {item.content}
-                    </a>
+                    <a href={item.href} className="text-defence-green hover:text-brass-gold transition-colors block">{item.content}</a>
                   ) : (
                     <p className="text-foreground">{item.content}</p>
                   )}
-                  {item.subtext && (
-                    <p className="text-muted-foreground text-sm mt-1">{item.subtext}</p>
-                  )}
+                  {item.subtext && <p className="text-muted-foreground text-sm mt-1">{item.subtext}</p>}
                 </div>
               ))}
             </div>
@@ -96,7 +66,6 @@ const ContactPage = () => {
             {/* Locations & Map */}
             <div className="grid lg:grid-cols-2 gap-8">
               <div className="space-y-6">
-                {/* Registered Office */}
                 <div className="card-defence p-6">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 bg-defence-green/10 flex items-center justify-center">
@@ -105,13 +74,9 @@ const ContactPage = () => {
                     <h3 className="font-semibold text-foreground">Registered Office</h3>
                   </div>
                   <address className="not-italic text-muted-foreground leading-relaxed">
-                    46-A, Electronic Complex<br />
-                    Pardeshipura, Indore<br />
-                    Madhya Pradesh - 452001, India
+                    46-A, Electronic Complex<br />Pardeshipura, Indore<br />Madhya Pradesh - 452001, India
                   </address>
                 </div>
-
-                {/* Corporate Office */}
                 <div className="card-defence p-6">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 bg-brass-gold/15 flex items-center justify-center">
@@ -120,13 +85,9 @@ const ContactPage = () => {
                     <h3 className="font-semibold text-foreground">Corporate Office</h3>
                   </div>
                   <address className="not-italic text-muted-foreground leading-relaxed">
-                    26, Legal Tower, IIIrd Floor<br />
-                    Behind M.G. Road, Gurudwara<br />
-                    Kothari Market Area, Indore - 452007
+                    26, Legal Tower, IIIrd Floor<br />Behind M.G. Road, Gurudwara<br />Kothari Market Area, Indore - 452007
                   </address>
                 </div>
-
-                {/* Company Info */}
                 <div className="card-defence p-6">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 bg-secondary flex items-center justify-center">
@@ -144,8 +105,6 @@ const ContactPage = () => {
                   </div>
                 </div>
               </div>
-
-              {/* Map */}
               <div className="card-defence overflow-hidden h-full min-h-[400px]">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.5376485799384!2d75.8559!3d22.7300!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fd0b0a0a0a0a%3A0x0!2sElectronic%20Complex%2C%20Pardeshipura%2C%20Indore%2C%20Madhya%20Pradesh%20452001!5e0!3m2!1sen!2sin!4v1234567890"
@@ -173,10 +132,7 @@ const ContactPage = () => {
               <p className="text-white/80 mb-6 max-w-xl mx-auto leading-relaxed">
                 Email us your requirements and our team will get back to you within 24 hours.
               </p>
-              <a
-                href="mailto:diplsales@diplindia.com"
-                className="btn-accent inline-flex items-center gap-2"
-              >
+              <a href="mailto:diplsales@diplindia.com" className="btn-accent inline-flex items-center gap-2">
                 <Mail className="w-5 h-5" />
                 Send Us an Email
               </a>

@@ -5,18 +5,19 @@ import logo from "@/assets/logo.png";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  const quickLinks = [
-    { href: "/about", label: "About Us" },
-    { href: "/products", label: "Products & Services" },
-    { href: "/clients", label: "Our Clients" },
-    { href: "/contact", label: "Contact" },
+  const companyLinks = [
+    { href: "/about", label: "Company Overview" },
+    { href: "/about#leadership", label: "Leadership" },
+    { href: "/about#certifications", label: "Certifications" },
+    { href: "/clients", label: "Clients & Partners" },
   ];
 
-  const capabilities = [
-    "Fire Control Systems",
-    "Training Simulators",
-    "Data Acquisition",
-    "Industrial Automation",
+  const productLinks = [
+    { href: "/defence-systems", label: "Defence Systems" },
+    { href: "/simulators", label: "Simulators & Training" },
+    { href: "/industrial-automation", label: "Industrial Automation" },
+    { href: "/services", label: "Services & Support" },
+    { href: "/gem-products", label: "Products on GeM" },
   ];
 
   const certifications = [
@@ -27,9 +28,8 @@ const Footer = () => {
 
   return (
     <footer className="bg-defence-green-dark text-white">
-      {/* Gold accent line at top */}
       <div className="h-1 bg-brass-gold" />
-      
+
       <div className="container-width section-padding !py-16">
         {/* Certifications Strip */}
         <div className="flex flex-wrap justify-center gap-8 mb-12 pb-12 border-b border-white/10">
@@ -43,23 +43,17 @@ const Footer = () => {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
-          <div className="lg:col-span-1">
+          <div>
             <Link to="/" className="mb-6 inline-block">
-              <img 
-                src={logo} 
-                alt="DIPL - Digital Integrator Pvt. Ltd." 
-                className="h-12 w-auto brightness-0 invert opacity-90"
-              />
+              <img src={logo} alt="DIPL" className="h-12 w-auto brightness-0 invert opacity-90" />
             </Link>
             <p className="text-white/60 text-sm leading-relaxed mb-6">
               Complete solutions for Industrial Automation & Defence Electronics since 1997. 
               Trusted partner of the Indian Armed Forces.
             </p>
-            
-            {/* LinkedIn */}
-            <a 
-              href="https://www.linkedin.com/company/digital-integrator-pvt-ltd" 
-              target="_blank" 
+            <a
+              href="https://www.linkedin.com/company/digital-integrator-pvt-ltd"
+              target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-white/10 hover:bg-brass-gold hover:text-foreground px-4 py-2.5 transition-all text-sm font-medium"
             >
@@ -68,19 +62,16 @@ const Footer = () => {
             </a>
           </div>
 
-          {/* Quick Links */}
+          {/* About DIPL */}
           <div>
             <h4 className="font-semibold mb-5 flex items-center gap-3 text-white">
               <span className="w-8 h-0.5 bg-brass-gold" />
-              Quick Links
+              About DIPL
             </h4>
             <ul className="space-y-3">
-              {quickLinks.map((link) => (
+              {companyLinks.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    to={link.href}
-                    className="text-white/60 hover:text-brass-gold text-sm transition-colors"
-                  >
+                  <Link to={link.href} className="text-white/60 hover:text-brass-gold text-sm transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -88,18 +79,18 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Capabilities */}
+          {/* Products & Services */}
           <div>
             <h4 className="font-semibold mb-5 flex items-center gap-3 text-white">
               <span className="w-8 h-0.5 bg-brass-gold" />
-              Capabilities
+              Products & Services
             </h4>
             <ul className="space-y-3">
-              {capabilities.map((item) => (
-                <li key={item}>
-                  <span className="text-white/60 text-sm">
-                    {item}
-                  </span>
+              {productLinks.map((link) => (
+                <li key={link.href}>
+                  <Link to={link.href} className="text-white/60 hover:text-brass-gold text-sm transition-colors">
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -122,28 +113,19 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-brass-gold" />
-                <a href="tel:08044566679" className="hover:text-brass-gold transition-colors">
-                  08044566679 (Ext: 9370)
-                </a>
+                <a href="tel:08044566679" className="hover:text-brass-gold transition-colors">08044566679 (Ext: 9370)</a>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-brass-gold" />
-                <a
-                  href="mailto:diplsales@diplindia.com"
-                  className="hover:text-brass-gold transition-colors"
-                >
-                  diplsales@diplindia.com
-                </a>
+                <a href="mailto:diplsales@diplindia.com" className="hover:text-brass-gold transition-colors">diplsales@diplindia.com</a>
               </div>
             </address>
           </div>
         </div>
 
-        {/* Bottom Bar */}
+        {/* Bottom */}
         <div className="mt-12 pt-8 border-t border-white/10 flex flex-col lg:flex-row justify-between items-center gap-4">
-          <p className="text-white/40 text-sm">
-            © {currentYear} Digital Integrator Pvt. Ltd. All rights reserved.
-          </p>
+          <p className="text-white/40 text-sm">© {currentYear} Digital Integrator Pvt. Ltd. All rights reserved.</p>
           <div className="flex flex-wrap justify-center gap-6 text-white/40 text-xs">
             <span>CIN: U31909MP1997PTC012011</span>
             <span className="hidden sm:inline">•</span>
