@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Fuel, Mountain, Train, FlaskConical, Cpu, Gauge, Thermometer, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
+import oilGasImg from "@/assets/oil-gas-automation.jpg";
 
 const IndustrialAutomationPage = () => {
   const sectors = [
@@ -9,24 +10,25 @@ const IndustrialAutomationPage = () => {
       id: "oil-gas",
       name: "Oil & Gas",
       icon: Fuel,
-      description: "Automation and control systems for upstream, midstream, and downstream oil & gas operations including pipeline monitoring, SCADA integration, and safety instrumentation.",
+      description: "Automation technology is proving to be a cost-saving investment for oil and gas industry. Automation is used to improve various processes from boiler diagnostics to actual drilling. Automated tech is also compatible with data analysis making the system work error free. Digital Integrator aspires to offer customized solutions for oil and gas industry.",
       capabilities: [
-        "Pipeline monitoring & leak detection",
-        "SCADA system integration",
-        "Safety instrumented systems (SIS)",
-        "Process data acquisition & logging",
+        "Boiler diagnostics automation",
+        "Drilling process automation",
+        "Data analysis compatible systems",
+        "Customized solutions for oil & gas",
       ],
+      image: oilGasImg,
     },
     {
       id: "mining",
       name: "Mining",
       icon: Mountain,
-      description: "Rugged automation solutions for mining operations — conveyor control systems, environmental monitoring, and equipment health tracking.",
+      description: "Automation in mining has a huge scope for increasing efficiency and efficacy; it assists human labour for better working and state of art safe and efficient working for quality end-to-end processes. We offer customized solutions and consultancy based on problem statements from prospects in the mining industry.",
       capabilities: [
-        "Conveyor control & monitoring",
-        "Environmental sensing systems",
-        "Equipment health monitoring",
-        "Production data logging",
+        "Teleoperated mining equipment systems",
+        "Robotic hardware & software for autonomous units",
+        "Vehicle telemetry and positioning systems",
+        "Safety automation for mine sites",
       ],
     },
     {
@@ -122,6 +124,9 @@ const IndustrialAutomationPage = () => {
                     {sector.name} Automation
                   </h2>
                   <p className="text-muted-foreground leading-relaxed">{sector.description}</p>
+                  {"image" in sector && sector.image && (
+                    <img src={sector.image as string} alt={sector.name} className="w-full h-auto mt-4 border border-gunmetal/15" />
+                  )}
                 </div>
                 <div className="space-y-3">
                   <h3 className="font-semibold text-foreground mb-4 flex items-center gap-3">

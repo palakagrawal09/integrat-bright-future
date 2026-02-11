@@ -25,7 +25,7 @@ const Hero = () => {
           <div className="inline-flex items-center gap-2 bg-brass-gold/20 border border-brass-gold/40 px-4 py-2 mb-8 animate-fade-in">
             <span className="w-2 h-2 bg-brass-gold rounded-full" />
             <span className="text-brass-gold text-sm font-semibold tracking-wide uppercase">
-              Est. 1997 • Defence & Industrial Partner
+              Est. 1990 • ISO 9001:2015 Certified
             </span>
           </div>
 
@@ -38,8 +38,8 @@ const Hero = () => {
 
           {/* Description - Concise */}
           <p className="text-lg sm:text-xl text-white/80 mb-10 max-w-2xl leading-relaxed animate-slide-up" style={{ animationDelay: "0.1s" }}>
-            Trusted manufacturing partner for defence electronics, training simulators, 
-            and industrial automation. Serving the Indian Armed Forces since 1997.
+            Organisation dedicated to product development. Complete solutions for Defence, 
+            Industrial Automation, Simulators & Training Systems since 1990.
           </p>
 
           {/* CTA Buttons - Clear Hierarchy */}

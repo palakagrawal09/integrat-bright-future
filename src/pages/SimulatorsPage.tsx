@@ -1,45 +1,11 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Radar, Target, Crosshair, Shield } from "lucide-react";
+import { Target, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
+import atgmMissile from "@/assets/atgm-missile.jpg";
+import atgmScope from "@/assets/atgm-simulator-scope.jpg";
 
 const SimulatorsPage = () => {
-  const simulators = [
-    {
-      name: "ATGM Simulator",
-      description: "Indoor Anti-Tank Guided Missile simulator for operator training and skill development. Provides realistic engagement scenarios with comprehensive performance tracking and scoring.",
-      icon: Target,
-      category: "Missile Training",
-    },
-    {
-      name: "81 Mm Mortar Firing Simulator Mk-II",
-      description: "Advanced mortar firing training simulator with realistic recoil simulation, ballistic computation training, and multi-scenario combat environments.",
-      icon: Radar,
-      category: "Artillery Training",
-    },
-    {
-      name: "81 Mm Mortar Firing Simulator Mk-I",
-      description: "First-generation mortar firing simulator providing effective crew training capabilities with field-accurate simulation parameters.",
-      icon: Radar,
-      category: "Artillery Training",
-    },
-    {
-      name: "Weapon Training Simulators",
-      description: "Comprehensive weapon handling and firing simulators for various infantry weapons. Cost-effective training with realistic weapon dynamics and scenario-based exercises.",
-      icon: Crosshair,
-      category: "Infantry Training",
-    },
-  ];
-
-  const features = [
-    "Realistic weapon dynamics and recoil simulation",
-    "Multi-scenario combat training environments",
-    "Performance tracking and scoring systems",
-    "Cost-effective alternative to live-fire training",
-    "Indoor operation — weather-independent training",
-    "Customizable scenarios for mission-specific preparation",
-  ];
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -59,36 +25,68 @@ const SimulatorsPage = () => {
                 Training Systems for Combat Readiness
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Advanced simulation platforms for ATGM, mortar, and weapon training — 
+                Advanced simulation platforms for ATGM and weapon training — 
                 enabling realistic, cost-effective combat preparation for the Indian Armed Forces.
               </p>
             </div>
           </div>
         </section>
 
-        {/* Simulators Grid */}
+        {/* ATGM Simulator */}
         <section className="section-padding bg-background">
           <div className="container-width">
-            <div className="grid sm:grid-cols-2 gap-6">
-              {simulators.map((sim) => (
-                <div key={sim.name} className="card-defence p-6 group">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="w-12 h-12 bg-defence-green/10 flex items-center justify-center group-hover:bg-brass-gold/15 transition-colors duration-300">
-                      <sim.icon className="w-6 h-6 text-defence-green group-hover:text-brass-gold transition-colors duration-300" />
-                    </div>
-                    <span className="text-xs bg-defence-green/10 text-defence-green px-2 py-1">
-                      {sim.category}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-display font-semibold text-foreground mb-3">{sim.name}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{sim.description}</p>
+            <div className="grid lg:grid-cols-2 gap-10 items-start">
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-2 bg-defence-green/10 border border-defence-green/20 px-4 py-2 mb-2">
+                  <Target className="w-4 h-4 text-defence-green" />
+                  <span className="text-defence-green text-sm font-medium">ATGM (SV21) Simulator</span>
                 </div>
-              ))}
+                <h2 className="text-3xl font-display font-bold text-foreground">
+                  ATGM Crew Training Simulator
+                </h2>
+                <p className="text-muted-foreground leading-relaxed">
+                  The ATGM (SV21) Simulator is an indigenously developed ATGM Crew Training Simulator system 
+                  designed 100% indigenously. The simulator system is designed specifically for the training 
+                  of missile launcher crew.
+                </p>
+                <p className="text-muted-foreground leading-relaxed text-sm">
+                  The system has a comprehensive database of 3D CGI scenarios that takes into account 
+                  realistic missile dynamics. It facilitates the introduction of technical faults on missiles 
+                  and has features that offer different targets.
+                </p>
+                <h4 className="font-semibold text-foreground text-sm pt-2">Key Capabilities</h4>
+                <ul className="space-y-2 text-muted-foreground text-sm">
+                  <li className="flex items-start gap-2">
+                    <Shield className="w-4 h-4 text-defence-green mt-0.5 flex-shrink-0" />
+                    Comprehensive 3D CGI scenario database with realistic missile dynamics
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Shield className="w-4 h-4 text-defence-green mt-0.5 flex-shrink-0" />
+                    Environmental effects: rain, fog, visibility, cloud cover, temperature, wind
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Shield className="w-4 h-4 text-defence-green mt-0.5 flex-shrink-0" />
+                    Technical fault simulation on missiles
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Shield className="w-4 h-4 text-defence-green mt-0.5 flex-shrink-0" />
+                    Realistic sounds and night training provisions
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Shield className="w-4 h-4 text-defence-green mt-0.5 flex-shrink-0" />
+                    Multiple target types and engagement scenarios
+                  </li>
+                </ul>
+              </div>
+              <div className="space-y-4">
+                <img src={atgmMissile} alt="ATGM Missile Launch" className="w-full h-auto border border-gunmetal/15" />
+                <img src={atgmScope} alt="ATGM Simulator Scope View" className="w-full h-auto border border-gunmetal/15" />
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Key Features */}
+        {/* Why Simulation */}
         <section className="section-padding bg-sand-dark/30">
           <div className="container-width">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -98,7 +96,14 @@ const SimulatorsPage = () => {
                   Why Simulation Training?
                 </h2>
                 <ul className="space-y-4">
-                  {features.map((feature, i) => (
+                  {[
+                    "100% indigenously developed system",
+                    "Cost-effective alternative to live-fire training",
+                    "Weather-independent indoor operation",
+                    "Comprehensive performance tracking and scoring",
+                    "Realistic weapon dynamics and recoil simulation",
+                    "Customizable scenarios for mission-specific preparation",
+                  ].map((feature, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <Shield className="w-5 h-5 text-defence-green flex-shrink-0 mt-0.5" />
                       <span className="text-muted-foreground">{feature}</span>
@@ -112,7 +117,8 @@ const SimulatorsPage = () => {
                 </div>
                 <h3 className="text-2xl font-display font-bold text-foreground mb-3">Custom Simulators</h3>
                 <p className="text-muted-foreground leading-relaxed mb-6">
-                  We design and build custom training simulators tailored to specific weapon systems and operational requirements.
+                  We design and build custom training simulators tailored to specific weapon systems 
+                  and operational requirements.
                 </p>
                 <Link to="/contact" className="btn-primary inline-flex items-center gap-2">
                   Discuss Requirements
