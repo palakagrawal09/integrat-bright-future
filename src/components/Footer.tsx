@@ -48,7 +48,7 @@ const Footer = () => {
               <img src={logo} alt="DIPL" className="h-12 w-auto brightness-0 invert opacity-90" />
             </Link>
             <p className="text-white/60 text-sm leading-relaxed mb-6">
-              Complete solutions for Industrial Automation & Defence Electronics since 1997. 
+              Complete solutions for Industrial Automation & Defence Electronics since 1990. 
               Trusted partner of the Indian Armed Forces.
             </p>
             <a
