@@ -1,5 +1,6 @@
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const Hero = () => {
@@ -21,46 +22,64 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-10 container-width section-padding w-full">
         <div className="max-w-3xl">
-          {/* Badge - Subtle */}
-          <div className="inline-flex items-center gap-2 bg-brass-gold/20 border border-brass-gold/40 px-4 py-2 mb-8 animate-fade-in">
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-2 bg-brass-gold/20 border border-brass-gold/40 px-4 py-2 mb-8"
+          >
             <span className="w-2 h-2 bg-brass-gold rounded-full" />
             <span className="text-brass-gold text-sm font-semibold tracking-wide uppercase">
               Est. 1990 • ISO 9001:2015 Certified
             </span>
-          </div>
+          </motion.div>
 
-          {/* Main Heading - Strong, Minimal */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-white leading-tight mb-6 animate-slide-up">
+          {/* Main Heading */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-white leading-tight mb-6"
+          >
             Engineering Defence-Grade
             <br />
             <span className="text-brass-gold">Systems for India</span>
-          </h1>
+          </motion.h1>
 
-          {/* Description - Concise */}
-          <p className="text-lg sm:text-xl text-white/80 mb-10 max-w-2xl leading-relaxed animate-slide-up" style={{ animationDelay: "0.1s" }}>
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="text-lg sm:text-xl text-white/80 mb-10 max-w-2xl leading-relaxed"
+          >
             Organisation dedicated to product development. Complete solutions for Defence, 
             Industrial Automation, Simulators & Training Systems since 1990.
-          </p>
+          </motion.p>
 
-          {/* CTA Buttons - Clear Hierarchy */}
-          <div className="flex flex-wrap gap-4 animate-slide-up" style={{ animationDelay: "0.2s" }}>
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="flex flex-wrap gap-4"
+          >
             <Link 
-              to="/products" 
+              to="/defence-systems" 
               className="btn-accent inline-flex items-center gap-2 group"
             >
               Explore Capabilities
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <a 
-              href="https://gem.gov.in" 
-              target="_blank" 
-              rel="noopener noreferrer"
+            <Link 
+              to="/enquiry"
               className="btn-outline text-white border-white/40 hover:border-brass-gold inline-flex items-center gap-2"
             >
-              Products on GeM
+              Get a Quote
               <ExternalLink className="w-4 h-4" />
-            </a>
-          </div>
+            </Link>
+          </motion.div>
         </div>
       </div>
 

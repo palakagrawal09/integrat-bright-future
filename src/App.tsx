@@ -13,6 +13,7 @@ import GemProductsPage from "./pages/GemProductsPage";
 import NewsMediaPage from "./pages/NewsMediaPage";
 import ClientsPage from "./pages/ClientsPage";
 import ContactPage from "./pages/ContactPage";
+import EnquiryPage from "./pages/EnquiryPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/news" element={<NewsMediaPage />} />
           <Route path="/clients" element={<ClientsPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/enquiry" element={<EnquiryPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

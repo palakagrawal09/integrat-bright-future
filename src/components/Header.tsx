@@ -140,7 +140,7 @@ const Header = () => {
               )
             )}
             <Link
-              to="/contact"
+              to="/enquiry"
               className="btn-accent text-xs !py-2 !px-4 ml-2"
             >
               Get Quote
@@ -211,7 +211,7 @@ const Header = () => {
               )
             )}
             <Link
-              to="/contact"
+              to="/enquiry"
               className="btn-accent text-center mt-4"
               onClick={() => setIsMenuOpen(false)}
             >
