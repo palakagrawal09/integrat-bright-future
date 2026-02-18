@@ -39,7 +39,8 @@ const SimulatorsPage = () => {
         <section className="section-padding bg-background">
           <div className="container-width">
             <ScrollReveal>
-              <div className="grid lg:grid-cols-2 gap-10 items-start">
+              <div className="grid lg:grid-cols-2 gap-12 items-start">
+                {/* Content */}
                 <div className="space-y-4">
                   <div className="inline-flex items-center gap-2 bg-defence-green/10 border border-defence-green/20 px-4 py-2 mb-2">
                     <Target className="w-4 h-4 text-defence-green" />
@@ -60,33 +61,27 @@ const SimulatorsPage = () => {
                   </p>
                   <h4 className="font-semibold text-foreground text-sm pt-2">Key Capabilities</h4>
                   <ul className="space-y-2 text-muted-foreground text-sm">
-                    <li className="flex items-start gap-2">
-                      <Shield className="w-4 h-4 text-defence-green mt-0.5 flex-shrink-0" />
-                      Comprehensive 3D CGI scenario database with realistic missile dynamics
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Shield className="w-4 h-4 text-defence-green mt-0.5 flex-shrink-0" />
-                      Environmental effects: rain, fog, visibility, cloud cover, temperature, wind
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Shield className="w-4 h-4 text-defence-green mt-0.5 flex-shrink-0" />
-                      Technical fault simulation on missiles
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Shield className="w-4 h-4 text-defence-green mt-0.5 flex-shrink-0" />
-                      Realistic sounds and night training provisions
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Shield className="w-4 h-4 text-defence-green mt-0.5 flex-shrink-0" />
-                      Multiple target types and engagement scenarios
-                    </li>
+                    {[
+                      "Comprehensive 3D CGI scenario database with realistic missile dynamics",
+                      "Environmental effects: rain, fog, visibility, cloud cover, temperature, wind",
+                      "Technical fault simulation on missiles",
+                      "Realistic sounds and night training provisions",
+                      "Multiple target types and engagement scenarios",
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <Shield className="w-4 h-4 text-defence-green mt-0.5 flex-shrink-0" />
+                        {item}
+                      </li>
+                    ))}
                   </ul>
                 </div>
-                <div className="space-y-4">
-                  <div className="aspect-[4/3] overflow-hidden border border-gunmetal/15">
+
+                {/* Images — stacked, uniform 4:3 */}
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="aspect-[4/3] overflow-hidden border border-gunmetal/15 bg-sand-dark/20">
                     <img src={atgmMissile} alt="ATGM Missile Launch" className="w-full h-full object-cover" />
                   </div>
-                  <div className="aspect-[4/3] overflow-hidden border border-gunmetal/15">
+                  <div className="aspect-[4/3] overflow-hidden border border-gunmetal/15 bg-sand-dark/20">
                     <img src={atgmScope} alt="ATGM Simulator Scope View" className="w-full h-full object-cover" />
                   </div>
                 </div>
