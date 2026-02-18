@@ -91,8 +91,8 @@ const IndustrialAutomationPage = () => {
         </section>
 
         {/* Core Technologies */}
-        <section className="py-12 bg-background">
-          <div className="container-width">
+        <section className="py-12 bg-background border-b border-gunmetal/10">
+          <div className="container-width px-4">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {coreTechnologies.map((tech) => (
                 <div key={tech.name} className="card-defence p-5 text-center group">
@@ -113,9 +113,10 @@ const IndustrialAutomationPage = () => {
             id={sector.id}
             className={`section-padding ${index % 2 === 0 ? "bg-sand-dark/30" : "bg-background"}`}
           >
-            <div className="container-width">
+            <div className="container-width px-4">
               <div className="grid lg:grid-cols-2 gap-12 items-start">
-                <div>
+                {/* Content Side */}
+                <div className={index % 2 === 1 ? "lg:order-2" : ""}>
                   <div className="inline-flex items-center gap-2 bg-defence-green/10 border border-defence-green/20 px-4 py-2 mb-4">
                     <sector.icon className="w-4 h-4 text-defence-green" />
                     <span className="text-defence-green text-sm font-medium">{sector.name}</span>
@@ -124,23 +125,49 @@ const IndustrialAutomationPage = () => {
                     {sector.name} Automation
                   </h2>
                   <p className="text-muted-foreground leading-relaxed">{sector.description}</p>
+
+                  {/* Image only on mobile (shown inline below description) */}
                   {"image" in sector && sector.image && (
-                    <img src={sector.image as string} alt={sector.name} className="w-full h-auto mt-4 border border-gunmetal/15" />
+                    <div className="mt-5 aspect-[4/3] overflow-hidden border border-gunmetal/15 bg-sand-dark/20 lg:hidden">
+                      <img
+                        src={sector.image as string}
+                        alt={sector.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   )}
                 </div>
-                <div className="space-y-3">
-                  <h3 className="font-semibold text-foreground mb-4 flex items-center gap-3">
-                    <span className="w-8 h-0.5 bg-brass-gold" />
-                    Key Capabilities
-                  </h3>
-                  {sector.capabilities.map((cap, i) => (
-                    <div key={i} className="flex items-center gap-3 bg-card border border-gunmetal/10 px-4 py-3">
-                      <span className="w-6 h-6 bg-defence-green/10 flex items-center justify-center flex-shrink-0">
-                        <span className="text-xs font-semibold text-defence-green">{i + 1}</span>
-                      </span>
-                      <span className="text-muted-foreground text-sm">{cap}</span>
+
+                {/* Right Side: Image (if available) + Capabilities */}
+                <div className={`space-y-6 ${index % 2 === 1 ? "lg:order-1" : ""}`}>
+                  {/* Image on desktop */}
+                  {"image" in sector && sector.image && (
+                    <div className="hidden lg:block aspect-[4/3] overflow-hidden border border-gunmetal/15 bg-sand-dark/20">
+                      <img
+                        src={sector.image as string}
+                        alt={sector.name}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                  ))}
+                  )}
+
+                  {/* Capabilities */}
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-4 flex items-center gap-3">
+                      <span className="w-8 h-0.5 bg-brass-gold flex-shrink-0" />
+                      Key Capabilities
+                    </h3>
+                    <div className="space-y-2">
+                      {sector.capabilities.map((cap, i) => (
+                        <div key={i} className="flex items-center gap-3 bg-card border border-gunmetal/10 px-4 py-3">
+                          <span className="w-6 h-6 bg-defence-green/10 flex items-center justify-center flex-shrink-0">
+                            <span className="text-xs font-semibold text-defence-green">{i + 1}</span>
+                          </span>
+                          <span className="text-muted-foreground text-sm">{cap}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -149,7 +176,7 @@ const IndustrialAutomationPage = () => {
 
         {/* CTA */}
         <section className="section-padding">
-          <div className="container-width">
+          <div className="container-width px-4">
             <div className="p-8 sm:p-12 text-center bg-defence-green">
               <h3 className="text-2xl sm:text-3xl font-display font-bold text-white mb-4">
                 Need a Custom Automation Solution?
