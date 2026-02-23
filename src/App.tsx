@@ -17,6 +17,18 @@ import ContactPage from "./pages/ContactPage";
 import EnquiryPage from "./pages/EnquiryPage";
 import NotFound from "./pages/NotFound";
 
+// Admin
+import AdminLoginPage from "./pages/admin/AdminLoginPage";
+import AdminLayout from "./components/admin/AdminLayout";
+import AdminProtectedRoute from "./components/admin/AdminProtectedRoute";
+import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
+import AdminHomepagePage from "./pages/admin/AdminHomepagePage";
+import AdminAboutPage from "./pages/admin/AdminAboutPage";
+import AdminServicesPage from "./pages/admin/AdminServicesPage";
+import AdminClientsPage from "./pages/admin/AdminClientsPage";
+import AdminNewsPage from "./pages/admin/AdminNewsPage";
+import AdminContactsPage from "./pages/admin/AdminContactsPage";
+
 const queryClient = new QueryClient();
 
 const HashScrollHandler = () => {
@@ -43,6 +55,26 @@ const App = () => (
           <Route path="/clients" element={<ClientsPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/enquiry" element={<EnquiryPage />} />
+
+          {/* Admin Routes */}
+          <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route
+            path="/admin"
+            element={
+              <AdminProtectedRoute>
+                <AdminLayout />
+              </AdminProtectedRoute>
+            }
+          >
+            <Route path="dashboard" element={<AdminDashboardPage />} />
+            <Route path="homepage" element={<AdminHomepagePage />} />
+            <Route path="about" element={<AdminAboutPage />} />
+            <Route path="services" element={<AdminServicesPage />} />
+            <Route path="clients" element={<AdminClientsPage />} />
+            <Route path="news" element={<AdminNewsPage />} />
+            <Route path="contacts" element={<AdminContactsPage />} />
+          </Route>
+
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
