@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard, FileText, Info, Briefcase, Users, Newspaper,
-  Mail, LogOut, Menu, X, ChevronRight
+  Mail, LogOut, Menu, X, ChevronRight, Package, UserCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/dipl-logo.jpg";
@@ -11,8 +11,10 @@ const navItems = [
   { title: "Dashboard", url: "/admin/dashboard", icon: LayoutDashboard },
   { title: "Homepage", url: "/admin/homepage", icon: FileText },
   { title: "About", url: "/admin/about", icon: Info },
+  { title: "Products & Systems", url: "/admin/products", icon: Package },
   { title: "Services", url: "/admin/services", icon: Briefcase },
   { title: "Clients", url: "/admin/clients", icon: Users },
+  { title: "Employees", url: "/admin/employees", icon: UserCircle },
   { title: "News & Media", url: "/admin/news", icon: Newspaper },
   { title: "Contact Submissions", url: "/admin/contacts", icon: Mail },
 ];

@@ -1,12 +1,14 @@
-import { FileText, Users, Newspaper, Mail, Info, Briefcase } from "lucide-react";
+import { FileText, Users, Newspaper, Mail, Info, Briefcase, Package, UserCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const stats = [
   { title: "Homepage Sections", count: 5, icon: FileText, url: "/admin/homepage", color: "bg-primary" },
   { title: "About Entries", count: 4, icon: Info, url: "/admin/about", color: "bg-accent" },
-  { title: "Services", count: 6, icon: Briefcase, url: "/admin/services", color: "bg-primary" },
-  { title: "Clients", count: 12, icon: Users, url: "/admin/clients", color: "bg-accent" },
+  { title: "Products & Systems", count: 12, icon: Package, url: "/admin/products", color: "bg-primary" },
+  { title: "Services", count: 6, icon: Briefcase, url: "/admin/services", color: "bg-accent" },
+  { title: "Clients", count: 12, icon: Users, url: "/admin/clients", color: "bg-primary" },
+  { title: "Employees", count: 5, icon: UserCircle, url: "/admin/employees", color: "bg-accent" },
   { title: "News Articles", count: 8, icon: Newspaper, url: "/admin/news", color: "bg-primary" },
   { title: "Contact Submissions", count: 3, icon: Mail, url: "/admin/contacts", color: "bg-destructive" },
 ];
