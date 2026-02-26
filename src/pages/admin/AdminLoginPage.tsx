@@ -4,6 +4,7 @@ import { Lock, Mail, Eye, EyeOff, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/dipl-logo.jpg";
 
 const AdminLoginPage = () => {
@@ -13,19 +14,25 @@ const AdminLoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isSignUp, setIsSignUp] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
-    // TODO: Replace with Firebase Auth
-    // Mock login for UI development
-    if (email === "admin@dipl.com" && password === "admin123") {
-      localStorage.setItem("admin_authenticated", "true");
-      navigate("/admin/dashboard");
-    } else {
-      setError("Invalid email or password.");
+    try {
+      if (isSignUp) {
+        const { error } = await supabase.auth.signUp({ email, password });
+        if (error) throw error;
+        navigate("/admin/dashboard");
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        navigate("/admin/dashboard");
+      }
+    } catch (err: any) {
+      setError(err.message || "Authentication failed.");
     }
     setLoading(false);
   };
@@ -44,7 +51,7 @@ const AdminLoginPage = () => {
           <div>
             <CardTitle className="text-xl font-display">Admin Portal</CardTitle>
             <CardDescription className="mt-1">
-              Sign in to manage website content
+              {isSignUp ? "Create your admin account" : "Sign in to manage website content"}
             </CardDescription>
           </div>
         </CardHeader>
@@ -83,6 +90,7 @@ const AdminLoginPage = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   className="pl-10 pr-10"
                   required
+                  minLength={6}
                 />
                 <button
                   type="button"
@@ -95,8 +103,16 @@ const AdminLoginPage = () => {
             </div>
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing in..." : "Sign In"}
+              {loading ? (isSignUp ? "Creating account..." : "Signing in...") : (isSignUp ? "Create Account" : "Sign In")}
             </Button>
+
+            <button
+              type="button"
+              onClick={() => { setIsSignUp(!isSignUp); setError(""); }}
+              className="w-full text-center text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {isSignUp ? "Already have an account? Sign In" : "First time? Create an account"}
+            </button>
 
             <div className="flex items-center justify-center gap-2 pt-2 text-xs text-muted-foreground">
               <ShieldCheck className="w-3.5 h-3.5" />

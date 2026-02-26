@@ -1,44 +1,54 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription
-} from "@/components/ui/dialog";
-
-interface AboutEntry {
-  id: string;
-  title: string;
-  content: string;
-  published: boolean;
-}
-
-const mockEntries: AboutEntry[] = [
-  { id: "1", title: "Company Overview", content: "DIPL is a defence electronics company...", published: true },
-  { id: "2", title: "Mission & Vision", content: "To be the leading provider of defence...", published: true },
-  { id: "3", title: "Leadership Team", content: "Led by experienced professionals...", published: true },
-  { id: "4", title: "Certifications", content: "ISO 9001, CMMI Level 3...", published: false },
-];
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const AdminAboutPage = () => {
-  const [entries, setEntries] = useState<AboutEntry[]>(mockEntries);
+  const { toast } = useToast();
+  const [entries, setEntries] = useState<any[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [editing, setEditing] = useState<AboutEntry | null>(null);
+  const [editing, setEditing] = useState<any | null>(null);
   const [form, setForm] = useState({ title: "", content: "" });
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    const { data } = await supabase.from("about_entries").select("*").order("sort_order");
+    setEntries(data || []);
+    setLoading(false);
+  };
+
+  useEffect(() => { fetchData(); }, []);
 
   const openCreate = () => { setEditing(null); setForm({ title: "", content: "" }); setDialogOpen(true); };
-  const openEdit = (entry: AboutEntry) => { setEditing(entry); setForm({ title: entry.title, content: entry.content }); setDialogOpen(true); };
+  const openEdit = (entry: any) => { setEditing(entry); setForm({ title: entry.title, content: entry.content }); setDialogOpen(true); };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (editing) {
-      setEntries(e => e.map(en => en.id === editing.id ? { ...en, ...form } : en));
+      await supabase.from("about_entries").update(form).eq("id", editing.id);
+      toast({ title: "Entry updated" });
     } else {
-      setEntries(e => [...e, { id: Date.now().toString(), ...form, published: false }]);
+      await supabase.from("about_entries").insert({ ...form, sort_order: entries.length + 1 });
+      toast({ title: "Entry created" });
     }
-    setDialogOpen(false);
+    setDialogOpen(false); fetchData();
   };
+
+  const togglePublish = async (entry: any) => {
+    await supabase.from("about_entries").update({ published: !entry.published }).eq("id", entry.id);
+    fetchData();
+  };
+
+  const deleteEntry = async (id: string) => {
+    await supabase.from("about_entries").delete().eq("id", id);
+    toast({ title: "Entry deleted" }); fetchData();
+  };
+
+  if (loading) return <div className="text-muted-foreground">Loading...</div>;
 
   return (
     <div className="space-y-6">
@@ -59,11 +69,11 @@ const AdminAboutPage = () => {
                 <p className="text-sm text-muted-foreground line-clamp-1">{entry.content}</p>
               </div>
               <div className="flex items-center gap-2">
-                <Button variant="ghost" size="icon" onClick={() => setEntries(e => e.map(en => en.id === entry.id ? { ...en, published: !en.published } : en))}>
+                <Button variant="ghost" size="icon" onClick={() => togglePublish(entry)}>
                   {entry.published ? <Eye className="w-4 h-4 text-primary" /> : <EyeOff className="w-4 h-4 text-muted-foreground" />}
                 </Button>
                 <Button variant="ghost" size="icon" onClick={() => openEdit(entry)}><Pencil className="w-4 h-4" /></Button>
-                <Button variant="ghost" size="icon" onClick={() => setEntries(e => e.filter(en => en.id !== entry.id))}><Trash2 className="w-4 h-4 text-destructive" /></Button>
+                <Button variant="ghost" size="icon" onClick={() => deleteEntry(entry.id)}><Trash2 className="w-4 h-4 text-destructive" /></Button>
               </div>
             </CardContent>
           </Card>
@@ -77,14 +87,8 @@ const AdminAboutPage = () => {
             <DialogDescription>Fill in the about entry details.</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-2">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Title</label>
-              <Input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Content</label>
-              <Textarea value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))} rows={5} />
-            </div>
+            <div className="space-y-2"><label className="text-sm font-medium">Title</label><Input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} /></div>
+            <div className="space-y-2"><label className="text-sm font-medium">Content</label><Textarea value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))} rows={5} /></div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
