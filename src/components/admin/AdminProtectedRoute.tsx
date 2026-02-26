@@ -1,14 +1,38 @@
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 interface AdminProtectedRouteProps {
   children: React.ReactNode;
 }
 
 const AdminProtectedRoute = ({ children }: AdminProtectedRouteProps) => {
-  // TODO: Replace with Firebase Auth check
-  const isAuthenticated = localStorage.getItem("admin_authenticated") === "true";
+  const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
 
-  if (!isAuthenticated) {
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAuthenticated(!!session);
+      setLoading(false);
+    });
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setAuthenticated(!!session);
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-muted-foreground">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!authenticated) {
     return <Navigate to="/admin/login" replace />;
   }
 

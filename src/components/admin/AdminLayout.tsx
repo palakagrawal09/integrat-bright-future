@@ -5,6 +5,7 @@ import {
   Mail, LogOut, Menu, X, ChevronRight, Package, UserCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/dipl-logo.jpg";
 
 const navItems = [
@@ -24,8 +25,8 @@ const AdminLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.removeItem("admin_authenticated");
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     navigate("/admin/login");
   };
 
