@@ -2,9 +2,10 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Send, FileText, Wrench, CheckCircle, Loader2 } from "lucide-react";
+import { Send, FileText, Wrench, CheckCircle, Loader2, ShieldCheck } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const EnquiryPage = () => {
   const [searchParams] = useSearchParams();
@@ -12,35 +13,80 @@ const EnquiryPage = () => {
   const [activeTab, setActiveTab] = useState<"enquiry" | "repair">(initialTab);
   const { toast } = useToast();
 
+  // OTP state
+  const [otpStep, setOtpStep] = useState<"form" | "otp" | "verified">("form");
+  const [otpCode, setOtpCode] = useState("");
+  const [otpSending, setOtpSending] = useState(false);
+  const [otpVerifying, setOtpVerifying] = useState(false);
+  const [verifiedEmail, setVerifiedEmail] = useState("");
+
   // Enquiry form state
   const [enquiryForm, setEnquiryForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    organization: "",
-    subject: "",
-    product_interest: "",
-    message: "",
+    name: "", email: "", phone: "", organization: "",
+    subject: "", product_interest: "", message: "",
   });
   const [enquirySubmitting, setEnquirySubmitting] = useState(false);
   const [enquirySubmitted, setEnquirySubmitted] = useState(false);
 
   // Repair form state
   const [repairForm, setRepairForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    organization: "",
-    equipment_name: "",
-    serial_number: "",
-    issue_description: "",
-    urgency: "normal",
+    name: "", email: "", phone: "", organization: "",
+    equipment_name: "", serial_number: "", issue_description: "", urgency: "normal",
   });
   const [repairSubmitting, setRepairSubmitting] = useState(false);
   const [repairSubmitted, setRepairSubmitted] = useState(false);
 
+  const currentEmail = activeTab === "enquiry" ? enquiryForm.email : repairForm.email;
+
+  const handleSendOtp = async () => {
+    if (!currentEmail || !currentEmail.includes("@")) {
+      toast({ title: "Invalid Email", description: "Please enter a valid email address first.", variant: "destructive" });
+      return;
+    }
+    setOtpSending(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("send-otp", {
+        body: { email: currentEmail, form_type: activeTab },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setOtpStep("otp");
+      toast({ title: "OTP Sent!", description: `A verification code has been sent to ${currentEmail}` });
+    } catch (err: any) {
+      toast({ title: "Failed to send OTP", description: err.message || "Please try again.", variant: "destructive" });
+    } finally {
+      setOtpSending(false);
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    if (otpCode.length !== 6) {
+      toast({ title: "Invalid OTP", description: "Please enter the 6-digit code.", variant: "destructive" });
+      return;
+    }
+    setOtpVerifying(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("verify-otp", {
+        body: { email: currentEmail, otp_code: otpCode },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setOtpStep("verified");
+      setVerifiedEmail(currentEmail);
+      toast({ title: "Email Verified!", description: "Your email has been verified successfully." });
+    } catch (err: any) {
+      toast({ title: "Verification Failed", description: err.message || "Invalid or expired OTP.", variant: "destructive" });
+    } finally {
+      setOtpVerifying(false);
+    }
+  };
+
   const handleEnquirySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (verifiedEmail !== enquiryForm.email) {
+      toast({ title: "Email Not Verified", description: "Please verify your email before submitting.", variant: "destructive" });
+      return;
+    }
     setEnquirySubmitting(true);
     try {
       const response = await fetch("https://hook.eu1.make.com/pt86lujdh37kn5u882s4xf5vimr5wx3n", {
@@ -51,9 +97,7 @@ const EnquiryPage = () => {
       if (response.ok) {
         setEnquirySubmitted(true);
         toast({ title: "Enquiry Submitted", description: "We'll get back to you within 24 hours." });
-      } else {
-        throw new Error("Failed to submit");
-      }
+      } else throw new Error("Failed");
     } catch {
       toast({ title: "Submission Failed", description: "Please try again or email us directly.", variant: "destructive" });
     } finally {
@@ -63,6 +107,10 @@ const EnquiryPage = () => {
 
   const handleRepairSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (verifiedEmail !== repairForm.email) {
+      toast({ title: "Email Not Verified", description: "Please verify your email before submitting.", variant: "destructive" });
+      return;
+    }
     setRepairSubmitting(true);
     try {
       const response = await fetch("https://hook.eu1.make.com/rmoutpfypcl6hz1l6fh1sa8fzk3g1lv1", {
@@ -73,9 +121,7 @@ const EnquiryPage = () => {
       if (response.ok) {
         setRepairSubmitted(true);
         toast({ title: "Repair Request Submitted", description: "Our service team will contact you shortly." });
-      } else {
-        throw new Error("Failed to submit");
-      }
+      } else throw new Error("Failed");
     } catch {
       toast({ title: "Submission Failed", description: "Please try again or email us directly.", variant: "destructive" });
     } finally {
@@ -83,8 +129,81 @@ const EnquiryPage = () => {
     }
   };
 
+  // Reset OTP when switching tabs or changing email
+  const resetOtp = () => {
+    if (otpStep !== "form") {
+      setOtpStep("form");
+      setOtpCode("");
+      setVerifiedEmail("");
+    }
+  };
+
   const inputClass = "w-full px-4 py-3 bg-card border border-gunmetal/20 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-brass-gold/60 focus:ring-1 focus:ring-brass-gold/30 transition-colors text-sm";
   const labelClass = "block text-sm font-medium text-foreground mb-1.5";
+
+  const renderEmailFieldWithOtp = (formEmail: string, setFormEmail: (email: string) => void) => (
+    <div>
+      <label className={labelClass}>Email Address *</label>
+      <div className="flex gap-2">
+        <input
+          type="email"
+          required
+          className={`${inputClass} flex-1`}
+          placeholder="you@company.com"
+          value={formEmail}
+          onChange={(e) => {
+            setFormEmail(e.target.value);
+            if (verifiedEmail && e.target.value !== verifiedEmail) resetOtp();
+          }}
+          disabled={otpStep === "verified"}
+        />
+        {otpStep === "form" && (
+          <button
+            type="button"
+            onClick={handleSendOtp}
+            disabled={otpSending || !formEmail.includes("@")}
+            className="btn-primary px-4 py-3 text-sm whitespace-nowrap flex items-center gap-2"
+          >
+            {otpSending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+            Verify
+          </button>
+        )}
+        {otpStep === "verified" && (
+          <div className="flex items-center gap-1 px-3 bg-defence-green/10 border border-defence-green/30 text-defence-green text-sm font-medium">
+            <ShieldCheck className="w-4 h-4" />
+            Verified
+          </div>
+        )}
+      </div>
+      {otpStep === "otp" && (
+        <div className="mt-3 p-4 bg-card border border-brass-gold/30">
+          <p className="text-sm text-muted-foreground mb-2">Enter the 6-digit code sent to <strong>{formEmail}</strong></p>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              maxLength={6}
+              className={`${inputClass} flex-1 text-center text-lg tracking-[0.5em] font-mono`}
+              placeholder="000000"
+              value={otpCode}
+              onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+            />
+            <button
+              type="button"
+              onClick={handleVerifyOtp}
+              disabled={otpVerifying || otpCode.length !== 6}
+              className="btn-accent px-4 py-3 text-sm flex items-center gap-2"
+            >
+              {otpVerifying ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
+              Confirm
+            </button>
+          </div>
+          <button type="button" onClick={handleSendOtp} disabled={otpSending} className="text-xs text-brass-gold mt-2 hover:underline">
+            Resend code
+          </button>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -97,9 +216,7 @@ const EnquiryPage = () => {
               <div className="text-center max-w-3xl mx-auto">
                 <div className="inline-flex items-center gap-3 mb-4">
                   <span className="section-divider" />
-                  <span className="text-brass-gold font-semibold text-sm uppercase tracking-widest">
-                    Get a Quote
-                  </span>
+                  <span className="text-brass-gold font-semibold text-sm uppercase tracking-widest">Get a Quote</span>
                   <span className="section-divider" />
                 </div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-foreground mt-2 mb-6">
@@ -119,26 +236,20 @@ const EnquiryPage = () => {
             <ScrollReveal>
               <div className="flex border border-gunmetal/20 mb-10">
                 <button
-                  onClick={() => setActiveTab("enquiry")}
+                  onClick={() => { setActiveTab("enquiry"); resetOtp(); }}
                   className={`flex-1 flex items-center justify-center gap-2 py-4 font-semibold text-sm uppercase tracking-wider transition-colors ${
-                    activeTab === "enquiry"
-                      ? "bg-defence-green text-white"
-                      : "bg-card text-muted-foreground hover:text-foreground"
+                    activeTab === "enquiry" ? "bg-defence-green text-white" : "bg-card text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  <FileText className="w-4 h-4" />
-                  New Enquiry
+                  <FileText className="w-4 h-4" /> New Enquiry
                 </button>
                 <button
-                  onClick={() => setActiveTab("repair")}
+                  onClick={() => { setActiveTab("repair"); resetOtp(); }}
                   className={`flex-1 flex items-center justify-center gap-2 py-4 font-semibold text-sm uppercase tracking-wider transition-colors ${
-                    activeTab === "repair"
-                      ? "bg-defence-green text-white"
-                      : "bg-card text-muted-foreground hover:text-foreground"
+                    activeTab === "repair" ? "bg-defence-green text-white" : "bg-card text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  <Wrench className="w-4 h-4" />
-                  Repair Request
+                  <Wrench className="w-4 h-4" /> Repair Request
                 </button>
               </div>
             </ScrollReveal>
@@ -163,11 +274,7 @@ const EnquiryPage = () => {
                         <input type="text" required className={inputClass} placeholder="Your full name"
                           value={enquiryForm.name} onChange={(e) => setEnquiryForm({ ...enquiryForm, name: e.target.value })} />
                       </div>
-                      <div>
-                        <label className={labelClass}>Email Address *</label>
-                        <input type="email" required className={inputClass} placeholder="you@company.com"
-                          value={enquiryForm.email} onChange={(e) => setEnquiryForm({ ...enquiryForm, email: e.target.value })} />
-                      </div>
+                      {renderEmailFieldWithOtp(enquiryForm.email, (email) => setEnquiryForm({ ...enquiryForm, email }))}
                     </div>
                     <div className="grid sm:grid-cols-2 gap-5">
                       <div>
@@ -202,12 +309,16 @@ const EnquiryPage = () => {
                     </div>
                     <div>
                       <label className={labelClass}>Detailed Requirements *</label>
-                      <textarea required rows={5} className={inputClass} placeholder="Describe your requirements, specifications, quantities, or any other relevant details..."
+                      <textarea required rows={5} className={inputClass} placeholder="Describe your requirements..."
                         value={enquiryForm.message} onChange={(e) => setEnquiryForm({ ...enquiryForm, message: e.target.value })} />
                     </div>
-                    <button type="submit" disabled={enquirySubmitting} className="btn-accent w-full flex items-center justify-center gap-2">
+                    <button
+                      type="submit"
+                      disabled={enquirySubmitting || otpStep !== "verified"}
+                      className="btn-accent w-full flex items-center justify-center gap-2 disabled:opacity-50"
+                    >
                       {enquirySubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
-                      {enquirySubmitting ? "Submitting..." : "Submit Enquiry"}
+                      {enquirySubmitting ? "Submitting..." : otpStep !== "verified" ? "Verify Email to Submit" : "Submit Enquiry"}
                     </button>
                   </form>
                 )}
@@ -234,11 +345,7 @@ const EnquiryPage = () => {
                         <input type="text" required className={inputClass} placeholder="Your full name"
                           value={repairForm.name} onChange={(e) => setRepairForm({ ...repairForm, name: e.target.value })} />
                       </div>
-                      <div>
-                        <label className={labelClass}>Email Address *</label>
-                        <input type="email" required className={inputClass} placeholder="you@company.com"
-                          value={repairForm.email} onChange={(e) => setRepairForm({ ...repairForm, email: e.target.value })} />
-                      </div>
+                      {renderEmailFieldWithOtp(repairForm.email, (email) => setRepairForm({ ...repairForm, email }))}
                     </div>
                     <div className="grid sm:grid-cols-2 gap-5">
                       <div>
@@ -275,12 +382,16 @@ const EnquiryPage = () => {
                     </div>
                     <div>
                       <label className={labelClass}>Issue Description *</label>
-                      <textarea required rows={5} className={inputClass} placeholder="Describe the issue, symptoms, error codes, or malfunction details..."
+                      <textarea required rows={5} className={inputClass} placeholder="Describe the issue, symptoms, error codes..."
                         value={repairForm.issue_description} onChange={(e) => setRepairForm({ ...repairForm, issue_description: e.target.value })} />
                     </div>
-                    <button type="submit" disabled={repairSubmitting} className="btn-accent w-full flex items-center justify-center gap-2">
+                    <button
+                      type="submit"
+                      disabled={repairSubmitting || otpStep !== "verified"}
+                      className="btn-accent w-full flex items-center justify-center gap-2 disabled:opacity-50"
+                    >
                       {repairSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Wrench className="w-5 h-5" />}
-                      {repairSubmitting ? "Submitting..." : "Submit Repair Request"}
+                      {repairSubmitting ? "Submitting..." : otpStep !== "verified" ? "Verify Email to Submit" : "Submit Repair Request"}
                     </button>
                   </form>
                 )}

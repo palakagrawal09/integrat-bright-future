@@ -1,96 +1,59 @@
+import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { 
   Shield, Train, GraduationCap, Factory, Building2, 
-  FlaskConical, Cog, Award, CheckCircle 
+  FlaskConical, Cog, Award, CheckCircle, Loader2, Users
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 const ClientsPage = () => {
-  const clients = [
-    {
-      name: "Indian Army",
-      description: "Trusted partner for defence electronics, fire control systems, and military training simulators.",
-      icon: Shield,
-      category: "Defence",
-      highlight: true,
-    },
-    {
-      name: "Indian Railways",
-      description: "Providing automation and control solutions for railway infrastructure and operations.",
-      icon: Train,
-      category: "Government",
-      highlight: true,
-    },
-    {
-      name: "Engineering Colleges",
-      description: "Supplying educational equipment and lab instruments for engineering institutions.",
-      icon: GraduationCap,
-      category: "Education",
-    },
-    {
-      name: "Polytechnic Colleges",
-      description: "Technical training equipment and automation systems for vocational education.",
-      icon: GraduationCap,
-      category: "Education",
-    },
-    {
-      name: "Science Colleges",
-      description: "Data acquisition and measurement systems for scientific research and education.",
-      icon: FlaskConical,
-      category: "Education",
-    },
-    {
-      name: "Pipe Manufacturing Plants",
-      description: "Industrial automation solutions for pipe manufacturing and quality control.",
-      icon: Factory,
-      category: "Manufacturing",
-    },
-    {
-      name: "Automobile Manufacturing Plants",
-      description: "Control systems and automation equipment for automotive manufacturing processes.",
-      icon: Cog,
-      category: "Manufacturing",
-    },
-    {
-      name: "Research Institutes",
-      description: "Custom data acquisition and embedded systems for research applications.",
-      icon: FlaskConical,
-      category: "Research",
-    },
-  ];
+  const [clients, setClients] = useState<{ name: string; logo_url: string }[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const sectors = [
-    { name: "Defence", count: 2, icon: Shield },
-    { name: "Education", count: 3, icon: GraduationCap },
-    { name: "Manufacturing", count: 2, icon: Factory },
-    { name: "Research", count: 1, icon: FlaskConical },
+  useEffect(() => {
+    const fetchClients = async () => {
+      const { data } = await supabase
+        .from("clients")
+        .select("*")
+        .eq("published", true)
+        .order("sort_order");
+      if (data && data.length > 0) {
+        setClients(data);
+      }
+      setLoading(false);
+    };
+    fetchClients();
+  }, []);
+
+  const fallbackClients = [
+    { name: "Indian Army", icon: Shield, category: "Defence", highlight: true },
+    { name: "Indian Railways", icon: Train, category: "Government", highlight: true },
+    { name: "Engineering Colleges", icon: GraduationCap, category: "Education", highlight: false },
+    { name: "Polytechnic Colleges", icon: GraduationCap, category: "Education", highlight: false },
+    { name: "Science Colleges", icon: FlaskConical, category: "Education", highlight: false },
+    { name: "Pipe Manufacturing Plants", icon: Factory, category: "Manufacturing", highlight: false },
+    { name: "Automobile Manufacturing Plants", icon: Cog, category: "Manufacturing", highlight: false },
+    { name: "Research Institutes", icon: FlaskConical, category: "Research", highlight: false },
   ];
 
   const testimonials = [
-    {
-      text: "DIPL has been instrumental in providing reliable fire control systems for our operations. Their commitment to quality and precision is exceptional.",
-      source: "Defence Sector Client",
-    },
-    {
-      text: "The data acquisition systems from Digital Integrator have significantly improved our research capabilities. Excellent technical support.",
-      source: "Research Institute",
-    },
+    { text: "DIPL has been instrumental in providing reliable fire control systems for our operations.", source: "Defence Sector Client" },
+    { text: "The data acquisition systems from Digital Integrator have significantly improved our research capabilities.", source: "Research Institute" },
   ];
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main>
-        {/* Hero Section */}
+        {/* Hero */}
         <section className="pt-32 pb-16 bg-sand-dark/50">
           <div className="container-width px-4">
             <div className="text-center max-w-3xl mx-auto">
               <div className="inline-flex items-center gap-3 mb-4">
                 <span className="section-divider" />
-                <span className="text-brass-gold font-semibold text-sm uppercase tracking-widest">
-                  Our Clients
-                </span>
+                <span className="text-brass-gold font-semibold text-sm uppercase tracking-widest">Our Clients</span>
                 <span className="section-divider" />
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-foreground mt-2 mb-6">
@@ -100,23 +63,6 @@ const ClientsPage = () => {
                 For over 27 years, we've built lasting partnerships with defence organizations, 
                 government bodies, educational institutions, and manufacturing giants across India.
               </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Sectors Overview */}
-        <section className="py-12 bg-background">
-          <div className="container-width">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {sectors.map((sector) => (
-                <div key={sector.name} className="card-defence p-5 text-center group">
-                  <div className="w-12 h-12 mx-auto mb-3 bg-defence-green/10 flex items-center justify-center group-hover:bg-brass-gold/15 transition-colors duration-300">
-                    <sector.icon className="w-6 h-6 text-defence-green group-hover:text-brass-gold transition-colors duration-300" />
-                  </div>
-                  <h3 className="font-semibold text-foreground">{sector.name}</h3>
-                  <p className="text-muted-foreground text-sm">{sector.count}+ clients</p>
-                </div>
-              ))}
             </div>
           </div>
         </section>
@@ -132,82 +78,61 @@ const ClientsPage = () => {
               </h2>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {clients.map((client) => (
-                <div
-                  key={client.name}
-                  className={`card-defence p-6 group transition-all duration-300 ${
-                    client.highlight 
-                      ? "border-defence-green/30 bg-defence-green/5" 
-                      : ""
-                  }`}
-                >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className={`w-12 h-12 flex items-center justify-center transition-colors duration-300 ${
-                      client.highlight 
-                        ? "bg-defence-green/20 group-hover:bg-brass-gold/20" 
-                        : "bg-defence-green/10 group-hover:bg-brass-gold/15"
-                    }`}>
-                      <client.icon className="w-6 h-6 text-defence-green group-hover:text-brass-gold transition-colors duration-300" />
+            {loading ? (
+              <div className="flex justify-center py-20">
+                <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+              </div>
+            ) : clients.length > 0 ? (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {clients.map((client) => (
+                  <div key={client.name} className="card-defence p-6 group">
+                    <div className="w-12 h-12 bg-defence-green/10 flex items-center justify-center mb-4 group-hover:bg-brass-gold/15 transition-colors duration-300">
+                      <Users className="w-6 h-6 text-defence-green group-hover:text-brass-gold transition-colors duration-300" />
                     </div>
-                    {client.highlight && (
-                      <span className="text-xs bg-defence-green text-white px-2 py-1">
-                        Key Client
-                      </span>
-                    )}
+                    <h3 className="text-lg font-display font-semibold text-foreground">{client.name}</h3>
                   </div>
-                  <span className="text-xs text-muted-foreground uppercase tracking-wider">
-                    {client.category}
-                  </span>
-                  <h3 className="text-lg font-display font-semibold text-foreground mt-1 mb-2">
-                    {client.name}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {client.description}
-                  </p>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {fallbackClients.map((client) => (
+                  <div key={client.name} className={`card-defence p-6 group ${client.highlight ? "border-defence-green/30 bg-defence-green/5" : ""}`}>
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="w-12 h-12 bg-defence-green/10 flex items-center justify-center group-hover:bg-brass-gold/15 transition-colors duration-300">
+                        <client.icon className="w-6 h-6 text-defence-green group-hover:text-brass-gold transition-colors duration-300" />
+                      </div>
+                      {client.highlight && <span className="text-xs bg-defence-green text-white px-2 py-1">Key Client</span>}
+                    </div>
+                    <span className="text-xs text-muted-foreground uppercase tracking-wider">{client.category}</span>
+                    <h3 className="text-lg font-display font-semibold text-foreground mt-1">{client.name}</h3>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 
-        {/* Why Choose Us */}
+        {/* Testimonials */}
         <section className="section-padding bg-background">
           <div className="container-width">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <div className="inline-flex items-center gap-3 mb-4">
-                  <span className="section-divider" />
-                  <span className="text-brass-gold font-semibold text-sm uppercase tracking-widest">
-                    Why Choose Us
-                  </span>
-                </div>
-                <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-2 mb-6">
-                  A Partner You Can Trust
-                </h2>
+                <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-2 mb-6">A Partner You Can Trust</h2>
                 <ul className="space-y-4">
-                  {[
-                    "27+ years of proven expertise in defence and industrial electronics",
-                    "ISO certified quality management systems",
-                    "Dedicated R&D team for custom solutions",
-                    "Pan-India service and support network",
-                    "Long-term partnerships with government organizations",
-                    "Continuous innovation and technology upgrades",
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-start gap-3">
+                  {["27+ years of proven expertise", "ISO certified quality management", "Dedicated R&D team", "Pan-India support network", "Long-term government partnerships"].map((item, i) => (
+                    <li key={i} className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-defence-green flex-shrink-0 mt-0.5" />
                       <span className="text-muted-foreground">{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-
               <div className="space-y-6">
-                {testimonials.map((testimonial, index) => (
-                  <div key={index} className="card-defence p-6">
+                {testimonials.map((t, i) => (
+                  <div key={i} className="card-defence p-6">
                     <Award className="w-8 h-8 text-brass-gold mb-4" />
-                    <p className="text-foreground italic mb-4 leading-relaxed">"{testimonial.text}"</p>
-                    <p className="text-muted-foreground text-sm">— {testimonial.source}</p>
+                    <p className="text-foreground italic mb-4 leading-relaxed">"{t.text}"</p>
+                    <p className="text-muted-foreground text-sm">— {t.source}</p>
                   </div>
                 ))}
               </div>
@@ -219,16 +144,11 @@ const ClientsPage = () => {
         <section className="section-padding">
           <div className="container-width">
             <div className="p-8 sm:p-12 text-center bg-defence-green">
-              <h3 className="text-2xl sm:text-3xl font-display font-bold text-white mb-4">
-                Join Our Growing Client Base
-              </h3>
+              <h3 className="text-2xl sm:text-3xl font-display font-bold text-white mb-4">Join Our Growing Client Base</h3>
               <p className="text-white/80 mb-6 max-w-xl mx-auto leading-relaxed">
-                Discover how our solutions can transform your operations. 
-                Let's discuss your requirements.
+                Discover how our solutions can transform your operations.
               </p>
-              <Link to="/contact" className="btn-accent inline-flex items-center gap-2">
-                Get in Touch
-              </Link>
+              <Link to="/contact" className="btn-accent inline-flex items-center gap-2">Get in Touch</Link>
             </div>
           </div>
         </section>

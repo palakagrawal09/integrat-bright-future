@@ -1,41 +1,33 @@
+import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Calendar, ArrowRight } from "lucide-react";
+import { Calendar, ArrowRight, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 const NewsMediaPage = () => {
-  const newsItems = [
-    {
-      date: "2024",
-      title: "DIPL Expands Defence Electronics Portfolio",
-      summary: "Digital Integrator adds new fire control and surveillance systems to its defence product line, strengthening capabilities for the Indian Armed Forces.",
-      category: "Company Update",
-    },
-    {
-      date: "2024",
-      title: "GeM Registration & Product Listing Expansion",
-      summary: "DIPL expands its product catalogue on the Government e-Marketplace, making more automation and defence products accessible for government procurement.",
-      category: "Procurement",
-    },
-    {
-      date: "2023",
-      title: "ISO 9001:2015 Recertification",
-      summary: "Successfully recertified under ISO 9001:2015 quality management standards, reaffirming commitment to excellence in defence and industrial automation.",
-      category: "Certification",
-    },
-    {
-      date: "2023",
-      title: "Industrial Automation Projects in Railways",
-      summary: "DIPL delivers automation and control solutions for Indian Railways, expanding the company's industrial footprint beyond defence electronics.",
-      category: "Project Delivery",
-    },
-    {
-      date: "2022",
-      title: "25 Years of Defence Manufacturing Excellence",
-      summary: "Digital Integrator celebrates 25 years of serving the Indian defence sector with fire control systems, simulators, and industrial automation.",
-      category: "Milestone",
-    },
-  ];
+  const [newsItems, setNewsItems] = useState<{ title: string; content: string; published_at: string | null; created_at: string }[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      const { data } = await supabase
+        .from("news_articles")
+        .select("*")
+        .eq("published", true)
+        .order("published_at", { ascending: false, nullsFirst: false });
+      if (data && data.length > 0) {
+        setNewsItems(data);
+      } else {
+        setNewsItems([
+          { title: "DIPL Expands Defence Electronics Portfolio", content: "Digital Integrator adds new fire control and surveillance systems to its defence product line.", published_at: "2024-01-01", created_at: "2024-01-01" },
+          { title: "ISO 9001:2015 Recertification", content: "Successfully recertified under ISO 9001:2015 quality management standards.", published_at: "2023-06-01", created_at: "2023-06-01" },
+        ]);
+      }
+      setLoading(false);
+    };
+    fetchNews();
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -66,31 +58,38 @@ const NewsMediaPage = () => {
         {/* News List */}
         <section className="section-padding bg-background">
           <div className="container-width max-w-4xl">
-            <div className="space-y-6">
-              {newsItems.map((item, index) => (
-                <article key={index} className="card-defence p-6 group">
-                  <div className="flex items-start gap-6">
-                    <div className="flex-shrink-0 w-16 h-16 bg-defence-green/10 flex items-center justify-center">
-                      <Calendar className="w-6 h-6 text-defence-green" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="text-xs bg-brass-gold/15 text-brass-gold px-2 py-1 font-medium">
-                          {item.category}
-                        </span>
-                        <span className="text-xs text-muted-foreground">{item.date}</span>
+            {loading ? (
+              <div className="flex justify-center py-20">
+                <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {newsItems.map((item, index) => {
+                  const dateStr = item.published_at || item.created_at;
+                  const year = dateStr ? new Date(dateStr).getFullYear().toString() : "";
+                  return (
+                    <article key={index} className="card-defence p-6 group">
+                      <div className="flex items-start gap-6">
+                        <div className="flex-shrink-0 w-16 h-16 bg-defence-green/10 flex items-center justify-center">
+                          <Calendar className="w-6 h-6 text-defence-green" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <span className="text-xs text-muted-foreground">{year}</span>
+                          </div>
+                          <h3 className="text-lg font-display font-semibold text-foreground mb-2 group-hover:text-defence-green transition-colors">
+                            {item.title}
+                          </h3>
+                          <p className="text-muted-foreground text-sm leading-relaxed">
+                            {item.content}
+                          </p>
+                        </div>
                       </div>
-                      <h3 className="text-lg font-display font-semibold text-foreground mb-2 group-hover:text-defence-green transition-colors">
-                        {item.title}
-                      </h3>
-                      <p className="text-muted-foreground text-sm leading-relaxed">
-                        {item.summary}
-                      </p>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+                    </article>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </section>
 
