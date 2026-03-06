@@ -7,6 +7,29 @@ import { Link, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
+const EQUIPMENT_OPTIONS: Record<string, string[]> = {
+  "AMFDC MK-II": ["AMFDC MK-II (a)", "AMFDC MK-II (b)", "AMFDC MK-II (c)", "AMFDC MK-II (d)"],
+  "AMFDC MK-III": ["AMFDC MK-III (a)", "AMFDC MK-III (b)", "AMFDC MK-III (c)", "AMFDC MK-III (d)"],
+  "TEEVRA FDC": ["TEEVRA FDC (a)", "TEEVRA FDC (b)", "TEEVRA FDC (c)", "TEEVRA FDC (d)"],
+  "GBInP-17 Universal": ["GBInP-17 Universal (a)", "GBInP-17 Universal (b)", "GBInP-17 Universal (c)", "GBInP-17 Universal (d)"],
+  "LCGB-HMRSV-21-XG": ["LCGB-HMRSV-21-XG (a)", "LCGB-HMRSV-21-XG (b)", "LCGB-HMRSV-21-XG (c)", "LCGB-HMRSV-21-XG (d)"],
+  "FSD Flexible / INVSS": ["FSD Flexible / INVSS (a)", "FSD Flexible / INVSS (b)", "FSD Flexible / INVSS (c)", "FSD Flexible / INVSS (d)"],
+  "ATGM SV21 Simulator": ["ATGM SV21 Simulator (a)", "ATGM SV21 Simulator (b)", "ATGM SV21 Simulator (c)", "ATGM SV21 Simulator (d)"],
+};
+
+const PRODUCT_OPTIONS = [
+  { value: "fire-control", label: "Fire Control Systems (AMFDC)" },
+  { value: "inspection", label: "Gun Barrel Inspection (GBInP)" },
+  { value: "surveillance", label: "Field Surveillance (FSD/INVSS)" },
+  { value: "simulators", label: "Simulators & Training" },
+  { value: "industrial", label: "Industrial Automation" },
+  { value: "services", label: "Repair & AMC Services" },
+  { value: "other", label: "Other" },
+];
+
+const validatePhone = (phone: string) => /^\d{10}$/.test(phone.replace(/\s+/g, ""));
+const validateEmail = (email: string) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+
 const EnquiryPage = () => {
   const [searchParams] = useSearchParams();
   const initialTab = searchParams.get("type") === "repair" ? "repair" : "enquiry";
@@ -31,16 +54,43 @@ const EnquiryPage = () => {
   // Repair form state
   const [repairForm, setRepairForm] = useState({
     name: "", email: "", phone: "", organization: "",
-    equipment_name: "", serial_number: "", issue_description: "", urgency: "normal",
+    equipment_category: "", equipment_variant: "", serial_number: "", issue_description: "", urgency: "normal",
   });
   const [repairSubmitting, setRepairSubmitting] = useState(false);
   const [repairSubmitted, setRepairSubmitted] = useState(false);
 
+  // Validation errors
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
   const currentEmail = activeTab === "enquiry" ? enquiryForm.email : repairForm.email;
 
+  const clearError = (field: string) => setErrors((prev) => { const n = { ...prev }; delete n[field]; return n; });
+
+  const validateEnquiryForm = () => {
+    const e: Record<string, string> = {};
+    if (!enquiryForm.name.trim()) e.eq_name = "Name is required";
+    if (!validateEmail(enquiryForm.email)) e.eq_email = "Enter a valid email (e.g. you@company.com)";
+    if (!validatePhone(enquiryForm.phone)) e.eq_phone = "Enter a valid 10-digit phone number";
+    if (!enquiryForm.subject.trim()) e.eq_subject = "Subject is required";
+    if (!enquiryForm.message.trim()) e.eq_message = "Message is required";
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  const validateRepairForm = () => {
+    const e: Record<string, string> = {};
+    if (!repairForm.name.trim()) e.rp_name = "Name is required";
+    if (!validateEmail(repairForm.email)) e.rp_email = "Enter a valid email (e.g. you@company.com)";
+    if (!validatePhone(repairForm.phone)) e.rp_phone = "Enter a valid 10-digit phone number";
+    if (!repairForm.equipment_category) e.rp_equipment = "Select equipment";
+    if (!repairForm.issue_description.trim()) e.rp_issue = "Describe the issue";
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
   const handleSendOtp = async () => {
-    if (!currentEmail || !currentEmail.includes("@")) {
-      toast({ title: "Invalid Email", description: "Please enter a valid email address first.", variant: "destructive" });
+    if (!validateEmail(currentEmail)) {
+      toast({ title: "Invalid Email", description: "Enter a valid email address (e.g. you@company.com).", variant: "destructive" });
       return;
     }
     setOtpSending(true);
@@ -83,6 +133,7 @@ const EnquiryPage = () => {
 
   const handleEnquirySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateEnquiryForm()) return;
     if (verifiedEmail !== enquiryForm.email) {
       toast({ title: "Email Not Verified", description: "Please verify your email before submitting.", variant: "destructive" });
       return;
@@ -107,6 +158,7 @@ const EnquiryPage = () => {
 
   const handleRepairSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateRepairForm()) return;
     if (verifiedEmail !== repairForm.email) {
       toast({ title: "Email Not Verified", description: "Please verify your email before submitting.", variant: "destructive" });
       return;
@@ -116,7 +168,12 @@ const EnquiryPage = () => {
       const response = await fetch("https://hook.eu1.make.com/rmoutpfypcl6hz1l6fh1sa8fzk3g1lv1", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...repairForm, form_type: "repair", submitted_at: new Date().toISOString() }),
+        body: JSON.stringify({
+          ...repairForm,
+          equipment_name: repairForm.equipment_variant || repairForm.equipment_category,
+          form_type: "repair",
+          submitted_at: new Date().toISOString(),
+        }),
       });
       if (response.ok) {
         setRepairSubmitted(true);
@@ -129,7 +186,6 @@ const EnquiryPage = () => {
     }
   };
 
-  // Reset OTP when switching tabs or changing email
   const resetOtp = () => {
     if (otpStep !== "form") {
       setOtpStep("form");
@@ -138,21 +194,23 @@ const EnquiryPage = () => {
     }
   };
 
-  const inputClass = "w-full px-4 py-3 bg-card border border-gunmetal/20 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-brass-gold/60 focus:ring-1 focus:ring-brass-gold/30 transition-colors text-sm";
-  const labelClass = "block text-sm font-medium text-foreground mb-1.5";
+  const inputClass = "w-full px-4 py-3 bg-card border border-gunmetal/20 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-brass-gold/60 focus:ring-1 focus:ring-brass-gold/30 transition-colors text-base";
+  const labelClass = "block text-base font-medium text-foreground mb-1.5";
+  const errorClass = "text-red-500 text-sm mt-1";
 
-  const renderEmailFieldWithOtp = (formEmail: string, setFormEmail: (email: string) => void) => (
+  const renderEmailFieldWithOtp = (formEmail: string, setFormEmail: (email: string) => void, errorKey: string) => (
     <div>
       <label className={labelClass}>Email Address *</label>
       <div className="flex gap-2">
         <input
           type="email"
           required
-          className={`${inputClass} flex-1`}
+          className={`${inputClass} flex-1 ${errors[errorKey] ? "border-red-500" : ""}`}
           placeholder="you@company.com"
           value={formEmail}
           onChange={(e) => {
             setFormEmail(e.target.value);
+            clearError(errorKey);
             if (verifiedEmail && e.target.value !== verifiedEmail) resetOtp();
           }}
           disabled={otpStep === "verified"}
@@ -161,23 +219,24 @@ const EnquiryPage = () => {
           <button
             type="button"
             onClick={handleSendOtp}
-            disabled={otpSending || !formEmail.includes("@")}
-            className="btn-primary px-4 py-3 text-sm whitespace-nowrap flex items-center gap-2"
+            disabled={otpSending || !validateEmail(formEmail)}
+            className="btn-primary px-4 py-3 text-base whitespace-nowrap flex items-center gap-2"
           >
             {otpSending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             Verify
           </button>
         )}
         {otpStep === "verified" && (
-          <div className="flex items-center gap-1 px-3 bg-defence-green/10 border border-defence-green/30 text-defence-green text-sm font-medium">
+          <div className="flex items-center gap-1 px-3 bg-defence-green/10 border border-defence-green/30 text-defence-green text-base font-medium">
             <ShieldCheck className="w-4 h-4" />
             Verified
           </div>
         )}
       </div>
+      {errors[errorKey] && <p className={errorClass}>{errors[errorKey]}</p>}
       {otpStep === "otp" && (
         <div className="mt-3 p-4 bg-card border border-brass-gold/30">
-          <p className="text-sm text-muted-foreground mb-2">Enter the 6-digit code sent to <strong>{formEmail}</strong></p>
+          <p className="text-base text-muted-foreground mb-2">Enter the 6-digit code sent to <strong>{formEmail}</strong></p>
           <div className="flex gap-2">
             <input
               type="text"
@@ -191,17 +250,37 @@ const EnquiryPage = () => {
               type="button"
               onClick={handleVerifyOtp}
               disabled={otpVerifying || otpCode.length !== 6}
-              className="btn-accent px-4 py-3 text-sm flex items-center gap-2"
+              className="btn-accent px-4 py-3 text-base flex items-center gap-2"
             >
               {otpVerifying ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
               Confirm
             </button>
           </div>
-          <button type="button" onClick={handleSendOtp} disabled={otpSending} className="text-xs text-brass-gold mt-2 hover:underline">
+          <button type="button" onClick={handleSendOtp} disabled={otpSending} className="text-sm text-brass-gold mt-2 hover:underline">
             Resend code
           </button>
         </div>
       )}
+    </div>
+  );
+
+  const renderPhoneField = (value: string, onChange: (v: string) => void, errorKey: string) => (
+    <div>
+      <label className={labelClass}>Phone Number * <span className="text-muted-foreground font-normal text-sm">(10 digits)</span></label>
+      <input
+        type="tel"
+        required
+        className={`${inputClass} ${errors[errorKey] ? "border-red-500" : ""}`}
+        placeholder="9876543210"
+        maxLength={10}
+        value={value}
+        onChange={(e) => {
+          const v = e.target.value.replace(/\D/g, "").slice(0, 10);
+          onChange(v);
+          clearError(errorKey);
+        }}
+      />
+      {errors[errorKey] && <p className={errorClass}>{errors[errorKey]}</p>}
     </div>
   );
 
@@ -236,16 +315,16 @@ const EnquiryPage = () => {
             <ScrollReveal>
               <div className="flex border border-gunmetal/20 mb-10">
                 <button
-                  onClick={() => { setActiveTab("enquiry"); resetOtp(); }}
-                  className={`flex-1 flex items-center justify-center gap-2 py-4 font-semibold text-sm uppercase tracking-wider transition-colors ${
+                  onClick={() => { setActiveTab("enquiry"); resetOtp(); setErrors({}); }}
+                  className={`flex-1 flex items-center justify-center gap-2 py-4 font-semibold text-base uppercase tracking-wider transition-colors ${
                     activeTab === "enquiry" ? "bg-defence-green text-white" : "bg-card text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   <FileText className="w-4 h-4" /> New Enquiry
                 </button>
                 <button
-                  onClick={() => { setActiveTab("repair"); resetOtp(); }}
-                  className={`flex-1 flex items-center justify-center gap-2 py-4 font-semibold text-sm uppercase tracking-wider transition-colors ${
+                  onClick={() => { setActiveTab("repair"); resetOtp(); setErrors({}); }}
+                  className={`flex-1 flex items-center justify-center gap-2 py-4 font-semibold text-base uppercase tracking-wider transition-colors ${
                     activeTab === "repair" ? "bg-defence-green text-white" : "bg-card text-muted-foreground hover:text-foreground"
                   }`}
                 >
@@ -267,21 +346,18 @@ const EnquiryPage = () => {
                     <Link to="/" className="btn-primary inline-flex items-center gap-2">Back to Home</Link>
                   </div>
                 ) : (
-                  <form onSubmit={handleEnquirySubmit} className="space-y-5">
+                  <form onSubmit={handleEnquirySubmit} className="space-y-5" noValidate>
                     <div className="grid sm:grid-cols-2 gap-5">
                       <div>
                         <label className={labelClass}>Full Name *</label>
-                        <input type="text" required className={inputClass} placeholder="Your full name"
-                          value={enquiryForm.name} onChange={(e) => setEnquiryForm({ ...enquiryForm, name: e.target.value })} />
+                        <input type="text" required className={`${inputClass} ${errors.eq_name ? "border-red-500" : ""}`} placeholder="Your full name"
+                          value={enquiryForm.name} onChange={(e) => { setEnquiryForm({ ...enquiryForm, name: e.target.value }); clearError("eq_name"); }} />
+                        {errors.eq_name && <p className={errorClass}>{errors.eq_name}</p>}
                       </div>
-                      {renderEmailFieldWithOtp(enquiryForm.email, (email) => setEnquiryForm({ ...enquiryForm, email }))}
+                      {renderEmailFieldWithOtp(enquiryForm.email, (email) => setEnquiryForm({ ...enquiryForm, email }), "eq_email")}
                     </div>
                     <div className="grid sm:grid-cols-2 gap-5">
-                      <div>
-                        <label className={labelClass}>Phone Number *</label>
-                        <input type="tel" required className={inputClass} placeholder="+91 XXXXX XXXXX"
-                          value={enquiryForm.phone} onChange={(e) => setEnquiryForm({ ...enquiryForm, phone: e.target.value })} />
-                      </div>
+                      {renderPhoneField(enquiryForm.phone, (phone) => setEnquiryForm({ ...enquiryForm, phone }), "eq_phone")}
                       <div>
                         <label className={labelClass}>Organization</label>
                         <input type="text" className={inputClass} placeholder="Company / Unit name"
@@ -293,24 +369,22 @@ const EnquiryPage = () => {
                       <select className={inputClass}
                         value={enquiryForm.product_interest} onChange={(e) => setEnquiryForm({ ...enquiryForm, product_interest: e.target.value })}>
                         <option value="">Select area of interest</option>
-                        <option value="fire-control">Fire Control Systems (AMFDC)</option>
-                        <option value="inspection">Gun Barrel Inspection (GBInP)</option>
-                        <option value="surveillance">Field Surveillance (FSD/INVSS)</option>
-                        <option value="simulators">Simulators & Training</option>
-                        <option value="industrial">Industrial Automation</option>
-                        <option value="services">Repair & AMC Services</option>
-                        <option value="other">Other</option>
+                        {PRODUCT_OPTIONS.map((opt) => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
                       </select>
                     </div>
                     <div>
                       <label className={labelClass}>Subject *</label>
-                      <input type="text" required className={inputClass} placeholder="Brief subject of your enquiry"
-                        value={enquiryForm.subject} onChange={(e) => setEnquiryForm({ ...enquiryForm, subject: e.target.value })} />
+                      <input type="text" required className={`${inputClass} ${errors.eq_subject ? "border-red-500" : ""}`} placeholder="Brief subject of your enquiry"
+                        value={enquiryForm.subject} onChange={(e) => { setEnquiryForm({ ...enquiryForm, subject: e.target.value }); clearError("eq_subject"); }} />
+                      {errors.eq_subject && <p className={errorClass}>{errors.eq_subject}</p>}
                     </div>
                     <div>
                       <label className={labelClass}>Detailed Requirements *</label>
-                      <textarea required rows={5} className={inputClass} placeholder="Describe your requirements..."
-                        value={enquiryForm.message} onChange={(e) => setEnquiryForm({ ...enquiryForm, message: e.target.value })} />
+                      <textarea required rows={5} className={`${inputClass} ${errors.eq_message ? "border-red-500" : ""}`} placeholder="Describe your requirements..."
+                        value={enquiryForm.message} onChange={(e) => { setEnquiryForm({ ...enquiryForm, message: e.target.value }); clearError("eq_message"); }} />
+                      {errors.eq_message && <p className={errorClass}>{errors.eq_message}</p>}
                     </div>
                     <button
                       type="submit"
@@ -338,21 +412,18 @@ const EnquiryPage = () => {
                     <Link to="/" className="btn-primary inline-flex items-center gap-2">Back to Home</Link>
                   </div>
                 ) : (
-                  <form onSubmit={handleRepairSubmit} className="space-y-5">
+                  <form onSubmit={handleRepairSubmit} className="space-y-5" noValidate>
                     <div className="grid sm:grid-cols-2 gap-5">
                       <div>
                         <label className={labelClass}>Full Name *</label>
-                        <input type="text" required className={inputClass} placeholder="Your full name"
-                          value={repairForm.name} onChange={(e) => setRepairForm({ ...repairForm, name: e.target.value })} />
+                        <input type="text" required className={`${inputClass} ${errors.rp_name ? "border-red-500" : ""}`} placeholder="Your full name"
+                          value={repairForm.name} onChange={(e) => { setRepairForm({ ...repairForm, name: e.target.value }); clearError("rp_name"); }} />
+                        {errors.rp_name && <p className={errorClass}>{errors.rp_name}</p>}
                       </div>
-                      {renderEmailFieldWithOtp(repairForm.email, (email) => setRepairForm({ ...repairForm, email }))}
+                      {renderEmailFieldWithOtp(repairForm.email, (email) => setRepairForm({ ...repairForm, email }), "rp_email")}
                     </div>
                     <div className="grid sm:grid-cols-2 gap-5">
-                      <div>
-                        <label className={labelClass}>Phone Number *</label>
-                        <input type="tel" required className={inputClass} placeholder="+91 XXXXX XXXXX"
-                          value={repairForm.phone} onChange={(e) => setRepairForm({ ...repairForm, phone: e.target.value })} />
-                      </div>
+                      {renderPhoneField(repairForm.phone, (phone) => setRepairForm({ ...repairForm, phone }), "rp_phone")}
                       <div>
                         <label className={labelClass}>Organization / Unit</label>
                         <input type="text" className={inputClass} placeholder="Company / Unit name"
@@ -362,28 +433,58 @@ const EnquiryPage = () => {
                     <div className="grid sm:grid-cols-2 gap-5">
                       <div>
                         <label className={labelClass}>Equipment Name *</label>
-                        <input type="text" required className={inputClass} placeholder="e.g. AMFDC MK-II, GBInP-17"
-                          value={repairForm.equipment_name} onChange={(e) => setRepairForm({ ...repairForm, equipment_name: e.target.value })} />
+                        <select
+                          required
+                          className={`${inputClass} ${errors.rp_equipment ? "border-red-500" : ""}`}
+                          value={repairForm.equipment_category}
+                          onChange={(e) => {
+                            setRepairForm({ ...repairForm, equipment_category: e.target.value, equipment_variant: "" });
+                            clearError("rp_equipment");
+                          }}
+                        >
+                          <option value="">Select equipment</option>
+                          {Object.keys(EQUIPMENT_OPTIONS).map((eq) => (
+                            <option key={eq} value={eq}>{eq}</option>
+                          ))}
+                        </select>
+                        {errors.rp_equipment && <p className={errorClass}>{errors.rp_equipment}</p>}
                       </div>
+                      <div>
+                        <label className={labelClass}>Equipment Variant</label>
+                        <select
+                          className={inputClass}
+                          value={repairForm.equipment_variant}
+                          onChange={(e) => setRepairForm({ ...repairForm, equipment_variant: e.target.value })}
+                          disabled={!repairForm.equipment_category}
+                        >
+                          <option value="">Select variant</option>
+                          {repairForm.equipment_category && EQUIPMENT_OPTIONS[repairForm.equipment_category]?.map((v) => (
+                            <option key={v} value={v}>{v}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-5">
                       <div>
                         <label className={labelClass}>Serial Number</label>
                         <input type="text" className={inputClass} placeholder="Equipment serial number"
                           value={repairForm.serial_number} onChange={(e) => setRepairForm({ ...repairForm, serial_number: e.target.value })} />
                       </div>
-                    </div>
-                    <div>
-                      <label className={labelClass}>Urgency Level</label>
-                      <select className={inputClass}
-                        value={repairForm.urgency} onChange={(e) => setRepairForm({ ...repairForm, urgency: e.target.value })}>
-                        <option value="normal">Normal — Within 7 days</option>
-                        <option value="high">High — Within 48 hours</option>
-                        <option value="critical">Critical — Immediate attention</option>
-                      </select>
+                      <div>
+                        <label className={labelClass}>Urgency Level</label>
+                        <select className={inputClass}
+                          value={repairForm.urgency} onChange={(e) => setRepairForm({ ...repairForm, urgency: e.target.value })}>
+                          <option value="normal">Normal</option>
+                          <option value="high">High</option>
+                          <option value="critical">Critical</option>
+                        </select>
+                      </div>
                     </div>
                     <div>
                       <label className={labelClass}>Issue Description *</label>
-                      <textarea required rows={5} className={inputClass} placeholder="Describe the issue, symptoms, error codes..."
-                        value={repairForm.issue_description} onChange={(e) => setRepairForm({ ...repairForm, issue_description: e.target.value })} />
+                      <textarea required rows={5} className={`${inputClass} ${errors.rp_issue ? "border-red-500" : ""}`} placeholder="Describe the issue, symptoms, error codes..."
+                        value={repairForm.issue_description} onChange={(e) => { setRepairForm({ ...repairForm, issue_description: e.target.value }); clearError("rp_issue"); }} />
+                      {errors.rp_issue && <p className={errorClass}>{errors.rp_issue}</p>}
                     </div>
                     <button
                       type="submit"
