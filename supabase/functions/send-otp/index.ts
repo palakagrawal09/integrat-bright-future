@@ -62,7 +62,7 @@ Deno.serve(async (req) => {
         Authorization: `Bearer ${resendApiKey}`,
       },
       body: JSON.stringify({
-        from: "DIPL Enquiry <noreply@diplindia.com>",
+        from: "DIPL Enquiry <onboarding@resend.dev>",
         to: [email],
         subject: "Your Verification Code - Digital Integrator Pvt. Ltd.",
         html: `
