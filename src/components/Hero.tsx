@@ -1,9 +1,42 @@
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import heroBg from "@/assets/hero-bg.jpg";
 
+type HomepageSection = {
+  id: string;
+  title: string;
+  content: string;
+  sort_order: number;
+  published: boolean;
+};
+
 const Hero = () => {
+  const [sections, setSections] = useState<HomepageSection[]>([]);
+
+  useEffect(() => {
+    const fetchHomepageSections = async () => {
+      const { data, error } = await supabase
+        .from("homepage_sections")
+        .select("id, title, content, sort_order, published")
+        .eq("published", true)
+        .order("sort_order", { ascending: true });
+
+      if (!error && data) {
+        setSections(data);
+      }
+    };
+
+    fetchHomepageSections();
+  }, []);
+
+  const heroHeadline = useMemo(() => {
+    const hero = sections.find((section) => section.title.toLowerCase().includes("hero"));
+    return hero?.content?.trim() || "Engineering Defence-Grade Systems for India";
+  }, [sections]);
+
   return (
     <section className="relative min-h-screen flex items-center pt-20">
       {/* Background Image with Dark Overlay */}
@@ -13,7 +46,7 @@ const Hero = () => {
           alt="Defence manufacturing facility"
           className="w-full h-full object-cover"
         />
-        <div 
+        <div
           className="absolute inset-0"
           style={{ background: "var(--gradient-overlay)" }}
         />
@@ -42,9 +75,7 @@ const Hero = () => {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-white leading-tight mb-6"
           >
-            Engineering Defence-Grade
-            <br />
-            <span className="text-brass-gold">Systems for India</span>
+            {heroHeadline}
           </motion.h1>
 
           {/* Description */}
@@ -54,7 +85,7 @@ const Hero = () => {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-lg sm:text-xl text-white/80 mb-10 max-w-2xl leading-relaxed"
           >
-            Organisation dedicated to product development. Complete solutions for Defence, 
+            Organisation dedicated to product development. Complete solutions for Defence,
             Industrial Automation, Simulators & Training Systems since 1990.
           </motion.p>
 
@@ -65,14 +96,14 @@ const Hero = () => {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="flex flex-wrap gap-4"
           >
-            <Link 
-              to="/defence-systems" 
+            <Link
+              to="/defence-systems"
               className="btn-accent inline-flex items-center gap-2 group"
             >
               Explore Capabilities
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link 
+            <Link
               to="/enquiry"
               className="btn-outline text-white border-white/40 hover:border-brass-gold inline-flex items-center gap-2"
             >
