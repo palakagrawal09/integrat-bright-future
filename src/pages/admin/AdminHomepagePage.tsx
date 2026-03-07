@@ -8,30 +8,101 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogD
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
+type HomepageSection = {
+  id: string;
+  title: string;
+  content: string;
+  published: boolean;
+  sort_order: number;
+};
+
 const AdminHomepagePage = () => {
   const { toast } = useToast();
-  const [sections, setSections] = useState<any[]>([]);
+  const [sections, setSections] = useState<HomepageSection[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [editing, setEditing] = useState<any | null>(null);
+  const [editing, setEditing] = useState<HomepageSection | null>(null);
   const [form, setForm] = useState({ title: "", content: "" });
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
-    const { data } = await supabase.from("homepage_sections").select("*").order("sort_order");
-    setSections(data || []); setLoading(false);
-  };
-  useEffect(() => { fetchData(); }, []);
+    setLoading(true);
+    const { data, error } = await supabase.from("homepage_sections").select("*").order("sort_order");
 
-  const openCreate = () => { setEditing(null); setForm({ title: "", content: "" }); setDialogOpen(true); };
-  const openEdit = (s: any) => { setEditing(s); setForm({ title: s.title, content: s.content }); setDialogOpen(true); };
+    if (error) {
+      toast({ title: "Failed to load sections", description: error.message, variant: "destructive" });
+      setLoading(false);
+      return;
+    }
+
+    setSections(data || []);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const openCreate = () => {
+    setEditing(null);
+    setForm({ title: "", content: "" });
+    setDialogOpen(true);
+  };
+
+  const openEdit = (s: HomepageSection) => {
+    setEditing(s);
+    setForm({ title: s.title, content: s.content });
+    setDialogOpen(true);
+  };
 
   const handleSave = async () => {
-    if (editing) { await supabase.from("homepage_sections").update(form).eq("id", editing.id); toast({ title: "Section updated" }); }
-    else { await supabase.from("homepage_sections").insert({ ...form, sort_order: sections.length + 1 }); toast({ title: "Section created" }); }
-    setDialogOpen(false); fetchData();
+    if (!form.title.trim() || !form.content.trim()) {
+      toast({ title: "Title and content are required", variant: "destructive" });
+      return;
+    }
+
+    const response = editing
+      ? await supabase.from("homepage_sections").update(form).eq("id", editing.id)
+      : await supabase.from("homepage_sections").insert({ ...form, sort_order: sections.length + 1 });
+
+    if (response.error) {
+      toast({
+        title: editing ? "Failed to update section" : "Failed to create section",
+        description: response.error.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({ title: editing ? "Section updated" : "Section created" });
+    setDialogOpen(false);
+    fetchData();
   };
-  const togglePublish = async (s: any) => { await supabase.from("homepage_sections").update({ published: !s.published }).eq("id", s.id); fetchData(); };
-  const deleteSection = async (id: string) => { await supabase.from("homepage_sections").delete().eq("id", id); toast({ title: "Section deleted" }); fetchData(); };
+
+  const togglePublish = async (s: HomepageSection) => {
+    const { error } = await supabase
+      .from("homepage_sections")
+      .update({ published: !s.published })
+      .eq("id", s.id);
+
+    if (error) {
+      toast({ title: "Failed to update publish status", description: error.message, variant: "destructive" });
+      return;
+    }
+
+    fetchData();
+  };
+
+  const deleteSection = async (id: string) => {
+    const { error } = await supabase.from("homepage_sections").delete().eq("id", id);
+
+    if (error) {
+      toast({ title: "Failed to delete section", description: error.message, variant: "destructive" });
+      return;
+    }
+
+    toast({ title: "Section deleted" });
+    fetchData();
+  };
 
   if (loading) return <div className="text-muted-foreground">Loading...</div>;
 

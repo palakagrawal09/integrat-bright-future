@@ -1,16 +1,61 @@
-import { Shield, Crosshair, Cpu, Zap, Settings, Factory } from "lucide-react";
+import { Shield, Crosshair, Cpu, Zap, Settings, Factory, PenTool, Wrench, HeadsetIcon } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import ScrollReveal from "@/components/ScrollReveal";
+import { supabase } from "@/integrations/supabase/client";
+
+type Service = {
+  id: string;
+  title: string;
+  description: string;
+  sort_order: number;
+  published: boolean;
+};
+
+const fallbackIcons: Record<string, React.ElementType> = {
+  "Design & Development": PenTool,
+  "Integration & Testing": Settings,
+  "Repair & Maintenance": Wrench,
+  "AMC & Field Support": HeadsetIcon,
+};
+
+const defaultCapabilities = [
+  { icon: Shield, title: "Defence Manufacturing", description: "Precision electronics for defence applications and strategic systems." },
+  { icon: Crosshair, title: "Simulators & Training", description: "Advanced training simulators for armed forces and industrial use." },
+  { icon: Cpu, title: "Industrial Automation", description: "PLC-based automation systems for manufacturing excellence." },
+  { icon: Zap, title: "Power & Energy Systems", description: "Custom power distribution and control panel solutions." },
+  { icon: Settings, title: "Data Acquisition", description: "High-precision data acquisition and monitoring systems." },
+  { icon: Factory, title: "Custom Electronics", description: "Bespoke electronic systems tailored to specific requirements." },
+];
 
 const Capabilities = () => {
-  const capabilities = [
-    { icon: Shield, title: "Defence Manufacturing", description: "Precision electronics for defence applications and strategic systems." },
-    { icon: Crosshair, title: "Simulators & Training", description: "Advanced training simulators for armed forces and industrial use." },
-    { icon: Cpu, title: "Industrial Automation", description: "PLC-based automation systems for manufacturing excellence." },
-    { icon: Zap, title: "Power & Energy Systems", description: "Custom power distribution and control panel solutions." },
-    { icon: Settings, title: "Data Acquisition", description: "High-precision data acquisition and monitoring systems." },
-    { icon: Factory, title: "Custom Electronics", description: "Bespoke electronic systems tailored to specific requirements." },
-  ];
+  const [services, setServices] = useState<Service[]>([]);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      const { data, error } = await supabase
+        .from("services")
+        .select("id, title, description, sort_order, published")
+        .eq("published", true)
+        .order("sort_order", { ascending: true });
+
+      if (!error && data) {
+        setServices(data);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
+  const capabilities = useMemo(() => {
+    if (services.length === 0) return defaultCapabilities;
+
+    return services.map((service) => ({
+      icon: fallbackIcons[service.title] || Factory,
+      title: service.title,
+      description: service.description,
+    }));
+  }, [services]);
 
   return (
     <section id="capabilities" className="section-padding bg-background">
@@ -24,7 +69,7 @@ const Capabilities = () => {
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mt-2 mb-4">What We Manufacture</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-              Specializing in Defence Electronics and Industrial Automation, 
+              Specializing in Defence Electronics and Industrial Automation,
               delivering precision-engineered solutions for critical applications.
             </p>
           </div>
