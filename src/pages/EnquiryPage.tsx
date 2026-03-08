@@ -497,13 +497,10 @@ const EnquiryPage = () => {
                         </select>
                       </div>
                     </div>
-                    <div className="grid sm:grid-cols-2 gap-5">
-                      <div>
-                     <div>
-                       <label className={labelClass}>Serial Number</label>
-                       <input type="text" className={inputClass} placeholder="Equipment serial number"
-                         value={repairForm.serial_number} onChange={(e) => setRepairForm({ ...repairForm, serial_number: e.target.value })} />
-                     </div>
+                    <div>
+                      <label className={labelClass}>Serial Number</label>
+                      <input type="text" className={inputClass} placeholder="Equipment serial number"
+                        value={repairForm.serial_number} onChange={(e) => setRepairForm({ ...repairForm, serial_number: e.target.value })} />
                     </div>
                     <div>
                       <label className={labelClass}>Issue Description *</label>
