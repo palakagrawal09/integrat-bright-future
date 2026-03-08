@@ -158,6 +158,23 @@ const EnquiryPage = () => {
     }
   };
 
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    const validFiles = files.filter(f => f.type.startsWith("image/") && f.size <= 5 * 1024 * 1024);
+    if (validFiles.length !== files.length) {
+      toast({ title: "Some files skipped", description: "Only images under 5MB are allowed.", variant: "destructive" });
+    }
+    const newFiles = [...repairImages, ...validFiles].slice(0, 5);
+    setRepairImages(newFiles);
+    setRepairImagePreviews(newFiles.map(f => URL.createObjectURL(f)));
+  };
+
+  const removeImage = (index: number) => {
+    URL.revokeObjectURL(repairImagePreviews[index]);
+    setRepairImages(prev => prev.filter((_, i) => i !== index));
+    setRepairImagePreviews(prev => prev.filter((_, i) => i !== index));
+  };
+
   const handleRepairSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateRepairForm()) return;
@@ -167,22 +184,36 @@ const EnquiryPage = () => {
     }
     setRepairSubmitting(true);
     try {
-      const response = await fetch("https://hook.eu1.make.com/rmoutpfypcl6hz1l6fh1sa8fzk3g1lv1", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...repairForm,
-          equipment_name: repairForm.equipment_variant || repairForm.equipment_category,
-          form_type: "repair",
-          submitted_at: new Date().toISOString(),
-        }),
+      // Upload images first
+      const uploadedUrls: string[] = [];
+      for (const file of repairImages) {
+        const fileName = `repair_${Date.now()}_${crypto.randomUUID()}.${file.name.split('.').pop()}`;
+        const { error: uploadError } = await supabase.storage
+          .from("repair-images")
+          .upload(fileName, file, { contentType: file.type });
+        if (uploadError) throw uploadError;
+        const { data: publicUrlData } = supabase.storage.from("repair-images").getPublicUrl(fileName);
+        uploadedUrls.push(publicUrlData.publicUrl);
+      }
+
+      // Insert into database
+      const { error } = await supabase.from("repair_submissions" as any).insert({
+        name: repairForm.name,
+        email: repairForm.email,
+        phone: repairForm.phone,
+        organization: repairForm.organization,
+        equipment_category: repairForm.equipment_category,
+        equipment_variant: repairForm.equipment_variant,
+        serial_number: repairForm.serial_number,
+        issue_description: repairForm.issue_description,
+        image_urls: uploadedUrls,
       });
-      if (response.ok) {
-        setRepairSubmitted(true);
-        toast({ title: "Repair Request Submitted", description: "Our service team will contact you shortly." });
-      } else throw new Error("Failed");
-    } catch {
-      toast({ title: "Submission Failed", description: "Please try again or email us directly.", variant: "destructive" });
+      if (error) throw error;
+
+      setRepairSubmitted(true);
+      toast({ title: "Repair Request Submitted", description: "Our service team will contact you shortly." });
+    } catch (err: any) {
+      toast({ title: "Submission Failed", description: err.message || "Please try again or email us directly.", variant: "destructive" });
     } finally {
       setRepairSubmitting(false);
     }
