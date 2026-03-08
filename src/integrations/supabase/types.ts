@@ -340,6 +340,51 @@ export type Database = {
           },
         ]
       }
+      repair_submissions: {
+        Row: {
+          created_at: string
+          email: string
+          equipment_category: string
+          equipment_variant: string
+          id: string
+          image_urls: string[]
+          issue_description: string
+          name: string
+          organization: string
+          phone: string
+          read: boolean
+          serial_number: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          equipment_category?: string
+          equipment_variant?: string
+          id?: string
+          image_urls?: string[]
+          issue_description?: string
+          name: string
+          organization?: string
+          phone?: string
+          read?: boolean
+          serial_number?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          equipment_category?: string
+          equipment_variant?: string
+          id?: string
+          image_urls?: string[]
+          issue_description?: string
+          name?: string
+          organization?: string
+          phone?: string
+          read?: boolean
+          serial_number?: string
+        }
+        Relationships: []
+      }
       services: {
         Row: {
           created_at: string
