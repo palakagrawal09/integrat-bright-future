@@ -54,8 +54,10 @@ const EnquiryPage = () => {
   // Repair form state
   const [repairForm, setRepairForm] = useState({
     name: "", email: "", phone: "", organization: "",
-    equipment_category: "", equipment_variant: "", serial_number: "", issue_description: "", urgency: "normal",
+    equipment_category: "", equipment_variant: "", serial_number: "", issue_description: "",
   });
+  const [repairImages, setRepairImages] = useState<File[]>([]);
+  const [repairImagePreviews, setRepairImagePreviews] = useState<string[]>([]);
   const [repairSubmitting, setRepairSubmitting] = useState(false);
   const [repairSubmitted, setRepairSubmitted] = useState(false);
 
