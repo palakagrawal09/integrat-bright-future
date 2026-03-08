@@ -499,25 +499,39 @@ const EnquiryPage = () => {
                     </div>
                     <div className="grid sm:grid-cols-2 gap-5">
                       <div>
-                        <label className={labelClass}>Serial Number</label>
-                        <input type="text" className={inputClass} placeholder="Equipment serial number"
-                          value={repairForm.serial_number} onChange={(e) => setRepairForm({ ...repairForm, serial_number: e.target.value })} />
-                      </div>
-                      <div>
-                        <label className={labelClass}>Urgency Level</label>
-                        <select className={inputClass}
-                          value={repairForm.urgency} onChange={(e) => setRepairForm({ ...repairForm, urgency: e.target.value })}>
-                          <option value="normal">Normal</option>
-                          <option value="high">High</option>
-                          <option value="critical">Critical</option>
-                        </select>
-                      </div>
+                     <div>
+                       <label className={labelClass}>Serial Number</label>
+                       <input type="text" className={inputClass} placeholder="Equipment serial number"
+                         value={repairForm.serial_number} onChange={(e) => setRepairForm({ ...repairForm, serial_number: e.target.value })} />
+                     </div>
                     </div>
                     <div>
                       <label className={labelClass}>Issue Description *</label>
                       <textarea required rows={5} className={`${inputClass} ${errors.rp_issue ? "border-red-500" : ""}`} placeholder="Describe the issue, symptoms, error codes..."
                         value={repairForm.issue_description} onChange={(e) => { setRepairForm({ ...repairForm, issue_description: e.target.value }); clearError("rp_issue"); }} />
                       {errors.rp_issue && <p className={errorClass}>{errors.rp_issue}</p>}
+                    </div>
+                    {/* Image Upload */}
+                    <div>
+                      <label className={labelClass}>Damage Images <span className="text-muted-foreground font-normal text-sm">(up to 5, max 5MB each)</span></label>
+                      <div className="flex flex-wrap gap-3 mb-2">
+                        {repairImagePreviews.map((src, i) => (
+                          <div key={i} className="relative w-20 h-20 border border-gunmetal/20 overflow-hidden group">
+                            <img src={src} alt={`Damage ${i + 1}`} className="w-full h-full object-cover" />
+                            <button type="button" onClick={() => removeImage(i)}
+                              className="absolute top-0 right-0 bg-red-600 text-white p-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ))}
+                        {repairImages.length < 5 && (
+                          <label className="w-20 h-20 border-2 border-dashed border-gunmetal/30 flex flex-col items-center justify-center cursor-pointer hover:border-brass-gold/60 transition-colors">
+                            <ImagePlus className="w-5 h-5 text-muted-foreground" />
+                            <span className="text-xs text-muted-foreground mt-1">Add</span>
+                            <input type="file" accept="image/*" multiple className="hidden" onChange={handleImageSelect} />
+                          </label>
+                        )}
+                      </div>
                     </div>
                     <button
                       type="submit"
