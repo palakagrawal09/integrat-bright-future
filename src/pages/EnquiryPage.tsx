@@ -2,7 +2,7 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Send, FileText, Wrench, CheckCircle, Loader2, ShieldCheck } from "lucide-react";
+import { Send, FileText, Wrench, CheckCircle, Loader2, ShieldCheck, ImagePlus, X } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
