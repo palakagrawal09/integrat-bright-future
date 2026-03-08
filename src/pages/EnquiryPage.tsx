@@ -196,19 +196,18 @@ const EnquiryPage = () => {
         uploadedUrls.push(publicUrlData.publicUrl);
       }
 
-      // Insert into database
-      const { error } = await supabase.from("repair_submissions" as any).insert({
-        name: repairForm.name,
-        email: repairForm.email,
-        phone: repairForm.phone,
-        organization: repairForm.organization,
-        equipment_category: repairForm.equipment_category,
-        equipment_variant: repairForm.equipment_variant,
-        serial_number: repairForm.serial_number,
-        issue_description: repairForm.issue_description,
-        image_urls: uploadedUrls,
+      // Send to webhook
+      const response = await fetch("https://hook.eu1.make.com/lhseltfl7xgroc6k2lp8unjlvidwrysb", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...repairForm,
+          image_urls: uploadedUrls,
+          form_type: "repair",
+          submitted_at: new Date().toISOString(),
+        }),
       });
-      if (error) throw error;
+      if (!response.ok) throw new Error("Failed to submit");
 
       setRepairSubmitted(true);
       toast({ title: "Repair Request Submitted", description: "Our service team will contact you shortly." });
