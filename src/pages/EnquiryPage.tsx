@@ -2,7 +2,7 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Send, FileText, Wrench, CheckCircle, Loader2, ShieldCheck } from "lucide-react";
+import { Send, FileText, Wrench, CheckCircle, Loader2, ShieldCheck, ImagePlus, X } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -54,8 +54,10 @@ const EnquiryPage = () => {
   // Repair form state
   const [repairForm, setRepairForm] = useState({
     name: "", email: "", phone: "", organization: "",
-    equipment_category: "", equipment_variant: "", serial_number: "", issue_description: "", urgency: "normal",
+    equipment_category: "", equipment_variant: "", serial_number: "", issue_description: "",
   });
+  const [repairImages, setRepairImages] = useState<File[]>([]);
+  const [repairImagePreviews, setRepairImagePreviews] = useState<string[]>([]);
   const [repairSubmitting, setRepairSubmitting] = useState(false);
   const [repairSubmitted, setRepairSubmitted] = useState(false);
 
@@ -156,6 +158,23 @@ const EnquiryPage = () => {
     }
   };
 
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    const validFiles = files.filter(f => f.type.startsWith("image/") && f.size <= 5 * 1024 * 1024);
+    if (validFiles.length !== files.length) {
+      toast({ title: "Some files skipped", description: "Only images under 5MB are allowed.", variant: "destructive" });
+    }
+    const newFiles = [...repairImages, ...validFiles].slice(0, 5);
+    setRepairImages(newFiles);
+    setRepairImagePreviews(newFiles.map(f => URL.createObjectURL(f)));
+  };
+
+  const removeImage = (index: number) => {
+    URL.revokeObjectURL(repairImagePreviews[index]);
+    setRepairImages(prev => prev.filter((_, i) => i !== index));
+    setRepairImagePreviews(prev => prev.filter((_, i) => i !== index));
+  };
+
   const handleRepairSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateRepairForm()) return;
@@ -165,22 +184,36 @@ const EnquiryPage = () => {
     }
     setRepairSubmitting(true);
     try {
-      const response = await fetch("https://hook.eu1.make.com/rmoutpfypcl6hz1l6fh1sa8fzk3g1lv1", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...repairForm,
-          equipment_name: repairForm.equipment_variant || repairForm.equipment_category,
-          form_type: "repair",
-          submitted_at: new Date().toISOString(),
-        }),
+      // Upload images first
+      const uploadedUrls: string[] = [];
+      for (const file of repairImages) {
+        const fileName = `repair_${Date.now()}_${crypto.randomUUID()}.${file.name.split('.').pop()}`;
+        const { error: uploadError } = await supabase.storage
+          .from("repair-images")
+          .upload(fileName, file, { contentType: file.type });
+        if (uploadError) throw uploadError;
+        const { data: publicUrlData } = supabase.storage.from("repair-images").getPublicUrl(fileName);
+        uploadedUrls.push(publicUrlData.publicUrl);
+      }
+
+      // Insert into database
+      const { error } = await supabase.from("repair_submissions" as any).insert({
+        name: repairForm.name,
+        email: repairForm.email,
+        phone: repairForm.phone,
+        organization: repairForm.organization,
+        equipment_category: repairForm.equipment_category,
+        equipment_variant: repairForm.equipment_variant,
+        serial_number: repairForm.serial_number,
+        issue_description: repairForm.issue_description,
+        image_urls: uploadedUrls,
       });
-      if (response.ok) {
-        setRepairSubmitted(true);
-        toast({ title: "Repair Request Submitted", description: "Our service team will contact you shortly." });
-      } else throw new Error("Failed");
-    } catch {
-      toast({ title: "Submission Failed", description: "Please try again or email us directly.", variant: "destructive" });
+      if (error) throw error;
+
+      setRepairSubmitted(true);
+      toast({ title: "Repair Request Submitted", description: "Our service team will contact you shortly." });
+    } catch (err: any) {
+      toast({ title: "Submission Failed", description: err.message || "Please try again or email us directly.", variant: "destructive" });
     } finally {
       setRepairSubmitting(false);
     }
@@ -464,27 +497,38 @@ const EnquiryPage = () => {
                         </select>
                       </div>
                     </div>
-                    <div className="grid sm:grid-cols-2 gap-5">
-                      <div>
-                        <label className={labelClass}>Serial Number</label>
-                        <input type="text" className={inputClass} placeholder="Equipment serial number"
-                          value={repairForm.serial_number} onChange={(e) => setRepairForm({ ...repairForm, serial_number: e.target.value })} />
-                      </div>
-                      <div>
-                        <label className={labelClass}>Urgency Level</label>
-                        <select className={inputClass}
-                          value={repairForm.urgency} onChange={(e) => setRepairForm({ ...repairForm, urgency: e.target.value })}>
-                          <option value="normal">Normal</option>
-                          <option value="high">High</option>
-                          <option value="critical">Critical</option>
-                        </select>
-                      </div>
+                    <div>
+                      <label className={labelClass}>Serial Number</label>
+                      <input type="text" className={inputClass} placeholder="Equipment serial number"
+                        value={repairForm.serial_number} onChange={(e) => setRepairForm({ ...repairForm, serial_number: e.target.value })} />
                     </div>
                     <div>
                       <label className={labelClass}>Issue Description *</label>
                       <textarea required rows={5} className={`${inputClass} ${errors.rp_issue ? "border-red-500" : ""}`} placeholder="Describe the issue, symptoms, error codes..."
                         value={repairForm.issue_description} onChange={(e) => { setRepairForm({ ...repairForm, issue_description: e.target.value }); clearError("rp_issue"); }} />
                       {errors.rp_issue && <p className={errorClass}>{errors.rp_issue}</p>}
+                    </div>
+                    {/* Image Upload */}
+                    <div>
+                      <label className={labelClass}>Damage Images <span className="text-muted-foreground font-normal text-sm">(up to 5, max 5MB each)</span></label>
+                      <div className="flex flex-wrap gap-3 mb-2">
+                        {repairImagePreviews.map((src, i) => (
+                          <div key={i} className="relative w-20 h-20 border border-gunmetal/20 overflow-hidden group">
+                            <img src={src} alt={`Damage ${i + 1}`} className="w-full h-full object-cover" />
+                            <button type="button" onClick={() => removeImage(i)}
+                              className="absolute top-0 right-0 bg-red-600 text-white p-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ))}
+                        {repairImages.length < 5 && (
+                          <label className="w-20 h-20 border-2 border-dashed border-gunmetal/30 flex flex-col items-center justify-center cursor-pointer hover:border-brass-gold/60 transition-colors">
+                            <ImagePlus className="w-5 h-5 text-muted-foreground" />
+                            <span className="text-xs text-muted-foreground mt-1">Add</span>
+                            <input type="file" accept="image/*" multiple className="hidden" onChange={handleImageSelect} />
+                          </label>
+                        )}
+                      </div>
                     </div>
                     <button
                       type="submit"
