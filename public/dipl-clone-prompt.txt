@@ -1,0 +1,95 @@
+LOVABLE PROJECT PROMPT — DIPL Website Clone (Fully Database-Driven)
+====================================================================
+
+Build a defence electronics company website for "Digital Integrator Pvt. Ltd." (DIPL) — an ISO 9001:2015 certified company established in 1990 in Indore, India, specializing in Defence Electronics, Industrial Automation, Simulators & Training Systems.
+
+CRITICAL ARCHITECTURE RULE: ALL text content visible on the frontend must be fetched dynamically from the database. No hardcoded content in components. Every heading, paragraph, stat, value, vision, mission text must come from database tables so admins can update everything via CRUD operations.
+
+---
+
+SUPABASE CONNECTION:
+- Project URL: https://ntbimtlyvurtqbnsvumq.supabase.co
+- Anon Key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im50YmltdGx5dnVydHFibnN2dW1xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5ODc1NDMsImV4cCI6MjA4NzU2MzU0M30.NRUB4MqLyMn-dZ-kb3NF_Fr69i3eeDUUpu_xH-oHl_s
+- Project ID: ntbimtlyvurtqbnsvumq
+
+---
+
+DATABASE TABLES NEEDED:
+
+1. site_settings — key-value store for global settings (company name, tagline, phone, email, address, map embed URL, ISO certification text, established year, footer text)
+2. homepage_sections — (section_key, title, subtitle, description, badge_text, cta_text, cta_link, bg_image_url, sort_order, published)
+3. stats — (label, value, icon_name, sort_order, published) — e.g. "30+ Years", "200+ Clients"
+4. core_values — (text, icon_name, sort_order, published)
+5. about_entries — (title, content, sort_order, published)
+6. services — (title, description, icon_name, sort_order, published)
+7. product_categories — (name, icon_name, sort_order)
+8. products — (name, description, specifications, images[], category_id FK, sort_order, published)
+9. team_members — (name, designation, department, photo_url, bio, sort_order, published)
+10. clients — (name, logo_url, sort_order, published)
+11. news_articles — (title, content, image_url, published_at, published)
+12. testimonials — (quote, author_name, author_designation, sort_order, published)
+13. contact_submissions — (name, email, phone, subject, message, read)
+14. repair_submissions — (name, email, phone, organization, equipment_category, equipment_variant, serial_number, issue_description, image_urls[], read)
+15. otp_verifications — (email, otp_code, expires_at, verified, form_type)
+16. page_content — (page_slug, section_key, title, content, image_url, sort_order, published) — for About page, Services page, etc.
+17. announcements — (title, content, priority)
+18. employees — (name, email, phone, department, designation, join_date, status)
+
+Enable RLS: public SELECT on content tables, authenticated full CRUD for admin tables, public INSERT on submissions/OTP tables.
+
+---
+
+PAGES:
+
+- Homepage: Hero section (full-screen bg image, animated badge "Est. 1990 • ISO 9001:2015", headline, description, 2 CTA buttons), Capabilities grid (6 cards with icons from services table), About preview (stats grid, company description, values, vision, mission — all from DB), Credibility section, Contact preview
+- About Page: Company history, leadership team (from team_members), facility info, awards
+- Defence Systems Page: Products grid filtered by defence category
+- Simulators Page: Products filtered by simulators category
+- Industrial Automation Page: Products filtered by automation category
+- Services Page: All services from services table
+- GeM Products Page: Government e-Marketplace product listings
+- Clients Page: Client logo grid from clients table
+- News & Media Page: Articles from news_articles table
+- Contact Page: Contact info from site_settings + contact form
+- Enquiry Page: Two tabs — "Product Enquiry" and "Repair & Service Request"
+
+---
+
+FORMS & INTEGRATIONS:
+
+1. Email OTP Verification: Before any form submission, send OTP via Supabase Edge Function using Resend API (secret: RESEND_API_KEY). Create send-otp and verify-otp edge functions. Use sender onboarding@resend.dev until domain is verified.
+
+2. Enquiry Form → After OTP verification, POST to Make.com webhook: https://hook.eu1.make.com/YOUR_ENQUIRY_WEBHOOK_URL
+   Fields: name, email, phone (10-digit validation), organization, product interest, message
+
+3. Repair Form → After OTP verification, upload images to Supabase Storage bucket repair-images, then POST to Make.com webhook: https://hook.eu1.make.com/lhseltfl7xgroc6k2lp8unjlvidwrysb
+   Fields: name, email, phone, organization, equipment category (hierarchical select — e.g. selecting "AMFDC MK-II" reveals sub-options a,b,c,d), equipment variant, serial number, issue description, damage images (up to 5, max 5MB each with preview thumbnails)
+   NO urgency level field.
+
+4. Contact Form → Save to contact_submissions table in database
+
+---
+
+ADMIN DASHBOARD (route: /admin):
+
+- Login page with Supabase Auth (email/password)
+- Sidebar navigation with modules: Dashboard, Homepage, About, Products (nested categories), Services, Clients, News, Employees, Announcements, Contact Submissions, Repair Submissions
+- Full CRUD on all content tables with publish/unpublish toggle
+- Repair submissions viewer showing uploaded damage images
+- Dashboard with counts of submissions, articles, products
+
+---
+
+DESIGN SYSTEM:
+
+- Military/defence aesthetic: dark olive green (#2D3A2E), brass gold (#B8960C), gunmetal gray, sand tones
+- Font pairing: bold display font for headings, clean sans-serif for body
+- Sharp edges (no rounded corners), subtle border treatments
+- Framer Motion scroll reveal animations
+- Fully responsive, mobile-first
+- Section dividers using gold accent lines
+- Cards with hover effects (icon color shift to brass gold)
+
+---
+
+KEY PRINCIPLE: Every single piece of text content on the website must be editable through the admin panel. Components should fetch data on mount and show fallback/skeleton states while loading. The admin should be able to change any headline, description, stat, or value without touching code.
