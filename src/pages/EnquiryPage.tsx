@@ -6,8 +6,9 @@ import { Send, FileText, Wrench, CheckCircle, Loader2, ShieldCheck, ImagePlus, X
 import { Link, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { usePageContent } from "@/hooks/use-page-content";
 
-const EQUIPMENT_OPTIONS: Record<string, string[]> = {
+const DEFAULT_EQUIPMENT_OPTIONS: Record<string, string[]> = {
   "AMFDC MK-II": ["AMFDC MK-II (a)", "AMFDC MK-II (b)", "AMFDC MK-II (c)", "AMFDC MK-II (d)"],
   "AMFDC MK-III": ["AMFDC MK-III (a)", "AMFDC MK-III (b)", "AMFDC MK-III (c)", "AMFDC MK-III (d)"],
   "TEEVRA FDC": ["TEEVRA FDC (a)", "TEEVRA FDC (b)", "TEEVRA FDC (c)", "TEEVRA FDC (d)"],
@@ -17,7 +18,7 @@ const EQUIPMENT_OPTIONS: Record<string, string[]> = {
   "ATGM SV21 Simulator": ["ATGM SV21 Simulator (a)", "ATGM SV21 Simulator (b)", "ATGM SV21 Simulator (c)", "ATGM SV21 Simulator (d)"],
 };
 
-const PRODUCT_OPTIONS = [
+const DEFAULT_PRODUCT_OPTIONS = [
   { value: "fire-control", label: "Fire Control Systems (AMFDC)" },
   { value: "inspection", label: "Gun Barrel Inspection (GBInP)" },
   { value: "surveillance", label: "Field Surveillance (FSD/INVSS)" },
