@@ -337,10 +337,10 @@ const EnquiryPage = () => {
                   <span className="section-divider" />
                 </div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-foreground mt-2 mb-6">
-                  How Can We Help?
+                  {enquiryHeroTitle}
                 </h1>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  Submit an enquiry for new products or request repair & maintenance support for existing equipment.
+                  {enquiryHeroDesc}
                 </p>
               </div>
             </ScrollReveal>
