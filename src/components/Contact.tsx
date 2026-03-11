@@ -1,14 +1,22 @@
 import { MapPin, Mail, Building2, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import ScrollReveal from "@/components/ScrollReveal";
+import { usePageContent } from "@/hooks/use-page-content";
+
+const iconMap: Record<string, React.ElementType> = { MapPin, Mail, Building2, Clock };
+
+const defaultContactInfo = [
+  { icon: "MapPin", title: "Address", content: "46-A, Electronic Complex Pardeshipura, Indore, Madhya Pradesh, India - 452001" },
+  { icon: "Mail", title: "Email", content: "diplsales@diplindia.com", href: "mailto:diplsales@diplindia.com" },
+  { icon: "Building2", title: "Company Registration", content: "CIN: U31909MP1997PTC012011" },
+  { icon: "Clock", title: "Business Hours", content: "Mon - Sat: 9:00 AM - 6:00 PM" },
+];
 
 const Contact = () => {
-  const contactInfo = [
-    { icon: MapPin, title: "Address", content: "46-A, Electronic Complex Pardeshipura, Indore, Madhya Pradesh, India - 452001" },
-    { icon: Mail, title: "Email", content: "diplsales@diplindia.com", href: "mailto:diplsales@diplindia.com" },
-    { icon: Building2, title: "Company Registration", content: "CIN: U31909MP1997PTC012011" },
-    { icon: Clock, title: "Business Hours", content: "Mon - Sat: 9:00 AM - 6:00 PM" },
-  ];
+  const { get, getJSON } = usePageContent("home");
+  const contactInfo = getJSON("contact", "info", defaultContactInfo);
+  const ctaTitle = get("contact", "cta_title", "Ready to Partner with Us?");
+  const ctaDesc = get("contact", "cta_description", "Let's discuss how our defence-grade solutions can meet your mission-critical needs.");
 
   return (
     <section id="contact" className="section-padding bg-sand-dark/30">
@@ -22,29 +30,31 @@ const Contact = () => {
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mt-2 mb-4">Get in Touch</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-              Ready to discuss your defence or industrial automation requirements? 
-              Reach out to our engineering team for expert consultation.
+              Ready to discuss your defence or industrial automation requirements? Reach out to our engineering team for expert consultation.
             </p>
           </div>
         </ScrollReveal>
 
         <div className="grid lg:grid-cols-2 gap-12">
           <div className="grid sm:grid-cols-2 gap-4">
-            {contactInfo.map((item, i) => (
-              <ScrollReveal key={item.title} delay={i * 0.1}>
-                <div className="card-defence p-6 h-full">
-                  <div className="w-10 h-10 bg-defence-green/10 flex items-center justify-center mb-4">
-                    <item.icon className="w-5 h-5 text-defence-green" />
+            {contactInfo.map((item: any, i: number) => {
+              const Icon = iconMap[item.icon] || MapPin;
+              return (
+                <ScrollReveal key={item.title} delay={i * 0.1}>
+                  <div className="card-defence p-6 h-full">
+                    <div className="w-10 h-10 bg-defence-green/10 flex items-center justify-center mb-4">
+                      <Icon className="w-5 h-5 text-defence-green" />
+                    </div>
+                    <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
+                    {item.href ? (
+                      <a href={item.href} className="text-muted-foreground text-sm hover:text-brass-gold transition-colors">{item.content}</a>
+                    ) : (
+                      <p className="text-muted-foreground text-sm">{item.content}</p>
+                    )}
                   </div>
-                  <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
-                  {item.href ? (
-                    <a href={item.href} className="text-muted-foreground text-sm hover:text-brass-gold transition-colors">{item.content}</a>
-                  ) : (
-                    <p className="text-muted-foreground text-sm">{item.content}</p>
-                  )}
-                </div>
-              </ScrollReveal>
-            ))}
+                </ScrollReveal>
+              );
+            })}
           </div>
 
           <ScrollReveal direction="right">
@@ -66,10 +76,8 @@ const Contact = () => {
 
         <ScrollReveal>
           <div className="mt-16 p-8 sm:p-12 text-center bg-defence-green">
-            <h3 className="text-2xl sm:text-3xl font-display font-bold text-white mb-4">Ready to Partner with Us?</h3>
-            <p className="text-white/80 mb-6 max-w-xl mx-auto leading-relaxed">
-              Let's discuss how our defence-grade solutions can meet your mission-critical needs.
-            </p>
+            <h3 className="text-2xl sm:text-3xl font-display font-bold text-white mb-4">{ctaTitle}</h3>
+            <p className="text-white/80 mb-6 max-w-xl mx-auto leading-relaxed">{ctaDesc}</p>
             <Link to="/enquiry" className="btn-accent inline-flex items-center gap-2">
               <Mail className="w-5 h-5" />
               Get a Quote

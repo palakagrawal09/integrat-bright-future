@@ -2,7 +2,10 @@ import { Calendar, Users, Heart, Lightbulb, Eye, Target, Compass } from "lucide-
 import { useEffect, useState } from "react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { supabase } from "@/integrations/supabase/client";
+import { usePageContent } from "@/hooks/use-page-content";
 import msmeAward from "@/assets/msme-award.jpg";
+
+const iconMap: Record<string, React.ElementType> = { Calendar, Users, Heart, Lightbulb, Eye, Target, Compass };
 
 type AboutEntry = {
   id: string;
@@ -14,6 +17,7 @@ type AboutEntry = {
 
 const About = () => {
   const [entries, setEntries] = useState<AboutEntry[]>([]);
+  const { get, getJSON } = usePageContent("home");
 
   useEffect(() => {
     const fetchAboutEntries = async () => {
@@ -22,28 +26,32 @@ const About = () => {
         .select("id, title, content, published, sort_order")
         .eq("published", true)
         .order("sort_order", { ascending: true });
-
-      if (!error && data) {
-        setEntries(data);
-      }
+      if (!error && data) setEntries(data);
     };
-
     fetchAboutEntries();
   }, []);
 
-  const stats = [
-    { icon: Calendar, value: "30+", label: "Years in Business" },
-    { icon: Users, value: "200+", label: "Happy Clients" },
-    { icon: Heart, value: "30+", label: "Team of Experts" },
-    { icon: Lightbulb, value: "ISO 9001", label: "Certified Quality" },
+  const defaultStats = [
+    { icon: "Calendar", value: "30+", label: "Years in Business" },
+    { icon: "Users", value: "200+", label: "Happy Clients" },
+    { icon: "Heart", value: "30+", label: "Team of Experts" },
+    { icon: "Lightbulb", value: "ISO 9001", label: "Certified Quality" },
   ];
 
-  const values = [
-    { icon: Users, text: "Agile to Customer Needs" },
-    { icon: Heart, text: "Perfect Team Work" },
-    { icon: Target, text: "Focused Quality Improvements" },
-    { icon: Compass, text: "Sustained Innovation & Engineering" },
+  const defaultValues = [
+    { icon: "Users", text: "Agile to Customer Needs" },
+    { icon: "Heart", text: "Perfect Team Work" },
+    { icon: "Target", text: "Focused Quality Improvements" },
+    { icon: "Compass", text: "Sustained Innovation & Engineering" },
   ];
+
+  const stats = getJSON("about", "stats", defaultStats);
+  const values = getJSON("about", "values", defaultValues);
+  const vision = get("about", "vision", "Determination to find solutions for Advance & State of Art Technology with technical skill sets on System Integration, R&D / D&D skills, and Design & Development of Embedded Systems, Sensor Integrations, and Solutions for Niche problem statements.");
+  const mission = get("about", "mission", "To design, develop & provide vital & sustainable systems to our Defence, Para Military & other customers.");
+  const fallbackTitle = get("about", "fallback_title", "One-Stop System Integration & Automation House");
+  const fallbackDesc = get("about", "fallback_description", "We have strong representation in In-Process Automation, Industrial/MIL grade computers, Product customization, Data Acquisition, Controls & Monitoring, Network Management Systems. Our solutions span Simulation for Defence, Fire Control Systems, customized application & system development based on embedded Microcontrollers & Industrial/MIL-Grade PCs.");
+  const fallbackDesc2 = get("about", "fallback_description_2", "Located in central India's commercial capital Indore, with about 6000 Sq. Ft. facility. Company is CII MSME Member for more than a decade.");
 
   return (
     <section id="about" className="section-padding bg-sand-dark/30">
@@ -57,13 +65,7 @@ const About = () => {
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mt-2 mb-4">A Legacy of Excellence</h2>
             <p className="text-muted-foreground text-lg max-w-3xl mx-auto leading-relaxed">
-              {entries[0]?.content || (
-                <>
-                  An ISO 9001:2015 Company established in 1990-91 by IT Industry professionals.
-                  In a span of 30+ years, we have designed and developed solutions for Defence,
-                  Indian Railways, BHEL, GAIL and CAT/BARC.
-                </>
-              )}
+              {entries[0]?.content || "An ISO 9001:2015 Company established in 1990-91 by IT Industry professionals. In a span of 30+ years, we have designed and developed solutions for Defence, Indian Railways, BHEL, GAIL and CAT/BARC."}
             </p>
           </div>
         </ScrollReveal>
@@ -72,15 +74,18 @@ const About = () => {
           <ScrollReveal direction="left">
             <div>
               <div className="grid grid-cols-2 gap-4 mb-8">
-                {stats.map((stat) => (
-                  <div key={stat.label} className="card-defence p-6 text-center group">
-                    <div className="w-12 h-12 mx-auto mb-4 bg-defence-green/10 flex items-center justify-center group-hover:bg-brass-gold/15 transition-colors duration-300">
-                      <stat.icon className="w-6 h-6 text-defence-green group-hover:text-brass-gold transition-colors duration-300" />
+                {stats.map((stat: any) => {
+                  const Icon = iconMap[stat.icon] || Calendar;
+                  return (
+                    <div key={stat.label} className="card-defence p-6 text-center group">
+                      <div className="w-12 h-12 mx-auto mb-4 bg-defence-green/10 flex items-center justify-center group-hover:bg-brass-gold/15 transition-colors duration-300">
+                        <Icon className="w-6 h-6 text-defence-green group-hover:text-brass-gold transition-colors duration-300" />
+                      </div>
+                      <div className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-1">{stat.value}</div>
+                      <div className="text-muted-foreground text-sm">{stat.label}</div>
                     </div>
-                    <div className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-1">{stat.value}</div>
-                    <div className="text-muted-foreground text-sm">{stat.label}</div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
               <div className="card-defence overflow-hidden">
                 <img src={msmeAward} alt="India 5000 Best MSME Award 2019 - Digital Integrator Pvt. Ltd." className="w-full h-auto" />
@@ -104,17 +109,9 @@ const About = () => {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <h3 className="text-2xl font-display font-semibold text-foreground">One-Stop System Integration & Automation House</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    We have strong representation in In-Process Automation, Industrial/MIL grade computers,
-                    Product customization, Data Acquisition, Controls & Monitoring, Network Management Systems.
-                    Our solutions span Simulation for Defence, Fire Control Systems, customized application &
-                    system development based on embedded Microcontrollers & Industrial/MIL-Grade PCs.
-                  </p>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Located in central India's commercial capital Indore, with about 6000 Sq. Ft. facility.
-                    Company is CII MSME Member for more than a decade.
-                  </p>
+                  <h3 className="text-2xl font-display font-semibold text-foreground">{fallbackTitle}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{fallbackDesc}</p>
+                  <p className="text-muted-foreground leading-relaxed">{fallbackDesc2}</p>
                 </div>
               )}
 
@@ -123,32 +120,28 @@ const About = () => {
                   <span className="w-8 h-0.5 bg-brass-gold" /> Our Values
                 </h4>
                 <div className="grid grid-cols-2 gap-3">
-                  {values.map((v) => (
-                    <div key={v.text} className="flex items-center gap-2 bg-defence-green/5 border border-gunmetal/10 px-3 py-2.5">
-                      <v.icon className="w-4 h-4 text-defence-green flex-shrink-0" />
-                      <span className="text-sm text-foreground">{v.text}</span>
-                    </div>
-                  ))}
+                  {values.map((v: any) => {
+                    const VIcon = iconMap[v.icon] || Users;
+                    return (
+                      <div key={v.text} className="flex items-center gap-2 bg-defence-green/5 border border-gunmetal/10 px-3 py-2.5">
+                        <VIcon className="w-4 h-4 text-defence-green flex-shrink-0" />
+                        <span className="text-sm text-foreground">{v.text}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
               <div className="bg-card border border-gunmetal/15 p-5">
                 <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
                   <Eye className="w-5 h-5 text-brass-gold" /> Our Vision
                 </h4>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  Determination to find solutions for Advance & State of Art Technology with technical skill sets
-                  on System Integration, R&D / D&D skills, and Design & Development of Embedded Systems,
-                  Sensor Integrations, and Solutions for Niche problem statements.
-                </p>
+                <p className="text-muted-foreground text-sm leading-relaxed">{vision}</p>
               </div>
               <div className="bg-card border border-gunmetal/15 p-5">
                 <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
                   <Target className="w-5 h-5 text-brass-gold" /> Our Mission
                 </h4>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  To design, develop & provide vital & sustainable systems to our Defence,
-                  Para Military & other customers.
-                </p>
+                <p className="text-muted-foreground text-sm leading-relaxed">{mission}</p>
               </div>
             </div>
           </ScrollReveal>

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { usePageContent } from "@/hooks/use-page-content";
 import heroBg from "@/assets/hero-bg.jpg";
 
 type HomepageSection = {
@@ -15,6 +16,7 @@ type HomepageSection = {
 
 const Hero = () => {
   const [sections, setSections] = useState<HomepageSection[]>([]);
+  const { get } = usePageContent("home");
 
   useEffect(() => {
     const fetchHomepageSections = async () => {
@@ -37,76 +39,37 @@ const Hero = () => {
     return hero?.content?.trim() || "Engineering Defence-Grade Systems for India";
   }, [sections]);
 
+  const badge = get("hero", "badge", "Est. 1990 • ISO 9001:2015 Certified");
+  const description = get("hero", "description", "Organisation dedicated to product development. Complete solutions for Defence, Industrial Automation, Simulators & Training Systems since 1990.");
+
   return (
     <section className="relative min-h-screen flex items-center pt-20">
-      {/* Background Image with Dark Overlay */}
       <div className="absolute inset-0 z-0">
-        <img
-          src={heroBg}
-          alt="Defence manufacturing facility"
-          className="w-full h-full object-cover"
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: "var(--gradient-overlay)" }}
-        />
+        <img src={heroBg} alt="Defence manufacturing facility" className="w-full h-full object-cover" />
+        <div className="absolute inset-0" style={{ background: "var(--gradient-overlay)" }} />
       </div>
 
-      {/* Content */}
       <div className="relative z-10 container-width section-padding w-full">
         <div className="max-w-3xl">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 bg-brass-gold/20 border border-brass-gold/40 px-4 py-2 mb-8"
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="inline-flex items-center gap-2 bg-brass-gold/20 border border-brass-gold/40 px-4 py-2 mb-8">
             <span className="w-2 h-2 bg-brass-gold rounded-full" />
-            <span className="text-brass-gold text-sm font-semibold tracking-wide uppercase">
-              Est. 1990 • ISO 9001:2015 Certified
-            </span>
+            <span className="text-brass-gold text-sm font-semibold tracking-wide uppercase">{badge}</span>
           </motion.div>
 
-          {/* Main Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-white leading-tight mb-6"
-          >
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }} className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-white leading-tight mb-6">
             {heroHeadline}
           </motion.h1>
 
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-lg sm:text-xl text-white/80 mb-10 max-w-2xl leading-relaxed"
-          >
-            Organisation dedicated to product development. Complete solutions for Defence,
-            Industrial Automation, Simulators & Training Systems since 1990.
+          <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }} className="text-lg sm:text-xl text-white/80 mb-10 max-w-2xl leading-relaxed">
+            {description}
           </motion.p>
 
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="flex flex-wrap gap-4"
-          >
-            <Link
-              to="/defence-systems"
-              className="btn-accent inline-flex items-center gap-2 group"
-            >
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }} className="flex flex-wrap gap-4">
+            <Link to="/defence-systems" className="btn-accent inline-flex items-center gap-2 group">
               Explore Capabilities
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link
-              to="/enquiry"
-              className="btn-outline text-white border-white/40 hover:border-brass-gold inline-flex items-center gap-2"
-            >
+            <Link to="/enquiry" className="btn-outline text-white border-white/40 hover:border-brass-gold inline-flex items-center gap-2">
               Get a Quote
               <ExternalLink className="w-4 h-4" />
             </Link>
@@ -114,7 +77,6 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
         <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-2">
           <div className="w-1 h-2 bg-brass-gold rounded-full" />
