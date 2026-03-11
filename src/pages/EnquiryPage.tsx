@@ -32,6 +32,11 @@ const validatePhone = (phone: string) => /^\d{10}$/.test(phone.replace(/\s+/g, "
 const validateEmail = (email: string) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 
 const EnquiryPage = () => {
+  const { get, getJSON } = usePageContent("enquiry");
+  const EQUIPMENT_OPTIONS = getJSON<Record<string, string[]>>("equipment_options", "items", DEFAULT_EQUIPMENT_OPTIONS);
+  const PRODUCT_OPTIONS = getJSON<{ value: string; label: string }[]>("product_options", "items", DEFAULT_PRODUCT_OPTIONS);
+  const enquiryHeroTitle = get("hero", "title", "How Can We Help?");
+  const enquiryHeroDesc = get("hero", "description", "Submit an enquiry for new products or request repair & maintenance support for existing equipment.");
   const [searchParams] = useSearchParams();
   const initialTab = searchParams.get("type") === "repair" ? "repair" : "enquiry";
   const [activeTab, setActiveTab] = useState<"enquiry" | "repair">(initialTab);
