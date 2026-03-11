@@ -6,8 +6,9 @@ import { Send, FileText, Wrench, CheckCircle, Loader2, ShieldCheck, ImagePlus, X
 import { Link, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { usePageContent } from "@/hooks/use-page-content";
 
-const EQUIPMENT_OPTIONS: Record<string, string[]> = {
+const DEFAULT_EQUIPMENT_OPTIONS: Record<string, string[]> = {
   "AMFDC MK-II": ["AMFDC MK-II (a)", "AMFDC MK-II (b)", "AMFDC MK-II (c)", "AMFDC MK-II (d)"],
   "AMFDC MK-III": ["AMFDC MK-III (a)", "AMFDC MK-III (b)", "AMFDC MK-III (c)", "AMFDC MK-III (d)"],
   "TEEVRA FDC": ["TEEVRA FDC (a)", "TEEVRA FDC (b)", "TEEVRA FDC (c)", "TEEVRA FDC (d)"],
@@ -17,7 +18,7 @@ const EQUIPMENT_OPTIONS: Record<string, string[]> = {
   "ATGM SV21 Simulator": ["ATGM SV21 Simulator (a)", "ATGM SV21 Simulator (b)", "ATGM SV21 Simulator (c)", "ATGM SV21 Simulator (d)"],
 };
 
-const PRODUCT_OPTIONS = [
+const DEFAULT_PRODUCT_OPTIONS = [
   { value: "fire-control", label: "Fire Control Systems (AMFDC)" },
   { value: "inspection", label: "Gun Barrel Inspection (GBInP)" },
   { value: "surveillance", label: "Field Surveillance (FSD/INVSS)" },
@@ -31,6 +32,11 @@ const validatePhone = (phone: string) => /^\d{10}$/.test(phone.replace(/\s+/g, "
 const validateEmail = (email: string) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 
 const EnquiryPage = () => {
+  const { get, getJSON } = usePageContent("enquiry");
+  const EQUIPMENT_OPTIONS = getJSON<Record<string, string[]>>("equipment_options", "items", DEFAULT_EQUIPMENT_OPTIONS);
+  const PRODUCT_OPTIONS = getJSON<{ value: string; label: string }[]>("product_options", "items", DEFAULT_PRODUCT_OPTIONS);
+  const enquiryHeroTitle = get("hero", "title", "How Can We Help?");
+  const enquiryHeroDesc = get("hero", "description", "Submit an enquiry for new products or request repair & maintenance support for existing equipment.");
   const [searchParams] = useSearchParams();
   const initialTab = searchParams.get("type") === "repair" ? "repair" : "enquiry";
   const [activeTab, setActiveTab] = useState<"enquiry" | "repair">(initialTab);
@@ -331,10 +337,10 @@ const EnquiryPage = () => {
                   <span className="section-divider" />
                 </div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-foreground mt-2 mb-6">
-                  How Can We Help?
+                  {enquiryHeroTitle}
                 </h1>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  Submit an enquiry for new products or request repair & maintenance support for existing equipment.
+                  {enquiryHeroDesc}
                 </p>
               </div>
             </ScrollReveal>
