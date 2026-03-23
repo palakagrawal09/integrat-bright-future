@@ -106,18 +106,18 @@ const Footer = () => {
               <div className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 mt-0.5 text-brass-gold flex-shrink-0" />
                 <div>
-                  <p>46-A, Electronic Complex</p>
+                  <p>46 Electronic Complex</p>
                   <p>Pardeshipura, Indore</p>
-                  <p>Madhya Pradesh - 452001</p>
+                  <p>Madhya Pradesh - 452010</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-brass-gold" />
-                <a href="tel:08044566679" className="hover:text-brass-gold transition-colors">08044566679 (Ext: 9370)</a>
+                <a href="tel:07314042133" className="hover:text-brass-gold transition-colors">0731-4042133</a>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-brass-gold" />
-                <a href="mailto:diplsales@diplindia.com" className="hover:text-brass-gold transition-colors">diplsales@diplindia.com</a>
+                <a href="mailto:sales@diplindia.com" className="hover:text-brass-gold transition-colors">sales@diplindia.com</a>
               </div>
             </address>
           </div>

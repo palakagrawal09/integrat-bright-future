@@ -6,10 +6,10 @@ import { usePageContent } from "@/hooks/use-page-content";
 const iconMap: Record<string, React.ElementType> = { MapPin, Mail, Building2, Clock };
 
 const defaultContactInfo = [
-  { icon: "MapPin", title: "Address", content: "46-A, Electronic Complex Pardeshipura, Indore, Madhya Pradesh, India - 452001" },
-  { icon: "Mail", title: "Email", content: "diplsales@diplindia.com", href: "mailto:diplsales@diplindia.com" },
+  { icon: "MapPin", title: "Address", content: "46 Electronic Complex, Pardeshipura, Indore, Madhya Pradesh, India - 452010" },
+  { icon: "Mail", title: "Email", content: "sales@diplindia.com", href: "mailto:sales@diplindia.com" },
   { icon: "Building2", title: "Company Registration", content: "CIN: U31909MP1997PTC012011" },
-  { icon: "Clock", title: "Business Hours", content: "Mon - Sat: 9:00 AM - 6:00 PM" },
+  { icon: "Clock", title: "Business Hours", content: "Mon - Sat: 9:30 AM - 5:30 PM" },
 ];
 
 const Contact = () => {

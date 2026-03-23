@@ -32,7 +32,7 @@ const About = () => {
   }, []);
 
   const defaultStats = [
-    { icon: "Calendar", value: "30+", label: "Years in Business" },
+    { icon: "Calendar", value: "33+", label: "Years in Business" },
     { icon: "Users", value: "200+", label: "Happy Clients" },
     { icon: "Heart", value: "30+", label: "Team of Experts" },
     { icon: "Lightbulb", value: "ISO 9001", label: "Certified Quality" },
@@ -51,7 +51,7 @@ const About = () => {
   const mission = get("about", "mission", "To design, develop & provide vital & sustainable systems to our Defence, Para Military & other customers.");
   const fallbackTitle = get("about", "fallback_title", "One-Stop System Integration & Automation House");
   const fallbackDesc = get("about", "fallback_description", "We have strong representation in In-Process Automation, Industrial/MIL grade computers, Product customization, Data Acquisition, Controls & Monitoring, Network Management Systems. Our solutions span Simulation for Defence, Fire Control Systems, customized application & system development based on embedded Microcontrollers & Industrial/MIL-Grade PCs.");
-  const fallbackDesc2 = get("about", "fallback_description_2", "Located in central India's commercial capital Indore, with about 6000 Sq. Ft. facility. Company is CII MSME Member for more than a decade.");
+  const fallbackDesc2 = get("about", "fallback_description_2", "Located in central India's commercial capital Indore, with about 6000 Sq. Ft. facility. Company is SIDM MSME Member.");
 
   return (
     <section id="about" className="section-padding bg-sand-dark/30">
@@ -65,7 +65,7 @@ const About = () => {
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mt-2 mb-4">A Legacy of Excellence</h2>
             <p className="text-muted-foreground text-lg max-w-3xl mx-auto leading-relaxed">
-              {entries[0]?.content || "An ISO 9001:2015 Company established in 1990-91 by IT Industry professionals. In a span of 30+ years, we have designed and developed solutions for Defence, Indian Railways, BHEL, GAIL and CAT/BARC."}
+              {entries[0]?.content || "An ISO 9001:2015 Company established in 1990-91 by IT Industry professionals. In a span of 33+ years, we have designed and developed solutions for Defence, Indian Railways, BHEL, GAIL and CAT/BARC."}
             </p>
           </div>
         </ScrollReveal>

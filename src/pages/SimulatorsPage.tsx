@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Target, Shield } from "lucide-react";
+import { Target, Shield, Crosshair } from "lucide-react";
 import { Link } from "react-router-dom";
 import { usePageContent } from "@/hooks/use-page-content";
 import atgmMissile from "@/assets/atgm-missile.jpg";
@@ -70,6 +70,76 @@ const SimulatorsPage = () => {
                   <div className="aspect-[4/3] overflow-hidden border border-gunmetal/15 bg-sand-dark/20">
                     <img src={atgmScope} alt="ATGM Simulator Scope View" className="w-full h-full object-cover" />
                   </div>
+                </div>
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+
+        {/* 81mm Mortar Simulator */}
+        <section className="section-padding bg-sand-dark/30">
+          <div className="container-width">
+            <ScrollReveal>
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                  <div className="inline-flex items-center gap-2 bg-brass-gold/10 border border-brass-gold/20 px-4 py-2 mb-4">
+                    <Crosshair className="w-4 h-4 text-brass-gold" />
+                    <span className="text-brass-gold text-sm font-medium">Weapon Simulator</span>
+                  </div>
+                  <h2 className="text-3xl font-display font-bold text-foreground mb-4">81mm Mortar Simulator</h2>
+                  <p className="text-muted-foreground leading-relaxed mb-4">
+                    Training simulator for 81mm mortar crew — providing realistic weapon dynamics, recoil simulation, and scenario-based training for effective combat preparation without live ammunition.
+                  </p>
+                  <ul className="space-y-2 text-muted-foreground text-sm">
+                    {["Realistic mortar operation simulation","Scenario-based training environments","Performance tracking and scoring","Cost-effective alternative to live-fire training"].map((item, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <Shield className="w-4 h-4 text-defence-green mt-0.5 flex-shrink-0" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="card-defence p-8 text-center">
+                  <div className="w-20 h-20 mx-auto mb-6 bg-defence-green/10 flex items-center justify-center">
+                    <Crosshair className="w-10 h-10 text-defence-green" />
+                  </div>
+                  <h3 className="text-2xl font-display font-bold text-foreground mb-3">81mm Mortar</h3>
+                  <p className="text-muted-foreground leading-relaxed">Indigenously developed training simulator for mortar crew operations.</p>
+                </div>
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+
+        {/* 84RL Simulator */}
+        <section className="section-padding bg-background">
+          <div className="container-width">
+            <ScrollReveal>
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div className="card-defence p-8 text-center lg:order-1">
+                  <div className="w-20 h-20 mx-auto mb-6 bg-brass-gold/10 flex items-center justify-center">
+                    <Target className="w-10 h-10 text-brass-gold" />
+                  </div>
+                  <h3 className="text-2xl font-display font-bold text-foreground mb-3">84RL</h3>
+                  <p className="text-muted-foreground leading-relaxed">Simulation system for 84mm Recoilless Launcher training.</p>
+                </div>
+                <div className="lg:order-2">
+                  <div className="inline-flex items-center gap-2 bg-defence-green/10 border border-defence-green/20 px-4 py-2 mb-4">
+                    <Target className="w-4 h-4 text-defence-green" />
+                    <span className="text-defence-green text-sm font-medium">Weapon Simulator</span>
+                  </div>
+                  <h2 className="text-3xl font-display font-bold text-foreground mb-4">84RL Simulator</h2>
+                  <p className="text-muted-foreground leading-relaxed mb-4">
+                    Training simulator for the 84mm Recoilless Launcher (Carl Gustaf) — enabling realistic engagement training with accurate weapon handling simulation and target acquisition practice.
+                  </p>
+                  <ul className="space-y-2 text-muted-foreground text-sm">
+                    {["Realistic weapon handling and recoil simulation","Target acquisition and engagement training","Multiple scenario environments","Performance evaluation and scoring"].map((item, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <Shield className="w-4 h-4 text-defence-green mt-0.5 flex-shrink-0" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </ScrollReveal>
