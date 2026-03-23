@@ -23,7 +23,7 @@ const ClientsPage = () => {
   }, []);
 
   const heroTitle = get("hero", "title", "Trusted by Industry Leaders");
-  const heroDesc = get("hero", "description", "For over 27 years, we've built lasting partnerships with defence organizations, government bodies, educational institutions, and manufacturing giants across India.");
+  const heroDesc = get("hero", "description", "For over 33 years, we've built lasting partnerships with defence organizations, government bodies, educational institutions, and manufacturing giants across India.");
   const fallbackClients = getJSON<any[]>("fallback", "items", [
     { name: "Indian Army", icon: "Shield", category: "Defence", highlight: true },
     { name: "Indian Railways", icon: "Train", category: "Government", highlight: true },
@@ -38,7 +38,7 @@ const ClientsPage = () => {
     { text: "DIPL has been instrumental in providing reliable fire control systems for our operations.", source: "Defence Sector Client" },
     { text: "The data acquisition systems from Digital Integrator have significantly improved our research capabilities.", source: "Research Institute" },
   ]);
-  const trustItems = getJSON<string[]>("trust", "items", ["27+ years of proven expertise", "ISO certified quality management", "Dedicated R&D team", "Pan-India support network", "Long-term government partnerships"]);
+  const trustItems = getJSON<string[]>("trust", "items", ["33+ years of proven expertise", "ISO certified quality management", "Dedicated R&D team", "Pan-India support network", "Long-term government partnerships"]);
 
   return (
     <div className="min-h-screen bg-background">
