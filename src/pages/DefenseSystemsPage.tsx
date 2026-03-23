@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Shield, Search, Eye } from "lucide-react";
+import { Shield, Search, Eye, Crosshair, AlertTriangle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { usePageContent } from "@/hooks/use-page-content";
 import amfdcDevice from "@/assets/amfdc-device.jpg";
@@ -13,16 +13,18 @@ import fsdFlexible from "@/assets/fsd-flexible.jpg";
 import teevraScreen from "@/assets/teevra-screen.png";
 import lcgbSystem from "@/assets/lcgb-system.jpg";
 import artilleryFiring from "@/assets/artillery-firing.jpg";
+import targetSystem from "@/assets/target-system.jpg";
+import iapsSystem from "@/assets/iaps-system.jpg";
 
 const DefenseSystemsPage = () => {
   const { get, getJSON } = usePageContent("defence");
 
-  const heroTitle = get("hero", "title", "Mission-Critical Defence Electronics");
+  const heroTitle = get("hero", "title", "Defence Systems");
   const heroDesc = get("hero", "description", "Precision-engineered fire control systems, inspection equipment, and field surveillance platforms trusted by the Indian Armed Forces.");
   const amfdcSectionTitle = get("amfdc", "section_title", "Automatic Mortar Fire Data Controller");
   const amfdcSectionDesc = get("amfdc", "section_description", "A small hand-held wonder, developed indigenously by DIPL, which gives immediate calculations and data to MFC for firing mortar. A long-standing requirement of Infantry fulfilled.");
   
-  const mk2Title = get("amfdc_mk2", "title", "AMFDC MK-II");
+  const mk2Title = get("amfdc_mk2", "title", "AMFDC MK-II (Discontinued)");
   const mk2Functions = getJSON<string[]>("amfdc_mk2", "functions", [
     "Capacity to store Mortar positions MP Grid reference",
     "Capacity to store Target positions IM Grid reference",
@@ -36,7 +38,7 @@ const DefenseSystemsPage = () => {
   const mk3Title = get("amfdc_mk3", "title", "AMFDC MK-III");
   const mk3Desc = get("amfdc_mk3", "description", "MK-III is an advance state of art Handheld Device built with more user-friendly features. Supports two modes of operation: Standard AMFDC & Plotter mode.");
   const mk3Features = getJSON<string[]>("amfdc_mk3", "features", ["Plotter mode for visualisation of fall of shots in battlefield","GPS interface for exact OWN location / GR","Zoom-in to Target area to see corrections","Store 100 Nos. MP, IM Grid references, safe zones, crests"]);
-  const mk3Specs = getJSON<string[]>("amfdc_mk3", "specs", ["High brightness sunlight readable LCD display","Dimensions: 105 x 185 x 60mm","Battery: 3.7V 5000mAh Li-Poly, 8+ Hrs operation","Shock/Vibration: MIL-STD-810F compliant","Drop: MIL-STD-810F Method 516.5, 4ft"]);
+  const mk3Specs = getJSON<string[]>("amfdc_mk3", "specs", ["High brightness sunlight readable LCD display","IP 65 compliant","Up to 8 Hrs battery backup","Shock/Vibration, Drop, Rain, Temp test passed"]);
   
   const teevraTitle = get("teevra", "title", "TEEVRA — FDC for Company Support Weapons");
   const teevraDesc = get("teevra", "description", "Teevra calculates firing data accurately for MMG, AGL and AGS-30 during operations. Calculations are automatic, without manually referring to range tables, increasing the efficiency of company support weapons.");
@@ -185,8 +187,117 @@ const DefenseSystemsPage = () => {
           </div>
         </section>
 
+        {/* Target System */}
+        <section id="target-system" className="section-padding bg-background">
+          <div className="container-width">
+            <ScrollReveal>
+              <div className="mb-10 border-b border-gunmetal/10 pb-8">
+                <div className="inline-flex items-center gap-2 bg-brass-gold/10 border border-brass-gold/20 px-4 py-2 mb-4">
+                  <Crosshair className="w-4 h-4 text-brass-gold" />
+                  <span className="text-brass-gold text-sm font-medium">Target Systems</span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground">Electronic Multi-Function Target System</h2>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal>
+              <div className="grid lg:grid-cols-2 gap-10 items-start">
+                <div className="aspect-[4/3] overflow-hidden border border-gunmetal/15 bg-sand-dark/20">
+                  <img src={targetSystem} alt="Electronic Multi-Function Target System" className="w-full h-full object-cover" />
+                </div>
+                <div className="space-y-4">
+                  <h3 className="text-xl font-display font-semibold text-foreground">FDU for Indoor-Outdoor Firing Ranges</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    Firing Result Display Unit (FDU) with TABs of 8 to 10 inch screen size with high sensitivity Wi-Fi connectivity. TABs with adjustable customized stand for display of firing results to firer, firing officer and armorer.
+                  </p>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    Integration with customized target hit monitoring software to display live firing results with bullet hits, firing score, grouping result and zeroing result with display of Mean Point of Impact (MPI), error in x-direction, error in y-direction and respective proposed corrections for zeroing of weapon.
+                  </p>
+                  <h4 className="font-semibold text-foreground text-sm">Key Features</h4>
+                  <ul className="space-y-2 text-muted-foreground text-sm">
+                    {["Suitable for any type of barrel inspection","Live firing results with bullet hits & scoring","Grouping and zeroing result display","Mean Point of Impact (MPI) analysis","Wi-Fi connected TABs with adjustable stands"].map((item, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 bg-brass-gold mt-2 flex-shrink-0" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+
+        {/* Telemetry Bomb */}
+        <section id="telemetry-bomb" className="section-padding bg-sand-dark/30">
+          <div className="container-width">
+            <ScrollReveal>
+              <div className="mb-10 border-b border-gunmetal/10 pb-8">
+                <div className="inline-flex items-center gap-2 bg-defence-green/10 border border-defence-green/20 px-4 py-2 mb-4">
+                  <Shield className="w-4 h-4 text-defence-green" />
+                  <span className="text-defence-green text-sm font-medium">Telemetry Systems</span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground">Telemetry Bomb</h2>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal>
+              <div className="card-defence p-8">
+                <p className="text-muted-foreground leading-relaxed">
+                  Advanced telemetry bomb systems for defence applications — providing real-time data acquisition and transmission during testing and evaluation of ordnance systems. Designed and manufactured by DIPL for the Indian Armed Forces.
+                </p>
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+
+        {/* IAPS */}
+        <section id="iaps" className="section-padding bg-background">
+          <div className="container-width">
+            <ScrollReveal>
+              <div className="mb-10 border-b border-gunmetal/10 pb-8">
+                <div className="inline-flex items-center gap-2 bg-defence-green/10 border border-defence-green/20 px-4 py-2 mb-4">
+                  <AlertTriangle className="w-4 h-4 text-defence-green" />
+                  <span className="text-defence-green text-sm font-medium">Safety Systems</span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground">IAPS — Integrated Accident Prevention System</h2>
+                <p className="text-muted-foreground text-sm mt-2">Designed by MCTE, Manufactured by DIPL</p>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal>
+              <div className="grid lg:grid-cols-2 gap-10 items-start">
+                <div className="space-y-4">
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    Integrated Accident Prevention System (IAPS) aims to detect the hazardous levels of Carbon Monoxide, LPG leakage, Fire, High Temperature and Proximity to the heating appliance to avoid burn injuries.
+                  </p>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    The system enables early detection of accident-causing signatures to prevent incidents, saving valuable human lives and Government property.
+                  </p>
+                  <h4 className="font-semibold text-foreground text-sm">Key Features</h4>
+                  <ul className="space-y-2 text-muted-foreground text-sm">
+                    {[
+                      "Wireless CO sensor unit and multi-sensor unit for indoor use",
+                      "LPG, Temperature, Fire, and Proximity sensors",
+                      "Dual alarm generation — point of use & central locator",
+                      "Portable & ruggedized, powered by rechargeable battery",
+                      "Fully automatic operation with adjustable calibration",
+                      "Suitable for FRPs/Tents/Shelters/Bunkers in HAA",
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 bg-brass-gold mt-2 flex-shrink-0" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="aspect-[4/3] overflow-hidden border border-gunmetal/15 bg-sand-dark/20">
+                  <img src={iapsSystem} alt="IAPS System Components" className="w-full h-full object-cover" />
+                </div>
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+
         {/* Gun Barrel Inspection */}
-        <section id="inspection" className="section-padding bg-background">
+        <section id="inspection" className="section-padding bg-sand-dark/30">
           <div className="container-width">
             <ScrollReveal>
               <div className="mb-10 border-b border-gunmetal/10 pb-8">
@@ -239,7 +350,7 @@ const DefenseSystemsPage = () => {
         </section>
 
         {/* FSD / Surveillance */}
-        <section id="surveillance" className="section-padding bg-sand-dark/30">
+        <section id="surveillance" className="section-padding bg-background">
           <div className="container-width">
             <ScrollReveal>
               <div className="mb-10 border-b border-gunmetal/10 pb-8">
@@ -276,7 +387,7 @@ const DefenseSystemsPage = () => {
         </section>
 
         {/* CTA */}
-        <section className="section-padding">
+        <section className="section-padding bg-sand-dark/30">
           <div className="container-width">
             <ScrollReveal>
               <div className="p-8 sm:p-12 text-center bg-defence-green">
